@@ -56,10 +56,6 @@ public class crane {
         rightDrawerSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-
-
-
-
     public void craneMaintenance(){
         if(offCheck() && targetPosition == 0){
             resetEncoders();

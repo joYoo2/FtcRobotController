@@ -6,18 +6,14 @@ public class values {
     public static double clawOpen = 0.3;
     public static double clawClsoed = 0;
 
-    public static double clawExtend;
-    public static double clawRetract;
+    public static double clawExtend = 0.23;
+    public static double clawRetract = 0;
 
 
 
     //Crane Arm Positions (REDO)
     public static int craneResting = 0;
-    public static int craneNeutral = 0;
-    public static int cranePlaceTeleop = 1850;
-    public static int cranePlaceLowAuton = 450;
-    public static int cranePlaceHighAuton = 800;
-    public static int craneMax = 2800;
+    public static int craneMax = -4500;
 
 
     //Auton movement values

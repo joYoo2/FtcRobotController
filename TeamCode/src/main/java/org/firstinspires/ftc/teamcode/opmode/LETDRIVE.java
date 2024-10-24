@@ -29,6 +29,22 @@ public class LETDRIVE extends yooniversalOpMode{
                     -gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x,
                     -gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x);
 
+            if(gamepad2.circle){
+                extendClaw();
+            }
+            if(gamepad2.square){
+                retractClaw();
+            }
+            if(gamepad1.circle){
+                openClaw();
+            }
+            if(gamepad1.square){
+                closeClaw();
+            }
+
+            if(gamepad2.right_trigger > 0.05 || gamepad2.left_trigger > 0.05) {
+                slides.move(gamepad2.right_trigger - gamepad2.left_trigger, true);
+            }
         }
 
     }
