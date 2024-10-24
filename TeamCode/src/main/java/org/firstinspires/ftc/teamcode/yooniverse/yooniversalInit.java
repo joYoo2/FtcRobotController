@@ -20,7 +20,7 @@ public class yooniversalInit {
     public easierYoo imu;
     public double targetHeading;
     private boolean auton = false;
-    private final yooniversalOpMode opMode;
+    private yooniversalOpMode opMode;
 
     public yooniversalInit(HardwareMap hardwareMap, yooniversalOpMode opmode){
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
@@ -32,7 +32,7 @@ public class yooniversalInit {
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         backRight = hardwareMap.get(DcMotor.class, "backRight");
-        opMode = this.opMode;
+        opMode = opMode;
     }
 
     public void manualDrive(double frontLeftPower, double frontRightPower, double backLeftPower, double backRightPower){
