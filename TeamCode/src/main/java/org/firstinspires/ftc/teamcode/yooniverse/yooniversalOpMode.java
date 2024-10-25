@@ -6,6 +6,7 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     public yooniversalInit train;
     public Servo clawServo;
     public Servo rightExtender, leftExtender;
+    public Servo clawTurnLeft, clawTurnRight;
     public crane slides;
     public void setup(){
         setup(0.5);
@@ -42,5 +43,17 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     public void retractClaw(){
         rightExtender.setPosition(1-values.clawRetract);
         leftExtender.setPosition(values.clawRetract);
+    }
+
+    public void clawUp(){
+        clawTurnLeft.setPosition(1);
+        clawTurnRight.setPosition(0);
+
+    }
+
+    public void clawDown(){
+        clawTurnLeft.setPosition(0);
+        clawTurnRight.setPosition(1);
+
     }
 }

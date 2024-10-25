@@ -4,9 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
 import org.firstinspires.ftc.teamcode.yooniverse.values;
-@TeleOp(name="LETDRIVE", group="yooniverse")
 
-public class LETDRIVE extends yooniversalOpMode{
+public class tester extends yooniversalOpMode{
     @Override
     public void runOpMode(){
         setup();
@@ -25,11 +24,6 @@ public class LETDRIVE extends yooniversalOpMode{
         while(opModeIsActive()){
             telemetry.addData("Status", "Running");
 
-            train.manualDrive(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x,
-                    -gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x,
-                    -gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x,
-                    -gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x);
-
             if(gamepad2.circle){
                 extendClaw();
             }
@@ -41,6 +35,13 @@ public class LETDRIVE extends yooniversalOpMode{
             }
             if(gamepad1.square){
                 closeClaw();
+            }
+
+            if(gamepad1.triangle){
+                clawUp();
+            }
+            if(gamepad1.cross){
+                clawDown();
             }
 
             if(gamepad2.right_trigger > 0.05 || gamepad2.left_trigger > 0.05) {
