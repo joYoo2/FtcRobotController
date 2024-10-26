@@ -11,14 +11,15 @@ public class crane {
 
     public double power = 0;
 
-    public crane(HardwareMap hardwareMap){ this(hardwareMap, 0.5, false); }
+    public crane(HardwareMap hardwareMap){ this(hardwareMap, -0.5, false); }
 
     public crane(HardwareMap hardwareMap, double power, boolean craneByPower){
         leftDrawerSlide = hardwareMap.get(DcMotor.class, "leftDrawerSlide");
+        leftDrawerSlide.setDirection(DcMotorSimple.Direction.REVERSE);
+
         leftDrawerSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         rightDrawerSlide = hardwareMap.get(DcMotor.class, "rightDrawerSlide");
-        rightDrawerSlide.setDirection(DcMotorSimple.Direction.REVERSE);
         rightDrawerSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         resetEncoders();
 

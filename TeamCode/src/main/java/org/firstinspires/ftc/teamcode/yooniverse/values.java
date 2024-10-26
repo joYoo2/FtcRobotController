@@ -13,7 +13,9 @@ public class values {
 
     //Crane Arm Positions (REDO)
     public static int craneResting = 0;
-    public static int craneMax = -4500;
+    public static int craneMax = 4200;
+    //1190 for high basket
+    //700 low
 
 
     //Auton movement values
