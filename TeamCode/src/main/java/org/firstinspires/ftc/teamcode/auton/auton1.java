@@ -48,11 +48,11 @@ public class auton1 extends yooniversalOpMode {
                     telemetry.addData("Prop","IS NO MORE!!!");
                     telemetry.update();
 
-                    train.manualDrive(200,-200,-200,20
-
-                    );
+//                    train.manualDrive(200,-200,-200,20
+//
+//                    );
                     sleep(2000);
-//                    foward(-1050);
+                    foward(1050);
 //
 //                    rotate(values.turn90DegreesCounterClockwise);
 //
