@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
 import org.firstinspires.ftc.teamcode.yooniverse.values;
 @TeleOp(name="LETDRIVE", group="yooniverse")
@@ -41,7 +42,7 @@ public class LETDRIVE extends yooniversalOpMode{
             if(gamepad2.circle){
                 extendClaw();
             }
-            if(gamepad2.square){
+            if(gamepad2.cross){
                 retractClaw();
             }
 
@@ -73,6 +74,8 @@ public class LETDRIVE extends yooniversalOpMode{
             telemetry.addData("Left Crane Motor Position", slides.getCurrentLeftPosition());
             telemetry.addData("Right Crane Motor Position", slides.getCurrentRightPosition());
             telemetry.addData("Trigger total:", gamepad2.right_trigger + gamepad2.left_trigger);
+            telemetry.addData("Left Amps", slides.getCurrentAmpsamps());
+            telemetry.addData("right Amps", slides.rightDrawerSlide.getCurrentAlert(CurrentUnit.MILLIAMPS));
             telemetry.update();
         }
 

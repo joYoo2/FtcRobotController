@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.yooniverse;
 
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+
 public class crane {
-    private DcMotor leftDrawerSlide, rightDrawerSlide;
+    public DcMotorEx leftDrawerSlide, rightDrawerSlide;
     public int targetPosition;
 
     public double power = 0;
@@ -14,13 +16,13 @@ public class crane {
     public crane(HardwareMap hardwareMap){ this(hardwareMap, -0.5, false); }
 
     public crane(HardwareMap hardwareMap, double power, boolean craneByPower){
-        leftDrawerSlide = hardwareMap.get(DcMotor.class, "leftDrawerSlide");
-        leftDrawerSlide.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftDrawerSlide = hardwareMap.get(DcMotorEx.class, "leftDrawerSlide");
+        leftDrawerSlide.setDirection(DcMotorEx.Direction.REVERSE);
 
-        leftDrawerSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftDrawerSlide.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
-        rightDrawerSlide = hardwareMap.get(DcMotor.class, "rightDrawerSlide");
-        rightDrawerSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDrawerSlide = hardwareMap.get(DcMotorEx.class, "rightDrawerSlide");
+        rightDrawerSlide.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         resetEncoders();
 
 
@@ -29,7 +31,7 @@ public class crane {
         setPower(power);
         this.power = power;
         setTargetPosition(0);
-        setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
 
     public void setTargetPosition(int target){
@@ -47,20 +49,34 @@ public class crane {
     }
 
     public void resetEncoders(){
-        leftDrawerSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightDrawerSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDrawerSlide.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        rightDrawerSlide.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
         setTargetPosition(0);
         setPower(power);
 
-        leftDrawerSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightDrawerSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftDrawerSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        rightDrawerSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
 
     public void craneMaintenance(){
-        if(offCheck() && targetPosition == 0){
-            resetEncoders();
+        if(leftDrawerSlide.getCurrentPosition() < 10 && leftDrawerSlide.getCurrentAlert(CurrentUnit.AMPS) > 0.5 && leftDrawerSlide.getTargetPosition() == 0){
+            leftDrawerSlide.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+            leftDrawerSlide.setTargetPosition(0);
+            leftDrawerSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+            leftDrawerSlide.setPower(0);
         }
+        if(rightDrawerSlide.getCurrentPosition() < 10 && rightDrawerSlide.getCurrentAlert(CurrentUnit.AMPS)  > 0.5 && rightDrawerSlide.getTargetPosition() == 0){
+            rightDrawerSlide.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+            rightDrawerSlide.setTargetPosition(0);
+            rightDrawerSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+            rightDrawerSlide.setPower(0);
+        }
+    }
+
+    public double getCurrentAmpsamps(){
+        return leftDrawerSlide.getCurrentAlert(CurrentUnit.AMPS);
+
     }
 
     public void move(double movement, boolean byPower){
@@ -90,7 +106,7 @@ public class crane {
     public boolean offCheck(){ return getCurrentLeftPosition() < 0 || getCurrentRightPosition() < 0; }
 
 
-    public void setMode(DcMotor.RunMode mode){
+    public void setMode(DcMotorEx.RunMode mode){
         leftDrawerSlide.setMode(mode);
         rightDrawerSlide.setMode(mode);
     }
