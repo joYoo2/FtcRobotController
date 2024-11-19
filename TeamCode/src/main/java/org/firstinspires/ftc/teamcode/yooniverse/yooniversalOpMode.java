@@ -65,6 +65,13 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         clawTurnRight.setPosition(0.8);
 
     }
+
+    public void clawVertical(){
+        clawTurnLeft.setPosition(0.15);
+        clawTurnRight.setPosition(0.85);
+    }
+
+
     public void clawStriaght(){
         clawTurnLeft.setPosition(0.3);
         clawTurnRight.setPosition(0.7);
