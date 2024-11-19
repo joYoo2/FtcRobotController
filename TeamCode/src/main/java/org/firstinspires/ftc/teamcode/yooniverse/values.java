@@ -18,6 +18,10 @@ public class values {
     //700 low
 
 
+    public static int craneLowChamber;
+    public static int craneHighChamber;
+
+
     //Auton movement values
     public static int turn90DegreesClockwise = 90;
 

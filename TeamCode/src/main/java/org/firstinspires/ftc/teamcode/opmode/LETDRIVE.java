@@ -61,8 +61,8 @@ public class LETDRIVE extends yooniversalOpMode{
                 closeClaw();
             }
 
-            //not working
-            if(gamepad2.dpad_down){
+
+            if(gamepad1.left_bumper){
                 clawVertical();
             }
 

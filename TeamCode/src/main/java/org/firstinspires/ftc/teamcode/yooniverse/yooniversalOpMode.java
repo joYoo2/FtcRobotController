@@ -67,8 +67,17 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     }
 
     public void clawVertical(){
-        clawTurnLeft.setPosition(0.15);
+        clawTurnLeft.setPosition(0.05);
         clawTurnRight.setPosition(0.85);
+    }
+
+    public void lowChamber(){
+        slides.setTargetPosition(0);
+        //figure out how low chamber works ig idk
+    }
+
+    public void highChamber(){
+        slides.setTargetPosition(1800);
     }
 
 

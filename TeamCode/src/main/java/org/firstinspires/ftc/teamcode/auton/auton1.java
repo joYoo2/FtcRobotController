@@ -51,8 +51,17 @@ public class auton1 extends yooniversalOpMode {
 //                    train.manualDrive(200,-200,-200,20
 //
 //                    );
-                    sleep(2000);
-                    foward(1050);
+                    //sleep(2000);
+                    foward(550);
+                    //rotate(-90);
+                    highChamber();
+                    foward(500);
+
+                    openClaw();
+
+                    //rotate(values.turn90DegreesClockwise);
+
+
 //
 //                    rotate(values.turn90DegreesCounterClockwise);
 //
