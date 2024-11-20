@@ -110,4 +110,8 @@ public class crane {
         leftDrawerSlide.setMode(mode);
         rightDrawerSlide.setMode(mode);
     }
+
+
+    public double getAmpsLeft(){return leftDrawerSlide.getCurrent(CurrentUnit.AMPS);}
+    public double getAmpsRight(){return rightDrawerSlide.getCurrent(CurrentUnit.AMPS);}
 }
