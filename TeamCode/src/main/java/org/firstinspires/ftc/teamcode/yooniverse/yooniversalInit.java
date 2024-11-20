@@ -17,7 +17,7 @@ public class yooniversalInit {
     private double currAngle = 0;
     private double speed = 1;
     private double headingOffset = 0;
-    public easierYoo imu;
+    public iAmYoo imu;
     public double targetHeading;
     private boolean auton = false;
     private yooniversalOpMode opMode;
@@ -34,7 +34,7 @@ public class yooniversalInit {
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         this.opMode = opMode;
 
-        imu = new easierYoo(hardwareMap);
+        imu = new iAmYoo(hardwareMap);
     }
 
     public void manualDrive(double frontLeftPower, double frontRightPower, double backLeftPower, double backRightPower){

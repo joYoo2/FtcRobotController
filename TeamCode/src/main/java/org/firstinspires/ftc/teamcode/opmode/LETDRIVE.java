@@ -78,8 +78,6 @@ public class LETDRIVE extends yooniversalOpMode{
             telemetry.addData("Left Crane Motor Position", slides.getCurrentLeftPosition());
             telemetry.addData("Right Crane Motor Position", slides.getCurrentRightPosition());
             telemetry.addData("Trigger total:", gamepad2.right_trigger + gamepad2.left_trigger);
-            telemetry.addData("Left Crane Amps", slides.getAmpsLeft());
-            telemetry.addData("Right Crane Amps", slides.getAmpsRight());
             telemetry.update();
         }
 
