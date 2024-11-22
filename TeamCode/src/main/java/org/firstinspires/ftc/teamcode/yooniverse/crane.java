@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.yooniverse;
 
+import androidx.annotation.NonNull;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -13,9 +15,9 @@ public class crane {
 
     public double power = 0;
 
-    public crane(HardwareMap hardwareMap){ this(hardwareMap, -0.5, false); }
+    //public crane(HardwareMap hardwareMap){ this(hardwareMap, -0.5, false); }
 
-    public crane(HardwareMap hardwareMap, double power, boolean craneByPower){
+    public crane(@NonNull HardwareMap hardwareMap, double power, boolean craneByPower){
         leftDrawerSlide = hardwareMap.get(DcMotorEx.class, "leftDrawerSlide");
         leftDrawerSlide.setDirection(DcMotorEx.Direction.REVERSE);
 
@@ -60,23 +62,18 @@ public class crane {
     }
 
     public void craneMaintenance(){
-        if(leftDrawerSlide.getCurrentPosition() < 10 && leftDrawerSlide.getCurrentAlert(CurrentUnit.AMPS) > 0.5 && leftDrawerSlide.getTargetPosition() == 0){
+        if(leftDrawerSlide.getCurrentPosition() < 50 && leftDrawerSlide.getCurrentAlert(CurrentUnit.AMPS) > 0.5 && leftDrawerSlide.getTargetPosition() == 0){
             leftDrawerSlide.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
             leftDrawerSlide.setTargetPosition(0);
             leftDrawerSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
             leftDrawerSlide.setPower(0);
         }
-        if(rightDrawerSlide.getCurrentPosition() < 10 && rightDrawerSlide.getCurrentAlert(CurrentUnit.AMPS)  > 0.5 && rightDrawerSlide.getTargetPosition() == 0){
+        if(rightDrawerSlide.getCurrentPosition() < 50 && rightDrawerSlide.getCurrentAlert(CurrentUnit.AMPS)  > 0.5 && rightDrawerSlide.getTargetPosition() == 0){
             rightDrawerSlide.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
             rightDrawerSlide.setTargetPosition(0);
             rightDrawerSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
             rightDrawerSlide.setPower(0);
         }
-    }
-
-    public double getCurrentAmpsamps(){
-        return leftDrawerSlide.getCurrentAlert(CurrentUnit.AMPS);
-
     }
 
     public void move(double movement, boolean byPower){

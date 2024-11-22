@@ -9,27 +9,31 @@ package org.firstinspires.ftc.teamcode.auton;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
 import org.firstinspires.ftc.teamcode.yooniverse.values;
 
 
 
 //@Disabled
-@Autonomous(name="blueOb \uD83D\uDD35")
+@Autonomous(name="Specimen \uD83C\uDF4A \uD83E\uDD6D")
 public class auton1 extends yooniversalOpMode {
 
 
 
     double startTime;
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         setup();
+
         
 
-        setOpModeType(0);
+
         train.isAuton();
 
         closeClaw();
+        retractClaw();
         
 
 
@@ -45,55 +49,97 @@ public class auton1 extends yooniversalOpMode {
             startTime = System.currentTimeMillis();
             train.resetEncoders();
 
-                    telemetry.addData("Prop","IS NO MORE!!!");
+                    telemetry.addData("Prop","IS NO ded!!!");
                     telemetry.update();
 
-//                    train.manualDrive(200,-200,-200,20
-//
-//                    );
-                    //sleep(2000);
-                    foward(550);
-                    //rotate(-90);
+                    //the sleeps are necessary!!!!!!!!!!!!!!!
+                    clawVertical();
+
+
                     highChamber();
-                    foward(500);
+
+                    foward(1250);
+
+                    sleep(200);
+
+                    highChamberDown();
+
+                    sleep(700);
 
                     openClaw();
 
-                    //rotate(values.turn90DegreesClockwise);
+                    foward(-200);
+
+                    slidesResting();
 
 
-//
-//                    rotate(values.turn90DegreesCounterClockwise);
-//
-//                    foward(-900);
-//                    side(-400);
-//
-//                    clawServo.setPosition(values.clawOpen);
-//                    sleep(500);
-//
-//                    foward(-300);
-//
-//                    clawDown();
-//                    rotate(values.turn90DegreesClockwise);
-//                    sleep(50);
-//                    rotate(values.turn90DegreesClockwise);
-//
-//
-//                    side(-600);
-//                    foward(400);
-//
-//                    clawServo.setPosition(values.clawOpen);
-//                    sleep(100);
-//
-//                    foward(-200);
-//                    clawDown();
-//
-//                    side(-1050);
+                    side(-3050);
+                    slides.resetEncoders();
+                    //added just in case yk
+
+                    clawDown();
+                    sleep(500);
+
+                    closeClaw();
+                    sleep(500);
+
+                    clawUp();
+                    sleep(200);
+
+                    side(200);
+
+                    rotate(-140);
+
+                    side(-300);
+
+                    foward(300);
+
+                    highBasket();
+                    sleep(2000);
+
+                    foward(300);
+
+                    openClaw();
+
+                    foward(-400);
+
+                    slidesResting();
+                    sleep(2000);
+
+                    rotate(140);
+
+                    //foward(800);
+
+                    clawDown();
+                    sleep(500);
+
+                    closeClaw();
+                    sleep(500);
+
+                    clawUp();
+                    sleep(500);
+
+                    rotate(-140);
+
+                    highBasket();
+
+                    foward(300);
+
+                    openClaw();
+                    sleep(200);
+
+                    foward(-300);
+
+                    slidesResting();
+
+
+
+
+
 
                     break;
 
             }
-
         }
 
 

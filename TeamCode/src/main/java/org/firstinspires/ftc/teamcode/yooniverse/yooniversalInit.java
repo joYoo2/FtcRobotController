@@ -11,7 +11,7 @@ public class yooniversalInit {
     public DcMotor backRight;
 
     public crane crane;
-    private double fowardSpeed = 0.75;
+    private double fowardSpeed = 0.3;
 
     private double lastAngle;
     private double currAngle = 0;
@@ -24,17 +24,27 @@ public class yooniversalInit {
 
     public yooniversalInit(HardwareMap hardwareMap, yooniversalOpMode opMode){
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
         backRight = hardwareMap.get(DcMotor.class, "backRight");
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
         this.opMode = opMode;
 
         imu = new iAmYoo(hardwareMap);
+
+        lastAngle = imu.getYaw();
+
+        targetHeading = 0;
+
+        crane = opMode.slides;
+
     }
 
     public void manualDrive(double frontLeftPower, double frontRightPower, double backLeftPower, double backRightPower){
@@ -102,7 +112,7 @@ public class yooniversalInit {
 
     public void foward(int target){
         resetAngle();
-        targetHeading = 0 - headingOffset;
+        targetHeading = 0-headingOffset;
         waitForWheels(target, true);
     }
 
@@ -148,7 +158,7 @@ public class yooniversalInit {
             this.moveByEncoder(frontLeft, target, 0);
             this.moveByEncoder(frontRight, target, 0);
             this.moveByEncoder(backLeft, target, 0);
-            this.moveByEncoder(backRight, target, 0);
+            this.moveByEncoder(backRight,target, 0);
         }else{
             this.moveByEncoder(frontLeft, target, 0);
             this.moveByEncoder(frontRight, -target, 0);
@@ -156,6 +166,8 @@ public class yooniversalInit {
             this.moveByEncoder(backRight, target, 0);
         }
         double margin = 10;
+        //fr goes too high
+        //be goes too low
         while((frontLeft.getCurrentPosition() > frontLeft.getTargetPosition() + margin ||
                 frontRight.getCurrentPosition() > frontRight.getTargetPosition() + margin ||
                 backLeft.getCurrentPosition() > backLeft.getTargetPosition() + margin ||
@@ -176,6 +188,8 @@ public class yooniversalInit {
             opMode.telemetry.addData("frontRight: ",frontRight.getCurrentPosition());
             opMode.telemetry.addData("backLeft: ",backLeft.getCurrentPosition());
             opMode.telemetry.addData("backRight: ", backRight.getCurrentPosition());
+
+
 
             opMode.telemetry.addData("left draw slide", crane.getCurrentLeftPosition());
 
@@ -215,17 +229,17 @@ public class yooniversalInit {
 
         double error = degrees;
 
-        while (opMode.opModeIsActive() && Math.abs(error) > 0.75) {
+        while (opMode.opModeIsActive() && Math.abs(error) > 0.9) {
             crane.craneMaintenance();
             double motorPower = (error < 0 ? -0.5 : 0.5);
-            motorPower *= Math.min(1, Math.abs(error / 20));
+            motorPower *= Math.min(1, Math.abs(error / 30));
             if(Math.abs(motorPower) < 0.1){
                 motorPower = (error < 0 ? -0.1: 0.1);
             }
-            frontLeft.setPower(-motorPower);
-            frontRight.setPower(motorPower);
-            backLeft.setPower(-motorPower);
-            backRight.setPower(motorPower);
+            frontLeft.setPower(motorPower);
+            frontRight.setPower(-motorPower);
+            backLeft.setPower(motorPower);
+            backRight.setPower(-motorPower);
             if(error < degrees - getAngle() + 0.025 && error > degrees - getAngle() - 0.025 && error < 10 && error > -10){
                 break;
             }

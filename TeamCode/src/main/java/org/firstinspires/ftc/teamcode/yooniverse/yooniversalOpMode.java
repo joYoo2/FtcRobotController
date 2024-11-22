@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.yooniverse;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 public abstract class yooniversalOpMode extends LinearOpMode{
     public yooniversalInit train;
@@ -20,13 +21,18 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         clawTurnLeft = hardwareMap.get(Servo.class, "clawTurnLeft");
         clawTurnRight = hardwareMap.get(Servo.class, "clawTurnRight");
     }
-    private int opModeType = 2;
-    public void setOpModeType(int type){
-        opModeType = type;
-    }
+
     public void foward(int distance){
         train.foward(distance);
     }
+
+    public void encoderTest() {
+        train.moveByEncoder(train.frontRight, 10000, 0.5);
+        train.moveByEncoder(train.frontLeft, 10000, 0.5);
+        train.moveByEncoder(train.backRight, 10000, 0.5);
+        train.moveByEncoder(train.backLeft, 10000, 0.5);
+    }
+
 
     public void side(int distance){
         train.side(distance);
@@ -77,13 +83,25 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     }
 
     public void highChamber(){
-        slides.setTargetPosition(1800);
+        slides.setTargetPosition(1420);
+    }
+
+    public void highChamberDown(){
+        slides.setTargetPosition(790);
+    }
+
+    public void highBasket(){
+        slides.setTargetPosition(3800);
+    }
+
+    public void slidesResting(){
+        slides.setTargetPosition(0);
     }
 
 
-    public void clawStriaght(){
-        clawTurnLeft.setPosition(0.3);
-        clawTurnRight.setPosition(0.7);
-
-    }
+//    public void clawStriaght(){
+//        clawTurnLeft.setPosition(0.3);
+//        clawTurnRight.setPosition(0.7);
+//
+//    }
 }

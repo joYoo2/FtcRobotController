@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
@@ -16,27 +17,28 @@ public class LETDRIVE extends yooniversalOpMode{
 
         train.setPower(1);
 
-        setOpModeType(2);
+
 
         telemetry.update();
         boolean byPower = false;
 
+        closeClaw();
+        clawUp();
 
-        telemetry.update();
         waitForStart();
         extenderRight.setPosition(1-values.clawRetract);
         extenderLeft.setPosition(values.clawRetract);
 
-        clawStriaght();
+
         while(opModeIsActive()){
             telemetry.addData("Status", "Running");
             telemetry.addData("lef:", slides.getCurrentLeftPosition());
 
 
-            train.manualDrive(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x,
-                    -gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x,
+            train.manualDrive(-gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x,
                     -gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x,
-                    -gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x);
+                    -gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x,
+                    -gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
 
             if(gamepad2.circle){
                 extendClaw();

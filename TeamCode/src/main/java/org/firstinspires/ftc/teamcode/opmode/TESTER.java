@@ -11,10 +11,13 @@ public class TESTER extends LinearOpMode {
     private DcMotor leftDrawerSlide, rightDrawerSlide;
     @Override
     public void runOpMode(){
+
         leftDrawerSlide = hardwareMap.get(DcMotor.class, "leftDrawerSlide");
 
         rightDrawerSlide = hardwareMap.get(DcMotor.class, "rightDrawerSlide");
 
+        rightDrawerSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDrawerSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         telemetry.addData("crane left", leftDrawerSlide.getCurrentPosition());
         telemetry.addData("crane right", rightDrawerSlide.getCurrentPosition());
         telemetry.update();
