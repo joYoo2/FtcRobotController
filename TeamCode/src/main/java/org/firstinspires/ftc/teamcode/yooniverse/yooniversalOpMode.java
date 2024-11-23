@@ -10,9 +10,9 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     public Servo clawTurnLeft, clawTurnRight;
     public crane slides;
     public void setup(){
-        setup(0.1);
+        setup(0.1, false);
     }
-    public void setup(double cranePower){
+    public void setup(double cranePower,boolean auton){
         slides = new crane(hardwareMap, cranePower, false);
         train = new yooniversalInit(hardwareMap, this);
         clawServo = hardwareMap.get(Servo.class, "clawServo");
@@ -21,6 +21,8 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         clawTurnLeft = hardwareMap.get(Servo.class, "clawTurnLeft");
         clawTurnRight = hardwareMap.get(Servo.class, "clawTurnRight");
     }
+
+
 
     public void foward(int distance){
         train.foward(distance);
@@ -52,6 +54,11 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         extenderLeft.setPosition(values.clawExtend);
     }
 
+    public void clawMove(double amount){
+        extenderRight.setPosition(1-amount);
+        extenderLeft.setPosition(amount);
+    }
+
     public void retractClaw(){
         extenderRight.setPosition(1-values.clawRetract);
         extenderLeft.setPosition(values.clawRetract);
@@ -61,8 +68,8 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     //1,0 , left right
 
     public void clawDown(){
-        clawTurnLeft.setPosition(0.45);
-        clawTurnRight.setPosition(0.55);
+        clawTurnLeft.setPosition(0.43);
+        clawTurnRight.setPosition(0.57);
 
     }
 
@@ -70,6 +77,11 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         clawTurnLeft.setPosition(0.20);
         clawTurnRight.setPosition(0.8);
 
+    }
+
+    public void clawEvenMoreVertical(){
+        clawTurnLeft.setPosition(0);
+        clawTurnRight.setPosition(1);
     }
 
     public void clawVertical(){
@@ -83,15 +95,16 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     }
 
     public void highChamber(){
-        slides.setTargetPosition(1420);
+        slides.setTargetPosition(1380);
     }
 
     public void highChamberDown(){
         slides.setTargetPosition(790);
     }
 
+
     public void highBasket(){
-        slides.setTargetPosition(3800);
+        slides.setTargetPosition(3900);
     }
 
     public void slidesResting(){

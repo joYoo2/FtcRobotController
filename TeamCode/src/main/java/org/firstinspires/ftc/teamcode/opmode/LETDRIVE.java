@@ -47,6 +47,14 @@ public class LETDRIVE extends yooniversalOpMode{
                 retractClaw();
             }
 
+            if(gamepad2.triangle){
+                clawMove(0.1);
+            }
+
+            if(gamepad2.cross){
+                clawMove(0.15);
+            }
+
             if(gamepad1.triangle){
                 clawUp();
             }

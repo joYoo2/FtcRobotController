@@ -49,12 +49,12 @@ public class auton1 extends yooniversalOpMode {
             startTime = System.currentTimeMillis();
             train.resetEncoders();
 
-                    telemetry.addData("Prop","IS NO ded!!!");
+                    telemetry.addData("Prop","IS NO!!!");
                     telemetry.update();
 
                     //the sleeps are necessary!!!!!!!!!!!!!!!
-                    clawVertical();
 
+                    clawVertical();
 
                     highChamber();
 
@@ -65,6 +65,7 @@ public class auton1 extends yooniversalOpMode {
                     highChamberDown();
 
                     sleep(700);
+                    train.setPower(1);
 
                     openClaw();
 
@@ -73,10 +74,105 @@ public class auton1 extends yooniversalOpMode {
                     slidesResting();
 
 
-                    side(-3050);
-                    slides.resetEncoders();
-                    //added just in case yk
+                    side(-2000);
 
+                    extendClaw();
+                    foward(-340);
+                    slides.resetEncoders();
+
+
+
+                    clawDown();
+                    sleep(500);
+
+                    closeClaw();
+                    sleep(500);
+
+                    clawUp();
+                    sleep(500);
+
+                    retractClaw();
+
+                    rotate(-140);
+
+                    foward(200);
+
+
+                    highBasket();
+                    sleep(2500);
+
+                    extendClaw();
+                    sleep(500);
+
+                    openClaw();
+                    sleep(200);
+
+                    retractClaw();
+                    sleep(500);
+
+                    slidesResting();
+                    sleep(2000);
+
+
+
+                    rotate(150);
+
+                    side(-480);
+
+                    foward(150);
+
+                    extendClaw();
+                    sleep(500);
+
+                    clawDown();
+                    sleep(500);
+
+                    closeClaw();
+                    sleep(500);
+
+                    clawVertical();
+                    sleep(500);
+
+                    retractClaw();
+
+                    side(200);
+
+                    rotate(-140);
+
+
+                    openClaw();
+                    sleep(500);
+                    clawEvenMoreVertical();
+                    sleep(500);
+
+/*//this is for second high basket
+                    side(-200);
+
+                    highBasket();
+                    sleep(2500);
+
+                    extendClaw();
+                    sleep(500);
+
+                    openClaw();
+                    sleep(200);
+
+                    retractClaw();
+                    sleep(500);
+
+                    slidesResting();
+                    sleep(5000);
+
+
+
+*/
+
+
+
+
+
+                    //added just in case yk
+/*
                     clawDown();
                     sleep(500);
 
@@ -134,7 +230,7 @@ public class auton1 extends yooniversalOpMode {
 
 
 
-
+*/
 
 
                     break;

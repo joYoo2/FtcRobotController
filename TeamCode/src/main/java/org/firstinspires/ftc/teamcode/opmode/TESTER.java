@@ -8,23 +8,31 @@ import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
 import org.firstinspires.ftc.teamcode.yooniverse.values;
 @TeleOp(name="TESTER", group="yooniverse")
 public class TESTER extends LinearOpMode {
-    private DcMotor leftDrawerSlide, rightDrawerSlide;
+    private DcMotor frontLeft, frontRight, backRight, backLeft;
     @Override
     public void runOpMode(){
 
-        leftDrawerSlide = hardwareMap.get(DcMotor.class, "leftDrawerSlide");
+        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
 
-        rightDrawerSlide = hardwareMap.get(DcMotor.class, "rightDrawerSlide");
+        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
 
-        rightDrawerSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftDrawerSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        telemetry.addData("crane left", leftDrawerSlide.getCurrentPosition());
-        telemetry.addData("crane right", rightDrawerSlide.getCurrentPosition());
+        backRight = hardwareMap.get(DcMotor.class, "backRight");
+
+        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
+
+        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        telemetry.addData("frontRight", frontRight.getCurrentPosition());
+        telemetry.addData("frontLeft", frontLeft.getCurrentPosition());
+        telemetry.addData("backRight", backRight.getCurrentPosition());
+        telemetry.addData("backLeft", backLeft.getCurrentPosition());
         telemetry.update();
         waitForStart();
         while(opModeIsActive()){
-            telemetry.addData("crane left", leftDrawerSlide.getCurrentPosition());
-            telemetry.addData("crane right", rightDrawerSlide.getCurrentPosition());
+            telemetry.addData("frontRight", frontRight.getCurrentPosition());
+            telemetry.addData("frontLeft", frontLeft.getCurrentPosition());
+            telemetry.addData("backRight", backRight.getCurrentPosition());
+            telemetry.addData("backLeft", backLeft.getCurrentPosition());
             telemetry.update();
         }
 

@@ -60,6 +60,10 @@ public class yooniversalInit {
             frontRight.setPower(newPower);
             backLeft.setPower(newPower);
             backRight.setPower(newPower);
+
+//            speed = newPower;
+//            fowardSpeed = newPower;
+            //idk if this is good
         }else{
             speed = newPower;
         }
