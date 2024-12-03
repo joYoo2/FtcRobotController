@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
 
 
 //@Disabled
-@Autonomous(name="Specimen \uD83C\uDF4A")
+@Autonomous(name="Block old \uD83C\uDF4A")
 public class auton extends yooniversalOpMode {
 
 

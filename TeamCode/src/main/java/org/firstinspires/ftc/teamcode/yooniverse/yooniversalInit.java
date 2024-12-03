@@ -11,7 +11,8 @@ public class yooniversalInit {
     public DcMotor backRight;
 
     public crane crane;
-    private double fowardSpeed = 0.3;
+    private double fowardSpeed = 0.5;
+    //was 0.3
 
     private double lastAngle;
     private double currAngle = 0;
@@ -135,7 +136,8 @@ public class yooniversalInit {
         waitForWheels(target, false);
     }
     private void continueSide(){
-        double sideSpeed = 0.5;
+        double sideSpeed = 0.7;
+        //was 0.5
         double leftPower = sideSpeed - sideSpeed * (-imu.getYaw() / 90);
         double rightPower = sideSpeed - sideSpeed * (imu.getYaw() / 90);
         frontLeft.setPower(leftPower);
@@ -170,8 +172,6 @@ public class yooniversalInit {
             this.moveByEncoder(backRight, target, 0);
         }
         double margin = 10;
-        //fr goes too high
-        //be goes too low
         while((frontLeft.getCurrentPosition() > frontLeft.getTargetPosition() + margin ||
                 frontRight.getCurrentPosition() > frontRight.getTargetPosition() + margin ||
                 backLeft.getCurrentPosition() > backLeft.getTargetPosition() + margin ||
@@ -193,6 +193,11 @@ public class yooniversalInit {
             opMode.telemetry.addData("backLeft: ",backLeft.getCurrentPosition());
             opMode.telemetry.addData("backRight: ", backRight.getCurrentPosition());
 
+
+            opMode.telemetry.addData("frontLeftPower: ",frontLeft.getPower());
+            opMode.telemetry.addData("frontRightPower: ",frontRight.getPower());
+            opMode.telemetry.addData("backLeftPower: ",backLeft.getPower());
+            opMode.telemetry.addData("backRightPower: ", backRight.getPower());
 
 
             opMode.telemetry.addData("left draw slide", crane.getCurrentLeftPosition());

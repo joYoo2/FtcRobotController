@@ -8,6 +8,7 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     public Servo clawServo;
     public Servo extenderRight, extenderLeft;
     public Servo clawTurnLeft, clawTurnRight;
+    public Servo specimenLeft, specimenRight;
     public crane slides;
     public void setup(){
         setup(0.1, false);
@@ -20,6 +21,10 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         extenderLeft = hardwareMap.get(Servo.class, "extenderLeft");
         clawTurnLeft = hardwareMap.get(Servo.class, "clawTurnLeft");
         clawTurnRight = hardwareMap.get(Servo.class, "clawTurnRight");
+        specimenLeft = hardwareMap.get(Servo.class, "specimenLeft");
+        specimenRight = hardwareMap.get(Servo.class, "specimenRight");
+        specimenLeft.setDirection(Servo.Direction.REVERSE);
+        specimenRight.setDirection(Servo.Direction.REVERSE);
     }
 
 
@@ -68,8 +73,8 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     //1,0 , left right
 
     public void clawDown(){
-        clawTurnLeft.setPosition(0.43);
-        clawTurnRight.setPosition(0.57);
+        clawTurnLeft.setPosition(0.42);
+        clawTurnRight.setPosition(0.58);
 
     }
 
@@ -79,14 +84,24 @@ public abstract class yooniversalOpMode extends LinearOpMode{
 
     }
 
+    public void specimenOpen(){
+        specimenLeft.setPosition(1);
+        specimenRight.setPosition(0.9);
+    }
+
+    public void specimenClose(){
+        specimenLeft.setPosition(0.9);
+        specimenRight.setPosition(1);
+    }
+
     public void clawEvenMoreVertical(){
         clawTurnLeft.setPosition(0);
         clawTurnRight.setPosition(1);
     }
 
     public void clawVertical(){
-        clawTurnLeft.setPosition(0.05);
-        clawTurnRight.setPosition(0.85);
+        clawTurnLeft.setPosition(0.1);
+        clawTurnRight.setPosition(0.9);
     }
 
     public void lowChamber(){

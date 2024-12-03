@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.yooniverse.values;
 
 
 //@Disabled
-@Autonomous(name="Specimen \uD83C\uDF4A \uD83E\uDD6D")
+@Autonomous(name="Blocks \uD83C\uDF4A \uD83E\uDD6D")
 public class auton1 extends yooniversalOpMode {
 
 
@@ -34,7 +34,6 @@ public class auton1 extends yooniversalOpMode {
 
         closeClaw();
         retractClaw();
-        
 
 
 
@@ -64,7 +63,7 @@ public class auton1 extends yooniversalOpMode {
 
                     highChamberDown();
 
-                    sleep(700);
+                    sleep(400);
                     train.setPower(1);
 
                     openClaw();
@@ -115,7 +114,7 @@ public class auton1 extends yooniversalOpMode {
 
 
 
-                    rotate(150);
+                    rotate(140);
 
                     side(-480);
 
@@ -139,11 +138,15 @@ public class auton1 extends yooniversalOpMode {
 
                     rotate(-140);
 
+                    clawDown();
+                    sleep(200);
+
 
                     openClaw();
-                    sleep(500);
+                    sleep(200);
+
                     clawEvenMoreVertical();
-                    sleep(500);
+                    sleep(3000);
 
 /*//this is for second high basket
                     side(-200);

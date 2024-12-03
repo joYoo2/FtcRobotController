@@ -6,7 +6,8 @@ public class values {
     public static double clawOpen = 0.3;
     public static double clawClsoed = 0;
 
-    public static double clawExtend = 0.23;
+    public static double clawExtend = 0.26;
+    // was 0.23
     public static double clawRetract = 0;
 
 
