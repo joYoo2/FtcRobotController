@@ -9,16 +9,13 @@ package org.firstinspires.ftc.teamcode.auton;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
-import org.firstinspires.ftc.teamcode.yooniverse.values;
-
 
 
 //@Disabled
-@Autonomous(name="Blocks \uD83C\uDF4A \uD83E\uDD6D")
-public class auton1 extends yooniversalOpMode {
+@Autonomous(name="Sample \uD83C\uDF4A \uD83E\uDD6D")
+public class block extends yooniversalOpMode {
 
 
 
@@ -34,6 +31,8 @@ public class auton1 extends yooniversalOpMode {
 
         closeClaw();
         retractClaw();
+
+
 
 
 
@@ -71,6 +70,8 @@ public class auton1 extends yooniversalOpMode {
                     foward(-200);
 
                     slidesResting();
+
+                    train.setFowardSpeed(0.6);
 
 
                     side(-2000);

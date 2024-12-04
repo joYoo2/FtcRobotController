@@ -11,7 +11,7 @@ public class yooniversalInit {
     public DcMotor backRight;
 
     public crane crane;
-    private double fowardSpeed = 0.5;
+    private double fowardSpeed = 0.4;
     //was 0.3
 
     private double lastAngle;
@@ -240,7 +240,8 @@ public class yooniversalInit {
 
         while (opMode.opModeIsActive() && Math.abs(error) > 0.9) {
             crane.craneMaintenance();
-            double motorPower = (error < 0 ? -0.5 : 0.5);
+            double motorPower = (error < 0 ? -0.5 : 0.5) + 0.02;
+            //previously not +0.02
             motorPower *= Math.min(1, Math.abs(error / 30));
             if(Math.abs(motorPower) < 0.1){
                 motorPower = (error < 0 ? -0.1: 0.1);

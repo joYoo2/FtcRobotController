@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
 
 
 //@Disabled
-@Autonomous(name="Specimen \uD83C\uDF4A \uD83E\uDD6D")
+@Autonomous(name="Specimen \uD83E\uDD6D")
 public class specimen extends yooniversalOpMode {
 
 
@@ -31,8 +31,6 @@ public class specimen extends yooniversalOpMode {
 
         closeClaw();
         retractClaw();
-        specimenClose();
-
 
 
         while (opModeInInit()) {
@@ -56,7 +54,7 @@ public class specimen extends yooniversalOpMode {
 
                     highChamber();
 
-                    foward(1250);
+                    foward(1300);
 
                     sleep(200);
 
@@ -69,6 +67,7 @@ public class specimen extends yooniversalOpMode {
                     openClaw();
 
                     foward(-200);
+                    train.setFowardSpeed(0.7);
 
                     slidesResting();
 
@@ -76,9 +75,39 @@ public class specimen extends yooniversalOpMode {
 
                     side(-1200);
 
-                    foward(-2500);
+                    foward(-2200);
+
+                    train.setFowardSpeed(0.3);
+                    foward(-100);
 
                     specimenClose();
+                    sleep(1000);
+
+                    train.setFowardSpeed(1);
+
+                    foward(2500);
+
+                    train.setFowardSpeed(0.7);
+
+                    side(1100);
+
+                    rotate(-90);
+
+                    highChamber();
+
+                    sleep(500);
+
+                    highChamberDown();
+
+                    specimenOpen();
+
+                    foward(1000);
+
+                    side(-2000);
+
+
+
+
 
 
 

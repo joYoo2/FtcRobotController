@@ -85,12 +85,13 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     }
 
     public void specimenOpen(){
-        specimenLeft.setPosition(1);
+        specimenLeft.setPosition(0.8);
         specimenRight.setPosition(0.9);
     }
 
+
     public void specimenClose(){
-        specimenLeft.setPosition(0.9);
+        specimenLeft.setPosition(0.64);
         specimenRight.setPosition(1);
     }
 
@@ -110,16 +111,24 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     }
 
     public void highChamber(){
-        slides.setTargetPosition(1380);
+        slides.setTargetPosition(1300);
+    }
+
+    public void highChamberSpecimenClaw(){
+        slides.setTargetPosition(1600);
     }
 
     public void highChamberDown(){
-        slides.setTargetPosition(790);
+        slides.setTargetPosition(730);
+    }
+
+    public void highChamberDownSpecimenClaw(){
+        slides.setTargetPosition(1030);
     }
 
 
     public void highBasket(){
-        slides.setTargetPosition(3900);
+        slides.setTargetPosition(3850);
     }
 
     public void slidesResting(){
