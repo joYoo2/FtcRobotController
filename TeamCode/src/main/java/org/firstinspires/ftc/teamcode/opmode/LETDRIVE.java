@@ -33,12 +33,21 @@ public class LETDRIVE extends yooniversalOpMode{
         while(opModeIsActive()){
             telemetry.addData("Status", "Running");
             telemetry.addData("lef:", slides.getCurrentLeftPosition());
-
+            telemetry.addData("specimen left", specimenLeft.getPosition());
+            telemetry.addData("specimen right", specimenRight.getPosition());
 
             train.manualDrive(-gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x,
                     -gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x,
                     -gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x,
                     -gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
+
+            if(gamepad2.left_bumper){
+                specimenOpen();
+            }
+
+            if(gamepad2.right_bumper){
+                specimenClose();
+            }
 
             if(gamepad2.circle){
                 extendClaw();

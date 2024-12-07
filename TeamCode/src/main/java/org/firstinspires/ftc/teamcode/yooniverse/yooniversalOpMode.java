@@ -85,14 +85,14 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     }
 
     public void specimenOpen(){
-        specimenLeft.setPosition(0.8);
-        specimenRight.setPosition(0.9);
+        specimenLeft.setPosition(0.65);
+        specimenRight.setPosition(0.7);
     }
 
 
     public void specimenClose(){
-        specimenLeft.setPosition(0.64);
-        specimenRight.setPosition(1);
+        specimenLeft.setPosition(0.5);
+        specimenRight.setPosition(0.8);
     }
 
     public void clawEvenMoreVertical(){
