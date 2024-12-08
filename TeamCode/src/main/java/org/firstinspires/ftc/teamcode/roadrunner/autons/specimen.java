@@ -37,13 +37,13 @@ public class specimen extends LinearOpMode {
                 .waitSeconds(2)
                 .lineToY(-34);
 
-        TrajectoryActionBuilder path2 = path1.endTrajectory().fresh()
+        TrajectoryActionBuilder path2 = drive.actionBuilder(initialPose)
                 .waitSeconds(2)
                 .lineToY(-38)
                 .splineToConstantHeading(new Vector2d(30, -38) ,Math.toRadians(0))
                 .strafeToSplineHeading(new Vector2d(50, -10), Math.toRadians(90));
 
-        TrajectoryActionBuilder path3 = path2.endTrajectory().fresh()
+        TrajectoryActionBuilder path3 = drive.actionBuilder(initialPose)
                 .waitSeconds(0.5)
 
                 .lineToY(-60)
@@ -72,18 +72,21 @@ public class specimen extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(5, -34) ,Math.toRadians(0));
         // too lazy to separate into different paths
 
-        Action trajectoryActionChosen;
-        Action trajectoryActionChosen2;
-        Action trajectoryActionChosen3;
+        Action trajectoryAction;
+        Action trajectoryAction2;
+        Action trajectoryAction3;
 
 
-        trajectoryActionChosen = path1.build();
-        trajectoryActionChosen2 = path2.build();
-        trajectoryActionChosen3 = path3.build();
+        trajectoryAction = path1.build();
+        trajectoryAction2 = path2.build();
+        trajectoryAction3 = path3.build();
 
 
 
         while(opModeIsActive() && !isStopRequested()){
+            telemetry.addData("LINEUP:", "0 degrees, left wheels touching the middle row of tiles");
+            telemetry.addData("NOTE:", "This auton starts with a specimen");
+            telemetry.update();
 
             waitForStart();
 
@@ -92,10 +95,10 @@ public class specimen extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             actions.openClaw(),
-                            trajectoryActionChosen,
+                            trajectoryAction,
                             new SleepAction(2),
-                            trajectoryActionChosen2,
-                            trajectoryActionChosen3
+                            trajectoryAction2,
+                            trajectoryAction3
                     )
                     //alternative for code similar to past:
                     //drive.actionBuilder(new Pose2d(initialPose))

@@ -69,8 +69,16 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         extenderLeft.setPosition(values.clawRetract);
     }
 
-    //for down all the way
-    //1,0 , left right
+    public void specimenOpen(){
+        specimenLeft.setPosition(0.65);
+        specimenRight.setPosition(0.7);
+    }
+
+
+    public void specimenClose(){
+        specimenLeft.setPosition(0.5);
+        specimenRight.setPosition(0.8);
+    }
 
     public void clawDown(){
         clawTurnLeft.setPosition(0.42);
@@ -83,18 +91,6 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         clawTurnRight.setPosition(0.8);
 
     }
-
-    public void specimenOpen(){
-        specimenLeft.setPosition(0.65);
-        specimenRight.setPosition(0.7);
-    }
-
-
-    public void specimenClose(){
-        specimenLeft.setPosition(0.5);
-        specimenRight.setPosition(0.8);
-    }
-
     public void clawEvenMoreVertical(){
         clawTurnLeft.setPosition(0);
         clawTurnRight.setPosition(1);
