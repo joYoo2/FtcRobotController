@@ -34,28 +34,29 @@ public class samples extends LinearOpMode {
 
 
         TrajectoryActionBuilder path1 = drive.actionBuilder(initialPose)
-                .splineToLinearHeading(new Pose2d(-52, -54, Math.toRadians(-140)), Math.toRadians(0));
+                .strafeToLinearHeading(new Vector2d(-52, -54), Math.toRadians(-140));
 
         TrajectoryActionBuilder path2 = drive.actionBuilder(initialPose)
-                .splineToLinearHeading(new Pose2d(-48, -39, Math.toRadians(90)), Math.toRadians(0));
+                .strafeToLinearHeading(new Vector2d(-48, -39), Math.toRadians(90));
 
         TrajectoryActionBuilder path3 = drive.actionBuilder(initialPose)
-                .splineToLinearHeading(new Pose2d(-52, -54, Math.toRadians(-140)), Math.toRadians(0));
+                .strafeToLinearHeading(new Vector2d(-52, -54), Math.toRadians(-140));
 
         TrajectoryActionBuilder path4 = drive.actionBuilder(initialPose)
-                .splineToLinearHeading(new Pose2d(-58, -39, Math.toRadians(90)), Math.toRadians(0));
+                .strafeToLinearHeading(new Vector2d(-58, -39), Math.toRadians(90));
 
         TrajectoryActionBuilder path5 = drive.actionBuilder(initialPose)
-                .splineToLinearHeading(new Pose2d(-52, -54, Math.toRadians(-140)), Math.toRadians(0));
+                .strafeToLinearHeading(new Vector2d(-52, -54), Math.toRadians(-140));
 
         TrajectoryActionBuilder path6 = drive.actionBuilder(initialPose)
-                .splineToLinearHeading(new Pose2d(-55, -39, Math.toRadians(135)), Math.toRadians(0));
+                .strafeToLinearHeading(new Vector2d(-55, -39), Math.toRadians(135));
 
         TrajectoryActionBuilder path7 = drive.actionBuilder(initialPose)
-                .splineToLinearHeading(new Pose2d(-52, -54, Math.toRadians(-140)), Math.toRadians(0));
+                .strafeToLinearHeading(new Vector2d(-52, -54), Math.toRadians(-140));
 
         TrajectoryActionBuilder path8 = drive.actionBuilder(initialPose)
-                .splineToLinearHeading(new Pose2d(-25, -5, Math.toRadians(0)), Math.toRadians(0));
+                .strafeTo(new Vector2d(-52, -40))
+                .splineToLinearHeading(new Pose2d(-25, -5, Math.toRadians(0)), 0);
 
 
 
@@ -103,6 +104,7 @@ public class samples extends LinearOpMode {
                             ),
 
                             actions.extendClaw(),
+                            new SleepAction(0.5),
                             actions.openClaw(),
                             //SleepAction runs a timer that sleeps for a "dt" amount of seconds
                             new SleepAction(2),
@@ -126,6 +128,7 @@ public class samples extends LinearOpMode {
                             ),
 
                             actions.extendClaw(),
+                            new SleepAction(0.5),
                             actions.openClaw(),
 
 
@@ -148,6 +151,7 @@ public class samples extends LinearOpMode {
                             ),
 
                             actions.extendClaw(),
+                            new SleepAction(0.5),
                             actions.openClaw(),
 
 
@@ -159,7 +163,8 @@ public class samples extends LinearOpMode {
                                     actions.clawDown()
                             ),
 
-
+                            actions.extendClaw(),
+                            new SleepAction(0.5),
                             actions.closeClaw(),
 
 
@@ -170,6 +175,7 @@ public class samples extends LinearOpMode {
                             ),
 
                             actions.extendClaw(),
+                            new SleepAction(0.5),
                             actions.openClaw(),
 
 
