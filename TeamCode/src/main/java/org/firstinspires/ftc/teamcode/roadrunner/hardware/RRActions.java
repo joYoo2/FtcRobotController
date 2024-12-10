@@ -226,7 +226,7 @@ public class RRActions {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
 
-            slides.setTargetPosition(3850);
+            slides.setTargetPosition(0);
             return false;
         }
 

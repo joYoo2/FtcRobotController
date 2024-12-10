@@ -82,13 +82,13 @@ public class specimen extends LinearOpMode {
         trajectoryAction3 = path3.build();
 
 
+        telemetry.addData("LINEUP:", "0 degrees, left wheels touching the middle row of tiles");
+        telemetry.addData("NOTE:", "This auton starts with a specimen");
+        telemetry.update();
+
+        waitForStart();
 
         while(opModeIsActive() && !isStopRequested()){
-            telemetry.addData("LINEUP:", "0 degrees, left wheels touching the middle row of tiles");
-            telemetry.addData("NOTE:", "This auton starts with a specimen");
-            telemetry.update();
-
-            waitForStart();
 
             if (isStopRequested()) return;
 
