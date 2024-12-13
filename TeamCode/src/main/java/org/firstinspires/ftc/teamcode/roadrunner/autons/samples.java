@@ -25,16 +25,38 @@ public class samples extends LinearOpMode {
     @Override
     public void runOpMode()  {
 
-        Pose2d initialPose = new Pose2d(-34, -62, Math.toRadians(180));
+        Pose2d initialPose = new Pose2d(-36, -62, Math.toRadians(180));
+        Pose2d logPose = new Pose2d(0,0,Math.toRadians(90));
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
         RRActions actions = new RRActions(hardwareMap);
 
+        /*
+                .strafeToLinearHeading(new Vector2d(-52, -54), Math.toRadians(-140))
 
+
+                .strafeToLinearHeading(new Vector2d(-48, -39), Math.toRadians(90))
+
+                .strafeToLinearHeading(new Vector2d(-52, -54), Math.toRadians(-140))
+
+                .strafeToLinearHeading(new Vector2d(-58, -39), Math.toRadians(90))
+
+                .strafeToLinearHeading(new Vector2d(-52, -54), Math.toRadians(-140))
+
+                .strafeToLinearHeading(new Vector2d(-55, -39), Math.toRadians(135))
+
+                .strafeToLinearHeading(new Vector2d(-52, -54), Math.toRadians(-140))
+         */
 
         TrajectoryActionBuilder path1 = drive.actionBuilder(initialPose)
+                .strafeToLinearHeading(new Vector2d(-53, -53),Math.toRadians(225));
+//                .turn(Math.toRadians(90))
+//                .strafeToConstantHeading(new Vector2d(-53, -53))
+//                .turn(Math.toRadians(-45))
+//                .strafeToConstantHeading(new Vector2d(-62, -68))
+//                .turn(Math.toRadians(90));
 
-                .strafeToLinearHeading(new Vector2d(-50, -50), Math.toRadians(135));
+
 //                .strafeTo(new Vector2d(-50, -50))
 //                //.turn(Math.toRadians(-45)
 //                //.turn
@@ -55,6 +77,7 @@ public class samples extends LinearOpMode {
         TrajectoryActionBuilder path3 = drive.actionBuilder(initialPose)
                 //MEEP MEEP AUTON
                 .strafeToLinearHeading(new Vector2d(-52, -54), Math.toRadians(-140))
+                //-140 degrees meep meep
                 //meep meep goes negative from counter clockwise, and lines up 0 degrees with facing right
 
                 .strafeToLinearHeading(new Vector2d(-48, -39), Math.toRadians(90))
@@ -72,7 +95,7 @@ public class samples extends LinearOpMode {
                 .strafeTo(new Vector2d(-52, -40))
                 .splineToLinearHeading(new Pose2d(-25, -5, Math.toRadians(0)), 0);
 
-
+        Action trajectoryActionCloseOut = path1.endTrajectory().fresh().build();
 
 
         Action trajectoryAction;
@@ -102,14 +125,9 @@ public class samples extends LinearOpMode {
             Actions.runBlocking(
                     //SequentialAction runs the actions one after the other
                     new SequentialAction(
-//                            new ParallelAction(
-////                                    trajectoryAction
-////                                    actions.clawUp(),
-////                                    actions.highBasket()
-//                            )
+//
                             trajectoryAction,
-                            trajectoryAction2
-                            //trajectoryActionCloseOut
+                            trajectoryActionCloseOut
 //                            actions.extendClaw(),
 //                            new SleepAction(0.5),
 //                            actions.openClaw(),

@@ -1,14 +1,15 @@
 package org.firstinspires.ftc.teamcode.yooniverse;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class yooniversalInit {
-    public DcMotor frontLeft;
-    public DcMotor frontRight;
-    public DcMotor backLeft;
-    public DcMotor backRight;
+    public DcMotorEx frontLeft;
+    public DcMotorEx frontRight;
+    public DcMotorEx backLeft;
+    public DcMotorEx backRight;
 
     public crane crane;
     private double fowardSpeed = 0.4;
@@ -16,7 +17,7 @@ public class yooniversalInit {
 
     private double lastAngle;
     private double currAngle = 0;
-    private double speed = 1;
+    private double speed = 0.8;
     private double headingOffset = 0;
     public iAmYoo imu;
     public double targetHeading;
@@ -24,16 +25,16 @@ public class yooniversalInit {
     private yooniversalOpMode opMode;
 
     public yooniversalInit(HardwareMap hardwareMap, yooniversalOpMode opMode){
-        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
+        frontLeft = hardwareMap.get(DcMotorEx.class, "frontLeft");
 
 
-        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+        frontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
+        backLeft = hardwareMap.get(DcMotorEx.class, "backLeft");
 
 
-        backRight = hardwareMap.get(DcMotor.class, "backRight");
+        backRight = hardwareMap.get(DcMotorEx.class, "backRight");
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         this.opMode = opMode;
@@ -240,9 +241,8 @@ public class yooniversalInit {
 
         while (opMode.opModeIsActive() && Math.abs(error) > 0.9) {
             crane.craneMaintenance();
-            double motorPower = (error < 0 ? -0.5 : 0.5) + 0.02;
-            //previously not +0.02
-            motorPower *= Math.min(1, Math.abs(error / 30));
+            double motorPower = (error < 0 ? -0.5 : 0.5);
+            motorPower *= Math.min(1, Math.abs(error / 20));
             if(Math.abs(motorPower) < 0.1){
                 motorPower = (error < 0 ? -0.1: 0.1);
             }

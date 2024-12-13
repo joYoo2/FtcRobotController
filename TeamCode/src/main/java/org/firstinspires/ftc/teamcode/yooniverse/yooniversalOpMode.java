@@ -11,7 +11,7 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     public Servo specimenLeft, specimenRight;
     public crane slides;
     public void setup(){
-        setup(0.1, false);
+        setup(0.2, false);
     }
     public void setup(double cranePower,boolean auton){
         slides = new crane(hardwareMap, cranePower, false);
@@ -48,7 +48,7 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     public void rotate(int angle) { train.rotate(angle); }
 
     public void openClaw(){
-        clawServo.setPosition(values.clawOpen);
+        clawServo.setPosition(values.clawLessOpen);
     }
     public void closeClaw(){
         clawServo.setPosition(values.clawClsoed);
@@ -111,7 +111,7 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     }
 
     public void highChamberSpecimenClaw(){
-        slides.setTargetPosition(1600);
+        slides.setTargetPosition(1750);
     }
 
     public void highChamberDown(){
@@ -119,7 +119,7 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     }
 
     public void highChamberDownSpecimenClaw(){
-        slides.setTargetPosition(1030);
+        slides.setTargetPosition(1400);
     }
 
 

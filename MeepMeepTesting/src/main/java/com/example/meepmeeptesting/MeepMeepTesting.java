@@ -16,15 +16,42 @@ public class MeepMeepTesting {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 14.2)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-55, -50, Math.toRadians(90)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-36, -62, Math.toRadians(180)))
+                .strafeToLinearHeading(new Vector2d(-53, -53),Math.toRadians(225))
+                .strafeToLinearHeading(new Vector2d(-48.75, -45),Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-53, -53),Math.toRadians(225))
+                .strafeToLinearHeading(new Vector2d(-60, -45),Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-53, -53),Math.toRadians(225))
+                .strafeToLinearHeading(new Vector2d(-71.25, -45),Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-53, -53),Math.toRadians(225))
 
-                                .strafeTo(new Vector2d(-55, 50))
-                                .strafeTo(new Vector2d(-35, 50))
-                                .strafeTo(new Vector2d(-55, -50))
-                                .turnTo(Math.toRadians(-90))
-                                .strafeTo(new Vector2d(-35, 50))
-                                .strafeToLinearHeading(new Vector2d(-55, 50), Math.toRadians(0))
-                                .strafeToLinearHeading(new Vector2d(-55, -50), Math.toRadians(180))
+                //.strafeTo(new Vector2d(-, -10))
+
+//                .strafeToLinearHeading(new Vector2d(-52, -54), Math.toRadians(-140))
+//                //.splineToLinearHeading(new Pose2d(-52, -54, Math.toRadians(-140)), Math.toRadians(270))
+//
+//                .strafeToLinearHeading(new Vector2d(-48, -39), Math.toRadians(90))
+//
+//                .strafeToLinearHeading(new Vector2d(-52, -54), Math.toRadians(-140))
+//
+//                .strafeToLinearHeading(new Vector2d(-58, -39), Math.toRadians(90))
+//
+//                .strafeToLinearHeading(new Vector2d(-52, -54), Math.toRadians(-140))
+//
+//                .strafeToLinearHeading(new Vector2d(-55, -39), Math.toRadians(135))
+//
+//                .strafeToLinearHeading(new Vector2d(-52, -54), Math.toRadians(-140))
+////
+//                .strafeTo(new Vector2d(-52, -40))
+//                .splineToLinearHeading(new Pose2d(-25, -5, Math.toRadians(0)), 0)
+
+//                                .strafeTo(new Vector2d(-55, 50))
+//                                .strafeTo(new Vector2d(-35, 50))
+//                                .strafeTo(new Vector2d(-55, -50))
+//                                .turnTo(Math.toRadians(-90))
+//                                .strafeTo(new Vector2d(-35, 50))
+//                                .strafeToLinearHeading(new Vector2d(-55, 50), Math.toRadians(0))
+//                                .strafeToLinearHeading(new Vector2d(-55, -50), Math.toRadians(180))
 
 //                .strafeToLinearHeading(new Vector2d(-52, -54), Math.toRadians(-140))
 //

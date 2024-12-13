@@ -57,27 +57,26 @@ public class block extends yooniversalOpMode {
                     highChamber();
 
                     foward(1250);
-
-                    sleep(200);
+                    sleep(50);
 
                     highChamberDown();
 
-                    sleep(400);
+                    sleep(300);
                     train.setPower(1);
 
                     openClaw();
 
-                    foward(-200);
+                    train.setFowardSpeed(0.6);
+
+                    foward(-180);
 
                     slidesResting();
 
-                    train.setFowardSpeed(0.6);
 
-
-                    side(-2000);
+                    side(-2130);
 
                     extendClaw();
-                    foward(-340);
+                    foward(-280);
                     slides.resetEncoders();
 
 
@@ -93,7 +92,7 @@ public class block extends yooniversalOpMode {
 
                     retractClaw();
 
-                    rotate(-140);
+                    rotate(-130);
 
                     foward(200);
 
@@ -108,18 +107,18 @@ public class block extends yooniversalOpMode {
                     sleep(200);
 
                     retractClaw();
-                    sleep(500);
+                    sleep(200);
 
                     slidesResting();
-                    sleep(2000);
+                    sleep(1700);
 
 
 
-                    rotate(140);
+                    rotate(130);
 
-                    side(-480);
+                    side(-490);
 
-                    foward(150);
+                    foward(160);
 
                     extendClaw();
                     sleep(500);
@@ -137,20 +136,11 @@ public class block extends yooniversalOpMode {
 
                     side(200);
 
-                    rotate(-140);
+                    rotate(-130);
 
-                    clawDown();
-                    sleep(200);
+                    side(-220);
 
-
-                    openClaw();
-                    sleep(200);
-
-                    clawEvenMoreVertical();
-                    sleep(3000);
-
-/*//this is for second high basket
-                    side(-200);
+                    clawUp();
 
                     highBasket();
                     sleep(2500);
@@ -162,10 +152,21 @@ public class block extends yooniversalOpMode {
                     sleep(200);
 
                     retractClaw();
-                    sleep(500);
+                    sleep(300);
 
                     slidesResting();
                     sleep(5000);
+
+//                    openClaw();
+//                    sleep(200);
+//
+//                    clawEvenMoreVertical();
+//                    sleep(3000);
+
+/*//this is for second high basket
+                    side(-200);
+
+
 
 
 

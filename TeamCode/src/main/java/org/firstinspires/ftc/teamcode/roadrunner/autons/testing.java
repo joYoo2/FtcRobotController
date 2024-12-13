@@ -16,13 +16,13 @@ import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.hardware.RRActions;
 
 @Config
-@Autonomous(name = "Sample RR", group = "Autonomous")
+@Autonomous(name = "Testing RR", group = "Autonomous")
 public class testing extends LinearOpMode {
 
     @Override
     public void runOpMode()  {
 
-        Pose2d initialPose = new Pose2d(-55, -50, Math.toRadians(90));
+        Pose2d initialPose = new Pose2d(-36, -50, Math.toRadians(90));
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
         RRActions actions = new RRActions(hardwareMap);
@@ -34,10 +34,7 @@ public class testing extends LinearOpMode {
                 .strafeTo(new Vector2d(-55, 50))
                 .strafeTo(new Vector2d(-35, 50))
                 .strafeTo(new Vector2d(-55, -50))
-                .turnTo(Math.toRadians(-90))
-                .strafeTo(new Vector2d(-35, 50))
-                .strafeToLinearHeading(new Vector2d(-55, 50), Math.toRadians(0))
-                .strafeToLinearHeading(new Vector2d(-55, -50), Math.toRadians(180));
+                .strafeTo(new Vector2d(-35, 50));
 
 
 

@@ -3,7 +3,8 @@ package org.firstinspires.ftc.teamcode.yooniverse;
 public class values {
 
     //Claw Positions
-    public static double clawOpen = 0.3;
+    public static double clawOpen = 1;
+    public static double clawLessOpen = 0.15;
     public static double clawClsoed = 0;
 
     public static double clawExtend = 0.26;
@@ -20,7 +21,7 @@ public class values {
 
 
     public static int craneLowChamber;
-    public static int craneHighChamber;
+    public static int craneHighChamber = 1750;
 
 
     //Auton movement values

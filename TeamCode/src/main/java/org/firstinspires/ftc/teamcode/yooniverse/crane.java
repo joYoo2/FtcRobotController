@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.yooniverse;
 import androidx.annotation.NonNull;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -15,12 +17,11 @@ public class crane {
 
     public double power = 0;
 
-    //public crane(HardwareMap hardwareMap){ this(hardwareMap, -0.5, false); }
+    public crane(HardwareMap hardwareMap){ this(hardwareMap, -0.5, false); }
 
     public crane(@NonNull HardwareMap hardwareMap, double power, boolean craneByPower){
         leftDrawerSlide = hardwareMap.get(DcMotorEx.class, "leftDrawerSlide");
-        leftDrawerSlide.setDirection(DcMotorEx.Direction.REVERSE);
-
+        leftDrawerSlide.setDirection((DcMotorEx.Direction.REVERSE));
         leftDrawerSlide.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
         rightDrawerSlide = hardwareMap.get(DcMotorEx.class, "rightDrawerSlide");
@@ -74,6 +75,19 @@ public class crane {
             rightDrawerSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
             rightDrawerSlide.setPower(0);
         }
+    }
+    public void moveDownyes(){
+        rightDrawerSlide.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        leftDrawerSlide.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        rightDrawerSlide.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        leftDrawerSlide.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        rightDrawerSlide.setPower(-0.5);
+        leftDrawerSlide.setPower(-0.5);
+        rightDrawerSlide.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        leftDrawerSlide.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        rightDrawerSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        leftDrawerSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+
     }
 
     public void move(double movement, boolean byPower){

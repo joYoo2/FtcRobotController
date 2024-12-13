@@ -3,12 +3,15 @@ package org.firstinspires.ftc.teamcode.opmode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.teamcode.yooniverse.crane;
 import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
 import org.firstinspires.ftc.teamcode.yooniverse.values;
 @TeleOp(name="TESTER", group="yooniverse")
 public class TESTER extends LinearOpMode {
     private DcMotor frontLeft, frontRight, backRight, backLeft;
+    public DcMotorEx leftDrawerSlide, rightDrawerSlide;
     @Override
     public void runOpMode(){
 
@@ -18,26 +21,32 @@ public class TESTER extends LinearOpMode {
 
         backRight = hardwareMap.get(DcMotor.class, "backRight");
 
-        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
 
-        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        telemetry.addData("frontRight", frontRight.getCurrentPosition());
-        telemetry.addData("frontLeft", frontLeft.getCurrentPosition());
-        telemetry.addData("backRight", backRight.getCurrentPosition());
-        telemetry.addData("backLeft", backLeft.getCurrentPosition());
+        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
+        rightDrawerSlide = hardwareMap.get(DcMotorEx.class, "rightDrawerSlide");
+        leftDrawerSlide = hardwareMap.get(DcMotorEx.class, "leftDrawerSlide");
+        leftDrawerSlide.setDirection(DcMotorEx.Direction.REVERSE);
+
+        leftDrawerSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDrawerSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        telemetry.addData("left", leftDrawerSlide.getCurrentPosition());
+        telemetry.addData("right", rightDrawerSlide.getCurrentPosition());
         telemetry.update();
         waitForStart();
         while(opModeIsActive()){
-            telemetry.addData("frontRight", frontRight.getCurrentPosition());
-            telemetry.addData("frontLeft", frontLeft.getCurrentPosition());
-            telemetry.addData("backRight", backRight.getCurrentPosition());
-            telemetry.addData("backLeft", backLeft.getCurrentPosition());
+            telemetry.addData("left", leftDrawerSlide.getCurrentPosition());
+            telemetry.addData("right", rightDrawerSlide.getCurrentPosition());
             telemetry.update();
+            if(gamepad1.left_bumper){
+                leftDrawerSlide.setPower(1);
+            }
+
         }
 
 
     }
 
 
+
 }
+
