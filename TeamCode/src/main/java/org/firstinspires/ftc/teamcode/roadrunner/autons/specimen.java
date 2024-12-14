@@ -12,12 +12,15 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 
 // Non-RR imports
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.hardware.RRActions;
 
 @Config
+
+@Disabled
 @Autonomous(name = "Specimen RR", group = "Autonomous")
 public class specimen extends LinearOpMode {
 

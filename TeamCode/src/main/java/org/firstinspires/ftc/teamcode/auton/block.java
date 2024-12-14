@@ -57,18 +57,17 @@ public class block extends yooniversalOpMode {
                     highChamber();
 
                     foward(1250);
-                    sleep(50);
 
                     highChamberDown();
 
                     sleep(300);
                     train.setPower(1);
 
-                    openClaw();
+                    openClawLarge();
 
-                    train.setFowardSpeed(0.6);
+                    train.setFowardSpeed(0.7);
 
-                    foward(-180);
+                    foward(-200);
 
                     slidesResting();
 
@@ -98,25 +97,42 @@ public class block extends yooniversalOpMode {
 
 
                     highBasket();
-                    sleep(2500);
+                    //2500
+                    for(long start = System.currentTimeMillis(); System.currentTimeMillis() < start + 2500;){
+                        telemetry.addData("left crane amps", slides.getAmpsLeft());
+                        telemetry.addData("right crane amps", slides.getAmpsRight());
+                        telemetry.update();;
+                    }
 
                     extendClaw();
-                    sleep(500);
+            for(long start = System.currentTimeMillis(); System.currentTimeMillis() < start + 500;){
+                telemetry.addData("left crane amps", slides.getAmpsLeft());
+                telemetry.addData("right crane amps", slides.getAmpsRight());
+                telemetry.update();;
+            }
 
-                    openClaw();
-                    sleep(200);
+                    openClawLarge();
+            for(long start = System.currentTimeMillis(); System.currentTimeMillis() < start + 200;){
+                telemetry.addData("left crane amps", slides.getAmpsLeft());
+                telemetry.addData("right crane amps", slides.getAmpsRight());
+                telemetry.update();;
+            }
 
                     retractClaw();
-                    sleep(200);
+            for(long start = System.currentTimeMillis(); System.currentTimeMillis() < start + 200;){
+                telemetry.addData("left crane amps", slides.getAmpsLeft());
+                telemetry.addData("right crane amps", slides.getAmpsRight());
+                telemetry.update();;
+            }
 
                     slidesResting();
                     sleep(1700);
 
 
 
-                    rotate(130);
+                    rotate(131);
 
-                    side(-490);
+                    side(-350);
 
                     foward(160);
 
@@ -148,7 +164,7 @@ public class block extends yooniversalOpMode {
                     extendClaw();
                     sleep(500);
 
-                    openClaw();
+                    openClawLarge();
                     sleep(200);
 
                     retractClaw();

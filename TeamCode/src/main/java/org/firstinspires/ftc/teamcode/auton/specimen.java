@@ -49,7 +49,7 @@ public class specimen extends yooniversalOpMode {
 
                     //the sleeps are necessary!!!!!!!!!!!!!!!
 
-
+                    train.setFowardSpeed(0.3);
                     clawVertical();
 
                     highChamber();
@@ -70,34 +70,34 @@ public class specimen extends yooniversalOpMode {
                     train.setFowardSpeed(0.7);
 
                     slidesResting();
+                    clawEvenMoreVertical();
 
-                    rotate(-90);
+                    foward(-300);
 
-                    side(-1200);
-
-                    foward(-2200);
+                    side(2000);
 
                     train.setFowardSpeed(0.3);
-                    foward(-100);
+
+                    foward(-700);
 
                     specimenClose();
-                    sleep(1000);
-
-                    train.setFowardSpeed(0.7);
-
-                    highChamber();
-
-                    foward(2500);
-
-                    side(1100);
-
-                    rotate(-90);
+                    sleep(500);
 
                     highChamberSpecimenClaw();
 
-                    sleep(500);
+                    foward(1000);
+
+                    rotate(90);
+                    rotate(90);
+
+                    side(2300);
+
+                    foward(-1000);
 
                     highChamberDownSpecimenClaw();
+
+
+                    sleep(400);
 
                     specimenOpen();
                     sleep(200);
@@ -106,7 +106,53 @@ public class specimen extends yooniversalOpMode {
 
                     foward(1000);
 
-                    side(-2000);
+                    side(-2500);
+
+//                    rotate(-90);
+//
+//                    side(-2000);
+//
+//                    side(200);
+//
+//                    foward(-2200);
+//
+//                    train.setFowardSpeed(0.3);
+//                    foward(-100);
+//
+//                    specimenClose();
+//                    sleep(1000);
+//
+//                    train.setFowardSpeed(0.7);
+//
+//                     highChamberSpecimenClaw();
+//
+//                    foward(2500);
+//
+//                    side(1300);
+//
+//                    rotate(-90);
+//
+//                    sleep(500);
+//
+//                    train.setFowardSpeed(0.3);
+//
+//                    foward(-300);
+//
+//                    highChamberDownSpecimenClaw();
+//                    sleep(400);
+//
+//                    train.setFowardSpeed(0.7);
+//
+//                    specimenOpen();
+//                    sleep(200);
+//
+//                    foward(500);
+//
+//                    slidesResting();
+//
+//                    foward(1000);
+//
+//                    side(-2000);
 
 
 

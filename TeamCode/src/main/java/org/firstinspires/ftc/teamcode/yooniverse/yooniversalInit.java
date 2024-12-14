@@ -12,7 +12,7 @@ public class yooniversalInit {
     public DcMotorEx backRight;
 
     public crane crane;
-    private double fowardSpeed = 0.4;
+    private double fowardSpeed = 0.5;
     //was 0.3
 
     private double lastAngle;
@@ -202,6 +202,8 @@ public class yooniversalInit {
 
 
             opMode.telemetry.addData("left draw slide", crane.getCurrentLeftPosition());
+            opMode.telemetry.addData("left crane amps", crane.getAmpsLeft());
+            opMode.telemetry.addData("right crane amps", crane.getAmpsRight());
 
             opMode.telemetry.update();
             crane.craneMaintenance();
