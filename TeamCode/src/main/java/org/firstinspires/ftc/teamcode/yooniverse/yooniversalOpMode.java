@@ -82,8 +82,8 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     }
 
     public void clawDown(){
-        clawTurnLeft.setPosition(0.42);
-        clawTurnRight.setPosition(0.58);
+        clawTurnLeft.setPosition(0.44);
+        clawTurnRight.setPosition(0.54);
 
     }
 
@@ -120,7 +120,7 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     }
 
     public void highChamberDownSpecimenClaw(){
-        slides.setTargetPosition(1400);
+        slides.setTargetPosition(1200);
     }
 
 

@@ -22,11 +22,10 @@ public class crane {
     public crane(@NonNull HardwareMap hardwareMap, double power, boolean craneByPower){
         leftDrawerSlide = hardwareMap.get(DcMotorEx.class, "leftDrawerSlide");
         leftDrawerSlide.setDirection((DcMotorEx.Direction.REVERSE));
-        leftDrawerSlide.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-
         rightDrawerSlide = hardwareMap.get(DcMotorEx.class, "rightDrawerSlide");
         rightDrawerSlide.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         resetEncoders();
+
 
 
         targetPosition = 0;
@@ -75,6 +74,16 @@ public class crane {
             rightDrawerSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
             rightDrawerSlide.setPower(0);
         }
+//        int maxCurrent = 4;
+//        if(leftDrawerSlide.getCurrentAlert(CurrentUnit.AMPS)>maxCurrent){
+//            leftDrawerSlide.setCurrentAlert(maxCurrent, CurrentUnit.AMPS);
+//        }
+//
+//
+//        if(rightDrawerSlide.getCurrentAlert(CurrentUnit.AMPS)>maxCurrent){
+//            rightDrawerSlide.setCurrentAlert(maxCurrent, CurrentUnit.AMPS);
+//        }
+
     }
     public void moveDownyes(){
         rightDrawerSlide.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);

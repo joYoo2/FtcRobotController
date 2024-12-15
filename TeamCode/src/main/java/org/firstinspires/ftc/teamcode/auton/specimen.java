@@ -78,21 +78,22 @@ public class specimen extends yooniversalOpMode {
 
                     train.setFowardSpeed(0.3);
 
-                    foward(-700);
+                    foward(-900);
 
                     specimenClose();
                     sleep(500);
 
                     highChamberSpecimenClaw();
 
-                    foward(1000);
+                    foward(800);
+
+                    side(-2300);
+
 
                     rotate(90);
                     rotate(90);
 
-                    side(2300);
-
-                    foward(-1000);
+                    foward(-620);
 
                     highChamberDownSpecimenClaw();
 
@@ -104,7 +105,11 @@ public class specimen extends yooniversalOpMode {
 
                     slidesResting();
 
-                    foward(1000);
+                    train.setFowardSpeed(0.5);
+
+                    foward(1500);
+
+                    foward(-200);
 
                     side(-2500);
 

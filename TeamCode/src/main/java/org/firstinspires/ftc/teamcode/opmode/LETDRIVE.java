@@ -67,6 +67,7 @@ public class LETDRIVE extends yooniversalOpMode{
                 clawUp();
             }
             if(gamepad1.cross){
+                openClaw();
                 clawDown();
             }
 //            if(gamepad2.triangle){
