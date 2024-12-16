@@ -23,6 +23,7 @@ public class specimen extends yooniversalOpMode {
     @Override
     public void runOpMode() {
         setup();
+        slides.resetEncoders();
 
         
 

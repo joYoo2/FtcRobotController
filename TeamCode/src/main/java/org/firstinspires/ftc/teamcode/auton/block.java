@@ -23,7 +23,7 @@ public class block extends yooniversalOpMode {
     @Override
     public void runOpMode() {
         setup();
-
+        slides.resetEncoders();
         
 
 

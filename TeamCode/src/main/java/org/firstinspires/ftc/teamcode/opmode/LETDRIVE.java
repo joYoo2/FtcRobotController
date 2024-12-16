@@ -88,6 +88,8 @@ public class LETDRIVE extends yooniversalOpMode{
             if(gamepad2.right_trigger > 0.05 || gamepad2.left_trigger > 0.05) {
                 byPower = true;
                 slides.move(gamepad2.right_trigger - gamepad2.left_trigger, true);
+            }else if(gamepad2.right_bumper){
+                slides.setTargetPosition(values.craneHighChamber);
             }else{
                 slides.move(slides.getCurrentRightPosition(), false);
             }
@@ -108,14 +110,6 @@ public class LETDRIVE extends yooniversalOpMode{
                 specimenClose();
             }
 
-            if(gamepad2.left_bumper){
-                slides.moveDownyes();
-
-            }
-
-            if(gamepad2.right_bumper){
-                slides.setTargetPosition(values.craneHighChamber);
-            }
 
 
 

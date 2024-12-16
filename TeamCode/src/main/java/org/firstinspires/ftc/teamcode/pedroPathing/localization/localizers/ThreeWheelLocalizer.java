@@ -80,21 +80,24 @@ public class ThreeWheelLocalizer extends Localizer {
         // TODO: replace these with your encoder positions
         //measured in inches, the reason why its /25.4 is because it converts from mm to in
         //ENCODER = new Pose(x away from center, y away from center, heading of encoder);
-        leftEncoderPose = new Pose(-18.5/25.4 - 0.1, 164.4/25.4, 0);
-        rightEncoderPose = new Pose(-18.4/25.4 - 0.1, -159.6/25.4, 0);
-        strafeEncoderPose = new Pose(0*(-107.9/25.4+8)+-107.9/25.4+0.25, -1.1/25.4-0.23, Math.toRadians(90));
-
+//        leftEncoderPose = new Pose(-18.5/25.4 - 0.1, 164.4/25.4, 0);
+//        rightEncoderPose = new Pose(-18.4/25.4 - 0.1, -159.6/25.4, 0);
+//        strafeEncoderPose = new Pose(0*(-107.9/25.4+8)+-107.9/25.4+0.25, -1.1/25.4-0.23, Math.toRadians(90));
+        leftEncoderPose = new Pose(-3, -5, 0);
+        rightEncoderPose = new Pose(-4, 5,0);
+        strafeEncoderPose = new Pose(2, -1, Math.toRadians(90));
+        //NOTE: Not very accurate :(
         hardwareMap = map;
 
         // TODO: replace these with your encoder ports
-        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftRear"));
-        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightFront"));
-        strafeEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "strafeEncoder"));
+        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "backLeft"));
+        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "frontRight"));
+        strafeEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "frontLeft"));
 
         // TODO: reverse any encoders necessary
         leftEncoder.setDirection(Encoder.REVERSE);
-        rightEncoder.setDirection(Encoder.REVERSE);
-        strafeEncoder.setDirection(Encoder.FORWARD);
+        rightEncoder.setDirection(Encoder.FORWARD);
+        strafeEncoder.setDirection(Encoder.REVERSE);
 
         setStartPose(setStartPose);
         timer = new NanoTimer();
