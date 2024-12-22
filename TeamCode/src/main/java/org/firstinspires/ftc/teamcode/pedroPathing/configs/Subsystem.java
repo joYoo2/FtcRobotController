@@ -1,21 +1,23 @@
-package org.firstinspires.ftc.teamcode.yooniverse;
+package org.firstinspires.ftc.teamcode.pedroPathing.configs;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import android.os.HardwarePropertiesManager;
+
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-public abstract class yooniversalOpMode extends LinearOpMode{
-    public yooniversalInit train;
+
+import org.firstinspires.ftc.teamcode.yooniverse.crane;
+import org.firstinspires.ftc.teamcode.yooniverse.values;
+import org.firstinspires.ftc.teamcode.yooniverse.yooniversalInit;
+
+public class Subsystem {
     public Servo clawServo;
     public Servo extenderRight, extenderLeft;
     public Servo clawTurnLeft, clawTurnRight;
     public Servo specimenLeft, specimenRight;
     public crane slides;
-    public void setup(){
-        setup(0.1, false);
-    }
-    public void setup(double cranePower,boolean auton){
-        slides = new crane(hardwareMap, cranePower, false);
-        train = new yooniversalInit(hardwareMap, this);
+    public Subsystem(HardwareMap hardwareMap){
+        slides = new crane(hardwareMap, 0.1, false);
+        slides.resetEncoders();
         clawServo = hardwareMap.get(Servo.class, "clawServo");
         extenderRight = hardwareMap.get(Servo.class, "extenderRight");
         extenderLeft = hardwareMap.get(Servo.class, "extenderLeft");
@@ -29,23 +31,6 @@ public abstract class yooniversalOpMode extends LinearOpMode{
 
 
 
-    public void foward(int distance){
-        train.foward(distance);
-    }
-
-    public void encoderTest() {
-        train.moveByEncoder(train.frontRight, 10000, 0.5);
-        train.moveByEncoder(train.frontLeft, 10000, 0.5);
-        train.moveByEncoder(train.backRight, 10000, 0.5);
-        train.moveByEncoder(train.backLeft, 10000, 0.5);
-    }
-
-
-    public void side(int distance){
-        train.side(distance);
-    }
-
-    public void rotate(int angle) { train.rotate(angle); }
 
     public void openClaw(){
         clawServo.setPosition(values.clawLessOpen);
@@ -133,9 +118,5 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     }
 
 
-//    public void clawStriaght(){
-//        clawTurnLeft.setPosition(0.3);
-//        clawTurnRight.setPosition(0.7);
-//
-//    }
+
 }
