@@ -25,17 +25,21 @@ public class crane {
         rightDrawerSlide = hardwareMap.get(DcMotorEx.class, "rightDrawerSlide");
         rightDrawerSlide.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
+
+        targetPosition = 0;
         setPower(0);
+        leftDrawerSlide.setTargetPosition(0);
+        rightDrawerSlide.setTargetPosition(0);
         this.power = power;
 
         leftDrawerSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         rightDrawerSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        //targetPosition = 0;
+
         if(auton){
             resetEncoders();
         }
 
-        //setTargetPosition(0);
+
 
     }
 
@@ -71,14 +75,12 @@ public class crane {
             leftDrawerSlide.setTargetPosition(0);
             leftDrawerSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
             leftDrawerSlide.setPower(0);
-            resetEncoders();
         }
         if(rightDrawerSlide.getCurrentPosition() < 50 && rightDrawerSlide.getCurrent(CurrentUnit.AMPS)  > 0.5 && rightDrawerSlide.getTargetPosition() == 0){
             rightDrawerSlide.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
             rightDrawerSlide.setTargetPosition(0);
             rightDrawerSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
             rightDrawerSlide.setPower(0);
-            resetEncoders();
         }
         int maxCurrent = 4;
         if(leftDrawerSlide.getCurrentAlert(CurrentUnit.AMPS)>maxCurrent){
