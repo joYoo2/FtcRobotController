@@ -16,7 +16,7 @@ public class Subsystem {
     public Servo specimenLeft, specimenRight;
     public crane slides;
     public Subsystem(HardwareMap hardwareMap){
-        slides = new crane(hardwareMap, 0.1, false);
+        slides = new crane(hardwareMap, .1, false, true);
         slides.resetEncoders();
         clawServo = hardwareMap.get(Servo.class, "clawServo");
         extenderRight = hardwareMap.get(Servo.class, "extenderRight");

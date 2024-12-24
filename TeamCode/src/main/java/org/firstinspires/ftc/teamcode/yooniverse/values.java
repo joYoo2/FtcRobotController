@@ -22,6 +22,7 @@ public class values {
 
     public static int craneLowChamber;
     public static int craneHighChamber = 1775;
+    public static int craneHighBasket = 3800;
 
 
     //Auton movement values

@@ -251,7 +251,7 @@ public class specimen extends OpMode {
                 break;
             case 5:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
-                if(follower.getPose().getX() > (score2Pose.getX() - 1) && follower.getPose().getY() > (score2Pose.getY() - 1)) {
+                if(follower.getPose().getX() > (score2Pose.getX() - 1) && follower.getPose().getY() > (score2Pose.getY() - 1) && follower.getPose().getHeading() > score2Pose.getHeading()) {
                     /* Grab Sample */
                     if(actions.slides.getCurrentRightPosition() > 1250 || pathTimer.getElapsedTimeSeconds() > 5) {
                         if (actions.slides.getCurrentRightPosition() == 1270) {
@@ -289,7 +289,7 @@ public class specimen extends OpMode {
                 break;
             case 7:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup3Pose's position */
-                if(follower.getPose().getX() > (score3Pose.getX() - 1) && follower.getPose().getY() > (score3Pose.getY() - 1)) {
+                if(follower.getPose().getX() > (score3Pose.getX() - 1) && follower.getPose().getY() > (score3Pose.getY() - 1) && follower.getPose().getHeading() > score2Pose.getHeading()) {
                     /* Grab Sample */
                     if(actions.slides.getCurrentRightPosition() > 1250 || pathTimer.getElapsedTimeSeconds() > 5) {
                         if (actions.slides.getCurrentRightPosition() == 1270) {
@@ -327,7 +327,7 @@ public class specimen extends OpMode {
                 break;
             case 9:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
-                if(follower.getPose().getX() > (score4Pose.getX() - 1) && follower.getPose().getY() > (score4Pose.getY() - 1)) {
+                if(follower.getPose().getX() > (score4Pose.getX() - 1) && follower.getPose().getY() > (score4Pose.getY() - 1) && follower.getPose().getHeading() > score2Pose.getHeading()) {
                     if(actions.slides.getCurrentRightPosition() > 1250 || pathTimer.getElapsedTimeSeconds() > 5) {
                         if (actions.slides.getCurrentRightPosition() == 1270) {
                             pathTimer.resetTimer();
@@ -363,7 +363,7 @@ public class specimen extends OpMode {
                 break;
             case 11:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
-                if(follower.getPose().getX() > (score5Pose.getX() - 1) && follower.getPose().getY() > (score5Pose.getY() - 1)) {
+                if(follower.getPose().getX() > (score5Pose.getX() - 1) && follower.getPose().getY() > (score5Pose.getY() - 1) && follower.getPose().getHeading() > score2Pose.getHeading()) {
                     if(actions.slides.getCurrentRightPosition() > 1250 || pathTimer.getElapsedTimeSeconds() > 5) {
                         if (actions.slides.getCurrentRightPosition() == 1270) {
                             pathTimer.resetTimer();

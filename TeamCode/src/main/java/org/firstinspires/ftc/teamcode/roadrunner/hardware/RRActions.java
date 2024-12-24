@@ -25,7 +25,7 @@ public class RRActions {
 
 
     public RRActions(HardwareMap hardwareMap){
-        slides = new crane(hardwareMap, cranePower, false);
+        slides = new crane(hardwareMap, cranePower, false, true);
         clawServo = hardwareMap.get(Servo.class, "clawServo");
         extenderRight = hardwareMap.get(Servo.class, "extenderRight");
         extenderLeft = hardwareMap.get(Servo.class, "extenderLeft");

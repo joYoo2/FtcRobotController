@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.yooniverse;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 public abstract class yooniversalOpMode extends LinearOpMode{
     public yooniversalInit train;
     public Servo clawServo;
@@ -11,10 +13,10 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     public Servo specimenLeft, specimenRight;
     public crane slides;
     public void setup(){
-        setup(0.1, false);
+        setup(.1, false);
     }
     public void setup(double cranePower,boolean auton){
-        slides = new crane(hardwareMap, cranePower, false);
+        slides = new crane(hardwareMap, cranePower, false, false);
         train = new yooniversalInit(hardwareMap, this);
         clawServo = hardwareMap.get(Servo.class, "clawServo");
         extenderRight = hardwareMap.get(Servo.class, "extenderRight");
@@ -80,6 +82,13 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         specimenLeft.setPosition(0.5);
         specimenRight.setPosition(0.8);
     }
+
+    public void clawHover(){
+        openClaw();
+        clawTurnLeft.setPosition(0.38);
+        clawTurnRight.setPosition(0.62);
+    }
+
 
     public void clawDown(){
         clawTurnLeft.setPosition(0.43);

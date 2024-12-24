@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
@@ -16,28 +17,27 @@ public class LETDRIVE extends yooniversalOpMode{
         telemetry.addData("status", "initialized");
         telemetry.update();
 
-        train.setPower(0.8);
+        train.setPower(1);
 
 
 
         telemetry.update();
         boolean byPower = false;
         boolean reverseDrive = false;
+        boolean specimenTimer = false;
+        boolean bumperPressed = false;
 
-        closeClaw();
-        clawUp();
+//        closeClaw();
+//        clawUp();
 
         waitForStart();
-        extenderRight.setPosition(1-values.clawRetract);
-        extenderLeft.setPosition(values.clawRetract);
-
+//        extenderRight.setPosition(1-values.clawRetract);
+//        extenderLeft.setPosition(values.clawRetract);
+        ElapsedTime timer = new ElapsedTime();
 
         while(opModeIsActive()){
             telemetry.addData("Status", "Running");
-            telemetry.addData("lef:", slides.getCurrentLeftPosition());
-            telemetry.addData("specimen left", specimenLeft.getPosition());
-            telemetry.addData("specimen right", specimenRight.getPosition());
-            telemetry.addData("wheel ", train.backLeft.getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("wheel amps", train.backLeft.getCurrent(CurrentUnit.AMPS));
 
 
             //reverse drive code
@@ -60,8 +60,21 @@ public class LETDRIVE extends yooniversalOpMode{
                         gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x);
 
             }
+            if(gamepad1.left_bumper){
+                clawHover();
+            }
+            if(gamepad1.right_bumper){
+                clawDown();
+                timer.reset();
+                bumperPressed = true;
+            }
+            if(timer.time() > .2 && timer.time() < .3 && !specimenTimer && bumperPressed){
+                closeClaw();
+                if(timer.time() > .25){
+                    clawUp();
+                }
 
-
+            }
 
             if(gamepad1.triangle){
                 clawUp();
@@ -81,15 +94,19 @@ public class LETDRIVE extends yooniversalOpMode{
             }
 
 
-            if(gamepad1.left_bumper){
-                clawVertical();
-            }
-
             if(gamepad2.right_trigger > 0.05 || gamepad2.left_trigger > 0.05) {
                 byPower = true;
                 slides.move(gamepad2.right_trigger - gamepad2.left_trigger, true);
             }else if(gamepad2.right_bumper){
                 slides.setTargetPosition(values.craneHighChamber);
+            }else if(gamepad2.left_bumper){
+                slides.setTargetPosition(values.craneHighBasket);
+                //Code to automatically raise the slides after releasing the closeSpecimen button VVV
+            }else if(timer.time() > 0.1 && specimenTimer){
+                if(slides.getCurrentLeftPosition() > 350 || slides.getCurrentRightPosition() > 350){
+                    specimenTimer = false;
+                }
+                slides.setTargetPosition(400);
             }else{
                 slides.move(slides.getCurrentRightPosition(), false);
             }
@@ -108,7 +125,10 @@ public class LETDRIVE extends yooniversalOpMode{
 
             if(gamepad2.square){
                 specimenClose();
+                timer.reset();
+                specimenTimer = true;
             }
+
 
 
 
@@ -119,7 +139,6 @@ public class LETDRIVE extends yooniversalOpMode{
             telemetry.addData("Right Crane Motor Position", slides.getCurrentRightPosition());
             telemetry.addData("left crane amps", slides.getAmpsLeft());
             telemetry.addData("right crane amps", slides.getAmpsRight());
-            telemetry.addData("Trigger total:", gamepad2.right_trigger + gamepad2.left_trigger);
             telemetry.update();
         }
 
