@@ -75,7 +75,7 @@ public class FollowerConstants {
     public static CustomFilteredPIDFCoefficients drivePIDFCoefficients = new CustomFilteredPIDFCoefficients(
             0.017,
             0,
-            0.0002,
+            0.002,
             0,
             0);
 

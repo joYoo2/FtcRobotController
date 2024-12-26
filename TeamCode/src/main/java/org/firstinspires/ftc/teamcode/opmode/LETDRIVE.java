@@ -102,7 +102,7 @@ public class LETDRIVE extends yooniversalOpMode{
             }else if(gamepad2.left_bumper){
                 slides.setTargetPosition(values.craneHighBasket);
                 //Code to automatically raise the slides after releasing the closeSpecimen button VVV
-            }else if(timer.time() > 0.1 && specimenTimer){
+            }else if(timer.time() > 0.3 && specimenTimer){
                 if(slides.getCurrentLeftPosition() > 350 || slides.getCurrentRightPosition() > 350){
                     specimenTimer = false;
                 }

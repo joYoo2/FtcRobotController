@@ -167,7 +167,7 @@ public class sample extends OpMode {
                     /* Score Preload */
 
                     if(actions.slides.getCurrentRightPosition() > 3750 || pathTimer.getElapsedTimeSeconds() > 5){
-                        if(actions.slides.getCurrentRightPosition() == 3770){
+                        if(actions.slides.getCurrentRightPosition() == 3770 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)){
                             pathTimer.resetTimer();
 
                         }
@@ -195,7 +195,7 @@ public class sample extends OpMode {
                     actions.clawDown();
                     if(actions.slides.getCurrentLeftPosition() < 40 || pathTimer.getElapsedTimeSeconds() >= 5){
 
-                        if(actions.slides.getCurrentLeftPosition() == 30 || pathTimer.getElapsedTimeSeconds() == 5) {
+                        if(actions.slides.getCurrentLeftPosition() == 30 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) {
                             pathTimer.resetTimer();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 2.5){
@@ -220,7 +220,7 @@ public class sample extends OpMode {
                 if(follower.getPose().getX() > (scorePose.getX() - 1) && follower.getPose().getY() > (scorePose.getY() - 1)) {
                     /* Score Sample */
                     if(actions.slides.getCurrentRightPosition() > 3750 || pathTimer.getElapsedTimeSeconds() > 5){
-                        if(actions.slides.getCurrentRightPosition() == 3770){
+                        if(actions.slides.getCurrentRightPosition() == 3770 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)){
                             pathTimer.resetTimer();
 
                         }
@@ -247,7 +247,7 @@ public class sample extends OpMode {
                     actions.clawDown();
                     if(actions.slides.getCurrentLeftPosition() < 40 || pathTimer.getElapsedTimeSeconds() >= 5){
 
-                        if(actions.slides.getCurrentLeftPosition() == 30 || pathTimer.getElapsedTimeSeconds() == 5) {
+                        if(actions.slides.getCurrentLeftPosition() == 30 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) {
                             pathTimer.resetTimer();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 2.5){
@@ -271,7 +271,7 @@ public class sample extends OpMode {
                 if(follower.getPose().getX() > (scorePose.getX() - 1) && follower.getPose().getY() > (scorePose.getY() - 1)) {
                     /* Score Sample */
                     if(actions.slides.getCurrentRightPosition() > 3750 || pathTimer.getElapsedTimeSeconds() > 5){
-                        if(actions.slides.getCurrentRightPosition() == 3770){
+                        if(actions.slides.getCurrentRightPosition() == 3770 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)){
                             pathTimer.resetTimer();
 
                         }
@@ -297,7 +297,7 @@ public class sample extends OpMode {
                     /* Grab Sample */
                     actions.clawDown();
                     if(actions.slides.getCurrentLeftPosition() < 40 || pathTimer.getElapsedTimeSeconds() >= 5){
-                        if(actions.slides.getCurrentLeftPosition() == 30 || pathTimer.getElapsedTimeSeconds() == 5) {
+                        if(actions.slides.getCurrentLeftPosition() == 30 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) {
                             pathTimer.resetTimer();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 0.5){
@@ -325,7 +325,7 @@ public class sample extends OpMode {
                 if(follower.getPose().getX() > (scorePose.getX() - 1) && follower.getPose().getY() > (scorePose.getY() - 1)) {
                     /* Score Sample */
                     if(actions.slides.getCurrentRightPosition() > 3750 || pathTimer.getElapsedTimeSeconds() > 5){
-                        if(actions.slides.getCurrentRightPosition() == 3770){
+                        if(actions.slides.getCurrentRightPosition() == 3770 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)){
                             pathTimer.resetTimer();
 
                         }
