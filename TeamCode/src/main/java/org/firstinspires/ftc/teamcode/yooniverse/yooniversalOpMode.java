@@ -18,6 +18,8 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     public void setup(double cranePower,boolean auton){
         slides = new crane(hardwareMap, cranePower, false, false);
         train = new yooniversalInit(hardwareMap, this);
+        train.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //comment out the train brake if the power gets too low (which it probably shouldnt but whatever)
         clawServo = hardwareMap.get(Servo.class, "clawServo");
         extenderRight = hardwareMap.get(Servo.class, "extenderRight");
         extenderLeft = hardwareMap.get(Servo.class, "extenderLeft");

@@ -26,16 +26,15 @@ public class yooniversalInit {
 
     public yooniversalInit(HardwareMap hardwareMap, yooniversalOpMode opMode){
         frontLeft = hardwareMap.get(DcMotorEx.class, "frontLeft");
-
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         frontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
-        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         backLeft = hardwareMap.get(DcMotorEx.class, "backLeft");
-
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         backRight = hardwareMap.get(DcMotorEx.class, "backRight");
-        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
         this.opMode = opMode;
 

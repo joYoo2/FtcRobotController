@@ -48,16 +48,16 @@ public class LETDRIVE extends yooniversalOpMode{
             }
 
             if (!reverseDrive){
-                train.manualDrive(-gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x,
-                        -gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x,
+                train.manualDrive(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x,
                         -gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x,
-                        -gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x);
+                        -gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x,
+                        -gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x);
 
             } else{
-                train.manualDrive(gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x,
-                        gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x,
+                train.manualDrive(gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x,
                         gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x,
-                        gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x);
+                        gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x,
+                        gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x);
 
             }
             if(gamepad1.left_bumper){
@@ -68,9 +68,9 @@ public class LETDRIVE extends yooniversalOpMode{
                 timer.reset();
                 bumperPressed = true;
             }
-            if(timer.time() > .2 && timer.time() < .3 && !specimenTimer && bumperPressed){
+            if(timer.time() > .1 && timer.time() < .2 && !specimenTimer && bumperPressed){
                 closeClaw();
-                if(timer.time() > .25){
+                if(timer.time() > .15){
                     clawUp();
                 }
 

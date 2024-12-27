@@ -56,8 +56,10 @@ public class ThreeWheelLocalizer extends Localizer {
     private Pose strafeEncoderPose;
     private double totalHeading;
     public static double FORWARD_TICKS_TO_INCHES = 0.00055;//8192 * 1.37795 * 2 * Math.PI * 0.5008239963;
-    public static double STRAFE_TICKS_TO_INCHES = 0.000536;//8192 * 1.37795 * 2 * Math.PI * 0.5018874659;
-    public static double TURN_TICKS_TO_RADIANS = 0.000524751;//8192 * 1.37795 * 2 * Math.PI * 0.5;
+    public static double STRAFE_TICKS_TO_INCHES = 0.00055;//8192 * 1.37795 * 2 * Math.PI * 0.5018874659;
+    public static double TURN_TICKS_TO_RADIANS = 0.00052507;//8192 * 1.37795 * 2 * Math.PI * 0.5;
+    public static double strafelocationX = 1.52;
+    //made this its own variable so that it can be easily changed in ftc dashboard
 
     /**
      * This creates a new ThreeWheelLocalizer from a HardwareMap, with a starting Pose at (0,0)
@@ -80,14 +82,15 @@ public class ThreeWheelLocalizer extends Localizer {
         // TODO: replace these with your encoder positions
         leftEncoderPose = new Pose(2.75, 4.475, 0);
         rightEncoderPose = new Pose(4.775, -4.25, 0);
-        strafeEncoderPose = new Pose(-0.195, 1.5, Math.toRadians(90));
+        strafeEncoderPose = new Pose(strafelocationX, -0.195, Math.toRadians(90));
+        //change strafe x
 
         hardwareMap = map;
 
         // TODO: replace these with your encoder ports
-        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "frontRight"));
-        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "backLeft"));
-        strafeEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "frontLeft"));
+        leftEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "backLeft"));
+        rightEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "frontRight"));
+        strafeEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "backRight"));
 
         // TODO: reverse any encoders necessary
         leftEncoder.setDirection(Encoder.REVERSE);
