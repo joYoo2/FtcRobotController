@@ -178,10 +178,11 @@ public class specimen extends OpMode {
     public void autonomousPathUpdate() {
         switch (pathState) {
             case 0:
-                follower.followPath(scorePreload);
+                follower.followPath(scorePreload, true);
                 setPathState(1);
                 actions.closeClaw();
                 actions.clawVertical();
+                actions.highChamber();
                 actions.highChamber();
                 break;
             case 1:
@@ -205,12 +206,12 @@ public class specimen extends OpMode {
                             actions.highChamberDown();
                         }
                     }
-                        if(pathTimer.getElapsedTimeSeconds() > 1.3){
+                        if (pathTimer.getElapsedTimeSeconds() > 1.3) {
                             actions.openClaw();
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 1.5){
+                        if (pathTimer.getElapsedTimeSeconds() > 1.5) {
                             /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-                            follower.followPath(maneuver,true);
+                            follower.followPath(maneuver, true);
                             actions.slidesResting();
                             actions.clawEvenMoreVertical();
                             setPathState(2);
@@ -222,6 +223,7 @@ public class specimen extends OpMode {
             case 2:
                 if(follower.getPose().getX() > (maneuverPose.getX() - 1) && follower.getPose().getY() > (maneuverPose.getY() - 1)) {
                     follower.followPath(moveBlocks, true);
+
                     setPathState(3);
                 }
                     break;
@@ -253,7 +255,7 @@ public class specimen extends OpMode {
                     if(actions.slides.getCurrentRightPosition() > 1250 || pathTimer.getElapsedTimeSeconds() > 5) {
                         if (actions.slides.getCurrentRightPosition() == 1270 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) {
                             pathTimer.resetTimer();
-
+                            telemetry.addData("h", "h");
                         }
                     }
                         if (pathTimer.getElapsedTimeSeconds() > 1) {
