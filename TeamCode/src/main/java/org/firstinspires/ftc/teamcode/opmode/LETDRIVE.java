@@ -14,7 +14,7 @@ public class LETDRIVE extends yooniversalOpMode{
     @Override
     public void runOpMode(){
         setup();
-        telemetry.addData("status", "initialized");
+        telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         train.setPower(1);
@@ -34,11 +34,11 @@ public class LETDRIVE extends yooniversalOpMode{
 //        extenderRight.setPosition(1-values.clawRetract);
 //        extenderLeft.setPosition(values.clawRetract);
         ElapsedTime timer = new ElapsedTime();
+        ElapsedTime matchTime = new ElapsedTime();
 
         while(opModeIsActive()){
             telemetry.addData("Status", "Running");
-            telemetry.addData("wheel amps", train.backLeft.getCurrent(CurrentUnit.AMPS));
-
+            matchTime.startTime();
 
             //reverse drive code
             if(gamepad1.dpad_up){
@@ -129,12 +129,36 @@ public class LETDRIVE extends yooniversalOpMode{
                 specimenTimer = true;
             }
 
+            //rumble code
+            //1 minute left
+            if(matchTime.seconds() > 60 && matchTime.seconds() < 60.1){
+                gamepad1.rumbleBlips(1);
+                gamepad2.rumbleBlips(1);
+            //end game
+            }else if(matchTime.seconds() > 90 && matchTime.seconds() < 90.1){
+                gamepad1.rumbleBlips(3);
+                gamepad2.rumbleBlips(3);
+            //last 10 seconds
+            }else if(matchTime.seconds() > 110 && matchTime.seconds() < 120){
+                //constant rumble
+                gamepad1.rumble(50);
+                gamepad2.rumble(50);
+            }else if(matchTime.seconds() > 120){
+                //not necessary but here just in case
+                gamepad1.stopRumble();
+                gamepad2.stopRumble();
+            }
+
+            if(slides.getAmpsLeft() > 5 || slides.getAmpsRight() > 5){
+                gamepad2.rumbleBlips(5);
+            }
 
 
 
 
             slides.craneMaintenance();
 
+            telemetry.addData("timer", matchTime.seconds());
             telemetry.addData("Left Crane Motor Position", slides.getCurrentLeftPosition());
             telemetry.addData("Right Crane Motor Position", slides.getCurrentRightPosition());
             telemetry.addData("left crane amps", slides.getAmpsLeft());
