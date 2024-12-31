@@ -31,6 +31,8 @@ import org.firstinspires.ftc.teamcode.pedroPathing.configs.Subsystem;
 public class sample extends OpMode {
 
     private Follower follower;
+    private FConstants fconstants;
+    private LConstants lconstants;
     private Timer pathTimer, actionTimer, opmodeTimer;
 
     /** This is the variable where we store the state of our auto.
@@ -393,7 +395,10 @@ public class sample extends OpMode {
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
 
-        follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
+        lconstants = new LConstants();
+        fconstants = new FConstants();
+
+        follower = new Follower(hardwareMap, lconstants.getClass(), fconstants.getClass());
         follower.setStartingPose(startPose);
         buildPaths();
 
