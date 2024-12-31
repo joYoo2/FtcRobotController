@@ -1,18 +1,21 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.autons;
 
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
+import com.pedropathing.follower.Follower;
+import com.pedropathing.localization.Pose;
+import com.pedropathing.pathgen.BezierCurve;
+import com.pedropathing.pathgen.BezierLine;
+import com.pedropathing.pathgen.Path;
+import com.pedropathing.pathgen.PathChain;
+import com.pedropathing.pathgen.Point;
+import com.pedropathing.util.Timer;
+
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.configs.Subsystem;
-import org.firstinspires.ftc.teamcode.pedroPathing.follower.Follower;
-import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierCurve;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.BezierLine;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Path;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.PathChain;
-import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Point;
-import org.firstinspires.ftc.teamcode.pedroPathing.util.Timer;
 
 /**
  * This is an example auto that showcases movement and control of two servos autonomously.
@@ -39,11 +42,11 @@ public class specimen extends OpMode {
     public Subsystem actions;
 
     private final Pose startPose = new Pose(9, 60, Math.toRadians(0));
-    private final Pose score1Pose = new Pose(37, 60, Math.toRadians(0));
+    private final Pose score1Pose = new Pose(38, 60, Math.toRadians(0));
     private final Pose score2Pose = new Pose(37, 67, Math.toRadians(180));
     private final Pose score3Pose = new Pose(37, 69, Math.toRadians(180));
-    private final Pose score4Pose = new Pose(37, 71, Math.toRadians(180));
-    private final Pose score5Pose = new Pose(37, 63, Math.toRadians(180));
+    private final Pose score4Pose = new Pose(38, 71, Math.toRadians(180));
+    private final Pose score5Pose = new Pose(38, 63, Math.toRadians(180));
 
 
     /** Grabbing the specimen from the observation zone */
@@ -52,10 +55,10 @@ public class specimen extends OpMode {
     /** Poses for pushing the samples */
     private final Pose pushPose1 = new Pose(57, 26, Math.toRadians(0));
     private final Pose pushForwardPose1 = new Pose(20, 26, Math.toRadians(0));
-    private final Pose pushPose2 = new Pose(57, 18, Math.toRadians(0));
-    private final Pose pushForwardPose2 = new Pose(20, 18, Math.toRadians(0));
-    private final Pose pushPose3 = new Pose(57, 11, Math.toRadians(0));
-    private final Pose pushForwardPose3 = new Pose(20, 11, Math.toRadians(0));
+    private final Pose pushPose2 = new Pose(57, 15, Math.toRadians(0));
+    private final Pose pushForwardPose2 = new Pose(20, 15, Math.toRadians(0));
+    private final Pose pushPose3 = new Pose(57, 10, Math.toRadians(0));
+    private final Pose pushForwardPose3 = new Pose(20, 10, Math.toRadians(0));
     private final Pose moveBackPose = new Pose(20, 20, Math.toRadians(0));
 
     /** Pose for maneuvering around the submersible */
@@ -102,15 +105,25 @@ public class specimen extends OpMode {
         moveBlocks = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(maneuverPose), new Point(pushPose1)))
                 .setConstantHeadingInterpolation(maneuverPose.getHeading())
+                .setZeroPowerAccelerationMultiplier(6)
+
                 .addPath(new BezierLine(new Point(pushPose1), new Point(pushForwardPose1)))
                 .setConstantHeadingInterpolation(maneuverPose.getHeading())
+                .setZeroPowerAccelerationMultiplier(6)
+
                 .addPath(new BezierLine(new Point(pushForwardPose1), new Point(pushPose1)))
                 .setConstantHeadingInterpolation(maneuverPose.getHeading())
+                .setZeroPowerAccelerationMultiplier(6)
+
 
                 .addPath(new BezierLine(new Point(pushPose1), new Point(pushPose2)))
                 .setConstantHeadingInterpolation(maneuverPose.getHeading())
+                .setZeroPowerAccelerationMultiplier(6)
+
                 .addPath(new BezierLine(new Point(pushPose2), new Point(pushForwardPose2)))
                 .setConstantHeadingInterpolation(maneuverPose.getHeading())
+                .setZeroPowerAccelerationMultiplier(6)
+
                 //no time i think
 //                .addPath(new BezierLine(new Point(pushForwardPose2), new Point(pushPose2)))
 //                .setConstantHeadingInterpolation(maneuverPose.getHeading())
@@ -194,7 +207,7 @@ public class specimen extends OpMode {
                 */
 
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
-                if(follower.getPose().getX() > (score1Pose.getX() - 1) && follower.getPose().getY() > (score1Pose.getY() - 1)) {
+                if(!follower.isBusy()) {
                     /* Score Preload */
 
                     if(actions.slides.getCurrentRightPosition() > 1250 || actions.slides.getCurrentLeftPosition() > 1250 || pathTimer.getElapsedTimeSeconds() > 3) {
@@ -406,7 +419,7 @@ public class specimen extends OpMode {
         telemetry.addData("path state", pathState);
         telemetry.addData("x", follower.getPose().getX());
         telemetry.addData("y", follower.getPose().getY());
-        telemetry.addData("heading", follower.getPose().getHeading());
+        telemetry.addData("heading", Math.toDegrees(follower.getPose().getHeading()));
         telemetry.addData("left", actions.slides.getCurrentLeftPosition());
         telemetry.addData("right", actions.slides.getCurrentRightPosition());
         telemetry.addData("time", pathTimer.getElapsedTimeSeconds());
@@ -421,12 +434,10 @@ public class specimen extends OpMode {
     public void init() {
         pathTimer = new Timer();
         opmodeTimer = new Timer();
-
         opmodeTimer.resetTimer();
 
-        follower = new Follower(hardwareMap);
+        follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
         follower.setStartingPose(startPose);
-
         buildPaths();
 
         actions = new Subsystem(hardwareMap);
