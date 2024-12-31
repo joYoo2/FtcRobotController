@@ -5,7 +5,7 @@
 //@Autonomous(name="blue back \uD83D\uDD35")
 //public clas
 
-package org.firstinspires.ftc.teamcode.auton;
+package org.firstinspires.ftc.teamcode.old_auton;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
