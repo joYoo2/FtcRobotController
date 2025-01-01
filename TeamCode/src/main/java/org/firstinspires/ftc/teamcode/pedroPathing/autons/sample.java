@@ -68,12 +68,11 @@ public class sample extends OpMode {
 
     /** Park Pose for our robot, after we do all of the scoring. */
     //private final Pose parkPose = new Pose(60, 98, Math.toRadians(-90));
-    private final Pose parkPose = new Pose(58, 105, Math.toRadians(-90));
+    private final Pose parkPose = new Pose(60, 105, Math.toRadians(-90));
 
     /** Park Control Pose for our robot, this is used to manipulate the bezier curve that we will create for the parking.
      * The Robot will not go to this pose, it is used a control point for our bezier curve. */
-    //private final Pose parkControlPose = new Pose(60, 98, Math.toRadians(-90));
-    private final Pose parkControlPose = new Pose(58, 105, Math.toRadians(-90));
+    private final Pose parkControlPose = new Pose(60, 105, Math.toRadians(-90));
 
     /* These are our Paths and PathChains that we will define in buildPaths() */
     private Path scorePreload, park;
