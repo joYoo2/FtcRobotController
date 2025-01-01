@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.pedroPathing.examples;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
+import com.pedropathing.util.Constants;
 import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -18,16 +19,13 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 @TeleOp(name = "Example Field-Centric Teleop", group = "Examples")
 public class ExampleFieldCentricTeleop extends OpMode {
     private Follower follower;
-    private FConstants fconstants;
-    private LConstants lconstants;
     private final Pose startPose = new Pose(0,0,0);
 
     /** This method is call once when init is played, it initializes the follower **/
     @Override
     public void init() {
-        fconstants = new FConstants();
-        lconstants = new LConstants();
-        follower = new Follower(hardwareMap, fconstants. getClass(), lconstants.getClass());
+        Constants.setConstants(FConstants.class, LConstants.class);
+        follower = new Follower(hardwareMap);
         follower.setStartingPose(startPose);
     }
 

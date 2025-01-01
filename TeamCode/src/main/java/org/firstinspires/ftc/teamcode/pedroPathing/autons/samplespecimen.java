@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.autons;
 
 
+import com.pedropathing.util.Constants;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
@@ -32,8 +33,6 @@ import org.firstinspires.ftc.teamcode.pedroPathing.configs.Subsystem;
 public class samplespecimen extends OpMode {
 
     private Follower follower;
-    private FConstants fconstants;
-    private LConstants lconstants;
     private Timer pathTimer, actionTimer, opmodeTimer;
 
     /** This is the variable where we store the state of our auto.
@@ -401,9 +400,9 @@ public class samplespecimen extends OpMode {
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
 
-        fconstants = new FConstants();
-        lconstants = new LConstants();
-        follower = new Follower(hardwareMap, fconstants. getClass(), lconstants.getClass());
+        Constants.setConstants(FConstants.class, LConstants.class);
+
+        follower = new Follower(hardwareMap);
         follower.setStartingPose(startPose);
         buildPaths();
 
