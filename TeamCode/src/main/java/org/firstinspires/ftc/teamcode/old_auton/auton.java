@@ -9,11 +9,12 @@ package org.firstinspires.ftc.teamcode.old_auton;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
 
 
-//@Disabled
+@Disabled
 @Autonomous(name="Block old \uD83C\uDF4A")
 public class auton extends yooniversalOpMode {
 

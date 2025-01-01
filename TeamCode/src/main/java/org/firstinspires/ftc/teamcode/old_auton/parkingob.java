@@ -9,11 +9,12 @@ package org.firstinspires.ftc.teamcode.old_auton;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
 
 
-//@Disabled
+@Disabled
 @Autonomous(name="Parking Observation ⛴\uFE0F")
 public class parkingob extends yooniversalOpMode {
 
