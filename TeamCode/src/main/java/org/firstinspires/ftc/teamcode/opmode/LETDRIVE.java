@@ -17,8 +17,8 @@ public class LETDRIVE extends yooniversalOpMode{
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-
         train.setPower(1);
+
 
 
 
@@ -28,18 +28,21 @@ public class LETDRIVE extends yooniversalOpMode{
         boolean specimenTimer = false;
 
 
+
         waitForStart();
         ElapsedTime timer = new ElapsedTime();
         ElapsedTime matchTime = new ElapsedTime();
+
+        //for fun led :))
+        //set to an orange light, the color is a bit ugly but whatever
+        gamepad1.setLedColor(.4, .1, 0, 120000 /*2 mins*/);
+        gamepad2.setLedColor(.4, .1, 0, 120000 /*2 mins*/);
+
 
         while(opModeIsActive()){
             telemetry.addData("Status", "Running");
             matchTime.startTime();
 
-            //for fun led :))
-            //255,127, 0 is default orange
-            gamepad1.setLedColor(232, 97, 0 /*spanish orange*/, 120000 /*2 mins*/);
-            gamepad2.setLedColor(255, 140, 0 /*darker orange*/, 120000);
 
 
             //just in case code (can delete if not necessary ask miguel)
