@@ -26,7 +26,6 @@ public class LETDRIVE extends yooniversalOpMode{
         boolean byPower = false;
         boolean reverseDrive = false;
         boolean specimenTimer = false;
-        boolean bumperPressed = false;
 
 
         waitForStart();
@@ -36,6 +35,12 @@ public class LETDRIVE extends yooniversalOpMode{
         while(opModeIsActive()){
             telemetry.addData("Status", "Running");
             matchTime.startTime();
+
+            //for fun led :))
+            //255,127, 0 is default orange
+            gamepad1.setLedColor(232, 97, 0 /*spanish orange*/, 120000 /*2 mins*/);
+            gamepad2.setLedColor(255, 140, 0 /*darker orange*/, 120000);
+
 
             //just in case code (can delete if not necessary ask miguel)
             if(slides.getCurrentLeftPosition() > 3000 || slides.getCurrentRightPosition() > 3000){
@@ -64,20 +69,19 @@ public class LETDRIVE extends yooniversalOpMode{
                         gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x);
 
             }
+
             if(gamepad1.left_bumper){
                 clawHover();
             }
             if(gamepad1.right_bumper){
                 clawDown();
                 timer.reset();
-                bumperPressed = true;
             }
-            if(timer.time() > .1 && timer.time() < .2 && !specimenTimer && bumperPressed){
+            if(timer.time() > .1 && timer.time() < .2 && !specimenTimer){
                 closeClaw();
                 if(timer.time() > .15){
                     clawUp();
                 }
-
             }
 
             if(gamepad1.triangle){
@@ -87,6 +91,7 @@ public class LETDRIVE extends yooniversalOpMode{
                 openClaw();
                 clawDown();
             }
+
             if(gamepad1.circle){
                 openClaw();
             }
@@ -98,16 +103,20 @@ public class LETDRIVE extends yooniversalOpMode{
             if(gamepad2.right_trigger > 0.05 || gamepad2.left_trigger > 0.05) {
                 byPower = true;
                 slides.move(gamepad2.right_trigger - gamepad2.left_trigger, true);
+
             }else if(gamepad2.right_bumper){
                 slides.setTargetPosition(values.craneHighChamber);
+
             }else if(gamepad2.left_bumper){
                 slides.setTargetPosition(values.craneHighBasket);
-                //Code to automatically raise the slides after releasing the closeSpecimen button VVV
+
+            //Code to automatically raise the slides after releasing the closeSpecimen button VVV
             }else if(timer.time() > 0.3 && specimenTimer){
                 if(slides.getCurrentLeftPosition() > 350 || slides.getCurrentRightPosition() > 350){
                     specimenTimer = false;
                 }
                 slides.setTargetPosition(400);
+
             }else{
                 slides.move(slides.getCurrentRightPosition(), false);
             }
