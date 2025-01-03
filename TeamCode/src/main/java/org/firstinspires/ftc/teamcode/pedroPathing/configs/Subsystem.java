@@ -67,8 +67,8 @@ public class Subsystem {
     }
 
     public void clawDown(){
-        clawTurnLeft.setPosition(0.43);
-        clawTurnRight.setPosition(0.57);
+        clawTurnLeft.setPosition(0.40);
+        clawTurnRight.setPosition(0.60);
 
     }
 
@@ -110,7 +110,7 @@ public class Subsystem {
 
 
     public void highBasket(){
-        slides.setTargetPosition(3800);
+        slides.setTargetPosition(3900);
     }
 
     public void slidesResting(){
