@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
 
 
 //@Disabled
-@Autonomous(name="Specimen \uD83E\uDD6D")
+//@Autonomous(name="Specimen \uD83E\uDD6D")
 public class specimen extends yooniversalOpMode {
 
 

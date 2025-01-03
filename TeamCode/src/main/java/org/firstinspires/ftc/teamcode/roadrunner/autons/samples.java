@@ -21,8 +21,8 @@ import org.firstinspires.ftc.teamcode.roadrunner.hardware.RRActions;
 
 @Config
 
-@Disabled
-@Autonomous(name = "Sample RR", group = "Autonomous")
+//@Disabled
+//@Autonomous(name = "Sample RR", group = "Autonomous")
 public class samples extends LinearOpMode {
 
     @Override

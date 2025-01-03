@@ -18,8 +18,8 @@ import org.firstinspires.ftc.teamcode.roadrunner.hardware.RRActions;
 
 @Config
 
-@Disabled
-@Autonomous(name = "Testing RR", group = "Autonomous")
+//@Disabled
+//@Autonomous(name = "Testing RR", group = "Autonomous")
 public class testing extends LinearOpMode {
 
     @Override

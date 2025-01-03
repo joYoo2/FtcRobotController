@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
 
 
 //@Disabled
-@Autonomous(name="Sample \uD83C\uDF4A \uD83E\uDD6D")
+//@Autonomous(name="Sample \uD83C\uDF4A \uD83E\uDD6D")
 public class block extends yooniversalOpMode {
 
 

@@ -26,8 +26,8 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
  * @version 2.0, 11/28/2024
  */
 
-@Disabled
-@Autonomous(name = "Example Auto Blue", group = "Examples")
+//@Disabled
+//@Autonomous(name = "Example Auto Blue", group = "Examples")
 public class ExampleBucketAuto extends OpMode {
 
     private Follower follower;

@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
 
 
 @Disabled
-@Autonomous(name="Parking Observation ⛴\uFE0F")
+//@Autonomous(name="Parking Observation ⛴\uFE0F")
 public class parkingob extends yooniversalOpMode {
 
 

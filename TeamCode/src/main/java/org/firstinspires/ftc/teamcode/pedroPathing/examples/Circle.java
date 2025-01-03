@@ -29,9 +29,9 @@ import dev.frozenmilk.sinister.loading.NoUnload;
  * @author Harrison Womack - 10158 Scott's Bots
  * @version 1.0, 3/12/2024
  */
-@Disabled
+//Disabled
 @Config
-@Autonomous (name = "Circle", group = "Examples")
+//@Autonomous (name = "Circle", group = "Examples")
 public class Circle extends OpMode {
     private Telemetry telemetryA;
 
