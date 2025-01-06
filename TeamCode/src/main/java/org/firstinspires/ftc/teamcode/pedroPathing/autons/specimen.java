@@ -136,62 +136,62 @@ public class specimen extends OpMode {
         /* This is our grabSpecimen1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabSpecimen1 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(moveBackPose), new Point(grabPose)))
-                .setLinearHeadingInterpolation(moveBackPose.getHeading(), grabPose.getHeading())
+                .setLinearHeadingInterpolation(moveBackPose.getHeading(), grabPose.getHeading(), 0.5)
                 .setPathEndTimeoutConstraint(200)
                 .setPathEndHeadingConstraint(.007)
                 .build();
 
         scoreSpecimen1 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(grabPose), new Point(score2Pose)))
-                .setLinearHeadingInterpolation(grabPose.getHeading(), score2Pose.getHeading())
+                .setLinearHeadingInterpolation(grabPose.getHeading(), score2Pose.getHeading(), 0.5)
                 .setPathEndTimeoutConstraint(200)
                 .setPathEndHeadingConstraint(.007)
                 .build();
 
         grabSpecimen2 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(score2Pose), new Point(grabPose)))
-                .setLinearHeadingInterpolation(score2Pose.getHeading(), grabPose.getHeading())
+                .setLinearHeadingInterpolation(score2Pose.getHeading(), grabPose.getHeading(), 0.5)
                 .setPathEndTimeoutConstraint(200)
                 .setPathEndHeadingConstraint(.007)
                 .build();
 
         scoreSpecimen2 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(grabPose), new Point(score3Pose)))
-                .setLinearHeadingInterpolation(grabPose.getHeading(), score3Pose.getHeading())
+                .setLinearHeadingInterpolation(grabPose.getHeading(), score3Pose.getHeading(), 0.5)
                 .setPathEndTimeoutConstraint(200)
                 .setPathEndHeadingConstraint(.007)
                 .build();
 
         grabSpecimen3 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(score3Pose), new Point(grabPose)))
-                .setLinearHeadingInterpolation(score3Pose.getHeading(), grabPose.getHeading())
+                .setLinearHeadingInterpolation(score3Pose.getHeading(), grabPose.getHeading(), 0.5)
                 .setPathEndTimeoutConstraint(200)
                 .setPathEndHeadingConstraint(.007)
                 .build();
 
         scoreSpecimen3 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(grabPose), new Point(score4Pose)))
-                .setLinearHeadingInterpolation(grabPose.getHeading(), score4Pose.getHeading())
+                .setLinearHeadingInterpolation(grabPose.getHeading(), score4Pose.getHeading(), 0.5)
                 .setPathEndTimeoutConstraint(200)
                 .setPathEndHeadingConstraint(.007)
                 .build();
 
         grabSpecimen4 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(score4Pose), new Point(grabPose)))
-                .setLinearHeadingInterpolation(score4Pose.getHeading(), grabPose.getHeading())
+                .setLinearHeadingInterpolation(score4Pose.getHeading(), grabPose.getHeading(), 0.5)
                 .setPathEndTimeoutConstraint(200)
                 .setPathEndHeadingConstraint(.007)
                 .build();
 
         scoreSpecimen4 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(grabPose), new Point(score5Pose)))
-                .setLinearHeadingInterpolation(grabPose.getHeading(), score5Pose.getHeading())
+                .setLinearHeadingInterpolation(grabPose.getHeading(), score5Pose.getHeading(), 0.5)
                 .setPathEndTimeoutConstraint(200)
                 .setPathEndHeadingConstraint(.007)
                 .build();
 
         park = new Path(new BezierLine(new Point(score5Pose), new Point(pushForwardPose3)));
-        park.setLinearHeadingInterpolation(score5Pose.getHeading(), pushForwardPose3.getHeading());
+        park.setLinearHeadingInterpolation(score5Pose.getHeading(), pushForwardPose3.getHeading(), 0.5);
     }
 
     /** This switch is called continuously and runs the pathing, at certain points, it triggers the action state.
