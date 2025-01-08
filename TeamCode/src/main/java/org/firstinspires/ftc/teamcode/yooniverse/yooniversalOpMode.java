@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.yooniverse;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -8,6 +9,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public abstract class yooniversalOpMode extends LinearOpMode{
     public yooniversalInit train;
     public Servo clawServo;
+    public CRServo clawRotateServo;
+    public Servo clawTestServo;
     public Servo extenderRight, extenderLeft;
     public Servo clawTurnLeft, clawTurnRight;
     public Servo specimenLeft, specimenRight;
@@ -21,6 +24,8 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         train.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //comment out the train brake if the power gets too low (which it probably shouldnt but whatever)
         clawServo = hardwareMap.get(Servo.class, "clawServo");
+        clawTestServo = hardwareMap.get(Servo.class, "clawTestServo");
+        //clawRotateServo = hardwareMap.get(CRServo.class, "clawServo");
         extenderRight = hardwareMap.get(Servo.class, "extenderRight");
         extenderLeft = hardwareMap.get(Servo.class, "extenderLeft");
         clawTurnLeft = hardwareMap.get(Servo.class, "clawTurnLeft");
@@ -31,7 +36,16 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         specimenRight.setDirection(Servo.Direction.REVERSE);
     }
 
+    public void test(){
+        clawTestServo.setPosition(0.22);
+    }
+    public void test2(){
+        clawTestServo.setPosition(0.3);
+    }
 
+    public void test3(){
+        clawTestServo.setPosition(0.35);
+    }
 
     public void foward(int distance){
         train.foward(distance);
@@ -69,6 +83,14 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         extenderLeft.setPosition(amount);
     }
 
+    public void clawMoveThing(){
+        clawRotateServo.setPower(0.1);
+    }
+
+    public void clawMoveThingOther(){
+        clawRotateServo.setPower(-0.1);
+    }
+
     public void retractClaw(){
         extenderRight.setPosition(1-values.clawRetract);
         extenderLeft.setPosition(values.clawRetract);
@@ -86,15 +108,19 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     }
 
     public void clawHover(){
-        openClaw();
         clawTurnLeft.setPosition(0.36);
         clawTurnRight.setPosition(0.64);
     }
 
+    public void clawHoverUp(){
+        clawTurnLeft.setPosition(0.30);
+        clawTurnRight.setPosition(0.7);
+    }
+
 
     public void clawDown(){
-        clawTurnLeft.setPosition(0.40);
-        clawTurnRight.setPosition(0.60);
+        clawTurnLeft.setPosition(0.42);
+        clawTurnRight.setPosition(0.58);
 
     }
 
@@ -123,7 +149,7 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     }
 
     public void highChamberSpecimenClaw(){
-        slides.setTargetPosition(1750);
+        slides.setTargetPosition(1875);
     }
 
     public void highChamberDown(){

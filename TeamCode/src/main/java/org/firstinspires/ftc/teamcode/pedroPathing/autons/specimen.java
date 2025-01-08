@@ -48,8 +48,8 @@ public class specimen extends OpMode {
     /** Poses for pushing the samples */
     private final Pose pushPose1 = new Pose(57, 26, Math.toRadians(0));
     private final Pose pushForwardPose1 = new Pose(20, 26, Math.toRadians(0));
-    private final Pose pushPose2 = new Pose(57, 17, Math.toRadians(0));
-    private final Pose pushForwardPose2 = new Pose(20, 17, Math.toRadians(0));
+    private final Pose pushPose2 = new Pose(57, 18, Math.toRadians(0));
+    private final Pose pushForwardPose2 = new Pose(20, 18, Math.toRadians(0));
     private final Pose pushPose3 = new Pose(57, 10, Math.toRadians(0));
     private final Pose pushForwardPose3 = new Pose(20, 10, Math.toRadians(0));
     private final Pose moveBackPose = new Pose(20, 20, Math.toRadians(0));
@@ -433,6 +433,7 @@ public class specimen extends OpMode {
     @Override
     public void init() {
         pathTimer = new Timer();
+        actionTimer = new Timer();
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
 

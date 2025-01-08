@@ -33,11 +33,6 @@ public class LETDRIVE extends yooniversalOpMode{
         ElapsedTime timer = new ElapsedTime();
         ElapsedTime matchTime = new ElapsedTime();
 
-        //for fun led :))
-        //set to an orange light, the color is a bit ugly but whatever
-        gamepad1.setLedColor(.4, .1, 0, 120000 /*2 mins*/);
-        gamepad2.setLedColor(.4, .1, 0, 120000 /*2 mins*/);
-
 
         while(opModeIsActive()){
             telemetry.addData("Status", "Running");
@@ -59,6 +54,14 @@ public class LETDRIVE extends yooniversalOpMode{
                 reverseDrive = true;
             }
 
+            if(gamepad1.options){
+                test();
+            }else if(gamepad1.share){
+                test2();
+            }else if(gamepad1.touchpad){
+                test3();
+            }
+
             if (!reverseDrive){
                 train.manualDrive(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x,
                         -gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x,
@@ -74,16 +77,17 @@ public class LETDRIVE extends yooniversalOpMode{
             }
 
             if(gamepad1.left_bumper){
+                openClaw();
                 clawHover();
             }
             if(gamepad1.right_bumper){
                 clawDown();
                 timer.reset();
             }
-            if(timer.time() > .1 && timer.time() < .2 && !specimenTimer){
+            if(timer.time() > .2 && timer.time() < .35 && !specimenTimer){
                 closeClaw();
-                if(timer.time() > .15){
-                    clawUp();
+                if(timer.time() > .3){
+                    clawHoverUp();
                 }
             }
 
@@ -108,7 +112,7 @@ public class LETDRIVE extends yooniversalOpMode{
                 slides.move(gamepad2.right_trigger - gamepad2.left_trigger, true);
 
             }else if(gamepad2.right_bumper){
-                slides.setTargetPosition(values.craneHighChamber);
+                highChamberSpecimenClaw();
 
             }else if(gamepad2.left_bumper){
                 slides.setTargetPosition(values.craneHighBasket);
@@ -140,6 +144,10 @@ public class LETDRIVE extends yooniversalOpMode{
                 specimenClose();
                 timer.reset();
                 specimenTimer = true;
+            }
+
+            if(gamepad2.options){
+                slides.resetEncoders();
             }
 
             //rumble code

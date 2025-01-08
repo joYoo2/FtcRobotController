@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.yooniverse.iAmYoo;
 
 
-@TeleOp(name="testimu", group="bruh")
-@Disabled
+//@TeleOp(name="testimu", group="bruh")
+//@Disabled
 public class testimu extends LinearOpMode{
     @Override
     public void runOpMode() {

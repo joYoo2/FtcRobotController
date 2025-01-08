@@ -61,10 +61,10 @@ public class samplespecimen extends OpMode {
     private final Pose scorePose = new Pose(21, 122, Math.toRadians(140));
 
     /** Lowest (First) Sample from the Spike Mark */
-    private final Pose pickup1Pose = new Pose(29, 121, Math.toRadians(0));
+    private final Pose pickup1Pose = new Pose(29, 122, Math.toRadians(0));
 
     /** Middle (Second) Sample from the Spike Mark */
-    private final Pose pickup2Pose = new Pose(29, 128, Math.toRadians(0));
+    private final Pose pickup2Pose = new Pose(29, 129, Math.toRadians(0));
 
     /** Highest (Third) Sample from the Spike Mark */
     private final Pose pickup3Pose = new Pose(27, 127, Math.toRadians(40));
@@ -120,13 +120,13 @@ public class samplespecimen extends OpMode {
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         scorePickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(pickup1Pose), new Point(scorePose)))
-                .setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePose.getHeading())
+                .setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePose.getHeading(), 0.5)
                 .build();
 
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(scorePose), new Point(pickup2Pose)))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup2Pose.getHeading())
+                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup2Pose.getHeading(), 0.5)
                 .build();
 
         /* This is our scorePickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -138,7 +138,7 @@ public class samplespecimen extends OpMode {
         /* This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup3 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(scorePose), new Point(pickup3Pose)))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup3Pose.getHeading())
+                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup3Pose.getHeading(), 0.5)
                 .build();
 
         /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -239,9 +239,9 @@ public class samplespecimen extends OpMode {
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3){
                             actions.openClawLarge();
+                            actions.retractClaw();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3.5){
-                            actions.retractClaw();
                             actions.slidesResting();
                             /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                             follower.followPath(grabPickup2, true);
@@ -290,9 +290,9 @@ public class samplespecimen extends OpMode {
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3){
                             actions.openClawLarge();
+                            actions.retractClaw();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3.5){
-                            actions.retractClaw();
                             actions.slidesResting();
                             /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                             follower.followPath(grabPickup3, true);
@@ -325,7 +325,7 @@ public class samplespecimen extends OpMode {
                             /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                             follower.followPath(scorePickup3,true);
                             setPathState(7);
-                    }
+                        }
 
                     }
                 }
@@ -344,9 +344,9 @@ public class samplespecimen extends OpMode {
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3){
                             actions.openClawLarge();
+                            actions.retractClaw();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3.5){
-                            actions.retractClaw();
                             actions.highChamber();
                             /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                             follower.followPath(park, true);

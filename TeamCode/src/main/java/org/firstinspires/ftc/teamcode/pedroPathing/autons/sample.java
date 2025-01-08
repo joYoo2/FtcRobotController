@@ -29,6 +29,7 @@ public class sample extends OpMode {
     /** This is the variable where we store the state of our auto.
      * It is used by the pathUpdate method. */
     private int pathState;
+    private boolean timerReset;
 
     /** This is our subsystem.
      * We call its methods to manipulate the stuff that it has within the subsystem. */
@@ -56,11 +57,11 @@ public class sample extends OpMode {
     private final Pose pickup2Pose = new Pose(29, 129, Math.toRadians(0));
 
     /** Highest (Third) Sample from the Spike Mark */
-    private final Pose pickup3Pose = new Pose(29, 129, Math.toRadians(40));
+    private final Pose pickup3Pose = new Pose(27, 127, Math.toRadians(35));
 
     /** Park Pose for our robot, after we do all of the scoring. */
     //private final Pose parkPose = new Pose(60, 98, Math.toRadians(-90));
-    private final Pose parkPose = new Pose(70, 105, Math.toRadians(-90));
+    private final Pose parkPose = new Pose(70, 103, Math.toRadians(-90));
 
     /** Park Control Pose for our robot, this is used to manipulate the bezier curve that we will create for the parking.
      * The Robot will not go to this pose, it is used a control point for our bezier curve. */
@@ -99,7 +100,7 @@ public class sample extends OpMode {
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(scorePose), new Point(pickup1Pose)))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading())
+                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading(), .5)
                 .build();
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -111,7 +112,7 @@ public class sample extends OpMode {
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(scorePose), new Point(pickup2Pose)))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup2Pose.getHeading())
+                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup2Pose.getHeading(), .5)
                 .build();
 
         /* This is our scorePickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -123,7 +124,7 @@ public class sample extends OpMode {
         /* This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup3 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(scorePose), new Point(pickup3Pose)))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup3Pose.getHeading())
+                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup3Pose.getHeading(), .5)
                 .build();
 
         /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -162,17 +163,18 @@ public class sample extends OpMode {
                     /* Score Preload */
 
                     if(actions.slides.getCurrentRightPosition() > 3750 || pathTimer.getElapsedTimeSeconds() > 5){
-                        if(actions.slides.getCurrentRightPosition() == 3770 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)){
+                        if((actions.slides.getCurrentRightPosition() == 3770 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset){
                             pathTimer.resetTimer();
+                            timerReset = true;
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 0.5){
                             actions.extendClaw();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3){
                             actions.openClawLarge();
+                            actions.retractClaw();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3.5){
-                            actions.retractClaw();
                             actions.slidesResting();
                             /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                             follower.followPath(grabPickup1,true);
@@ -187,8 +189,9 @@ public class sample extends OpMode {
                     /* Grab Sample */
                     actions.clawDown();
                     if(actions.slides.getCurrentLeftPosition() < 40 || pathTimer.getElapsedTimeSeconds() >= 5){
-                        if(actions.slides.getCurrentLeftPosition() == 30 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) {
+                        if((actions.slides.getCurrentLeftPosition() == 30 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset) {
                             pathTimer.resetTimer();
+                            timerReset = true;
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 2.5){
                             actions.closeClaw();
@@ -211,18 +214,18 @@ public class sample extends OpMode {
                 if(!follower.isBusy()) {
                     /* Score Sample */
                     if(actions.slides.getCurrentRightPosition() > 3750 || pathTimer.getElapsedTimeSeconds() > 5){
-                        if(actions.slides.getCurrentRightPosition() == 3770 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)){
+                        if((actions.slides.getCurrentRightPosition() == 3770 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset){
                             pathTimer.resetTimer();
-
+                            timerReset = true;
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 0.5 ){
                             actions.extendClaw();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3){
                             actions.openClawLarge();
+                            actions.retractClaw();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3.5){
-                            actions.retractClaw();
                             actions.slidesResting();
                             /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                             follower.followPath(grabPickup2, true);
@@ -236,8 +239,9 @@ public class sample extends OpMode {
                     /* Grab Sample */
                     actions.clawDown();
                     if(actions.slides.getCurrentLeftPosition() < 40 || pathTimer.getElapsedTimeSeconds() >= 5){
-                        if(actions.slides.getCurrentLeftPosition() == 30 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) {
+                        if((actions.slides.getCurrentLeftPosition() == 30 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset) {
                             pathTimer.resetTimer();
+                            timerReset = true;
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 2.5){
                             actions.closeClaw();
@@ -259,18 +263,18 @@ public class sample extends OpMode {
                 if(!follower.isBusy()) {
                     /* Score Sample */
                     if(actions.slides.getCurrentRightPosition() > 3750 || pathTimer.getElapsedTimeSeconds() > 5){
-                        if(actions.slides.getCurrentRightPosition() == 3770 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)){
+                        if((actions.slides.getCurrentRightPosition() == 3770 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset){
                             pathTimer.resetTimer();
-
+                            timerReset = true;
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 0.5){
                             actions.extendClaw();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3){
                             actions.openClawLarge();
+                            actions.retractClaw();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3.5){
-                            actions.retractClaw();
                             actions.slidesResting();
                             /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                             follower.followPath(grabPickup3, true);
@@ -284,8 +288,9 @@ public class sample extends OpMode {
                     /* Grab Sample */
                     actions.clawDown();
                     if(actions.slides.getCurrentLeftPosition() < 40 || pathTimer.getElapsedTimeSeconds() >= 5){
-                        if(actions.slides.getCurrentLeftPosition() == 30 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) {
+                        if((actions.slides.getCurrentLeftPosition() == 30 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset) {
                             pathTimer.resetTimer();
+                            timerReset = true;
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 0.5){
                             actions.extendClaw();
@@ -311,18 +316,18 @@ public class sample extends OpMode {
                 if(!follower.isBusy()) {
                     /* Score Sample */
                     if(actions.slides.getCurrentRightPosition() > 3750 || pathTimer.getElapsedTimeSeconds() > 5){
-                        if(actions.slides.getCurrentRightPosition() == 3770 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)){
+                        if((actions.slides.getCurrentRightPosition() == 3770 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset){
                             pathTimer.resetTimer();
-
+                            timerReset = true;
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 0.5){
                             actions.extendClaw();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3){
                             actions.openClawLarge();
+                            actions.retractClaw();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3.5){
-                            actions.retractClaw();
                             actions.highChamber();
                             /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                             follower.followPath(park, true);
@@ -349,6 +354,7 @@ public class sample extends OpMode {
     public void setPathState(int pState) {
         pathState = pState;
         pathTimer.resetTimer();
+        timerReset = false;
     }
 
     /** This is the main loop of the OpMode, it will run repeatedly after clicking "Play". **/
@@ -361,6 +367,7 @@ public class sample extends OpMode {
 
         // Feedback to Driver Hub
         telemetry.addData("path state", pathState);
+        telemetry.addData("path timer", pathTimer.getElapsedTimeSeconds());
         telemetry.addData("x", follower.getPose().getX());
         telemetry.addData("y", follower.getPose().getY());
         telemetry.update();
