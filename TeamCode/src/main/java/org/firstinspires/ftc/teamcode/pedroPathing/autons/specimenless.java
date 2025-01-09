@@ -96,7 +96,7 @@ public class specimenless extends OpMode {
 
 
         park = new Path(new BezierLine(new Point(score2Pose), new Point(parkPose)));
-        park.setLinearHeadingInterpolation(score2Pose.getHeading(), parkPose.getHeading());
+        park.setTangentHeadingInterpolation();
     }
 
     /** This switch is called continuously and runs the pathing, at certain points, it triggers the action state.

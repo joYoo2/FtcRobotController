@@ -37,9 +37,9 @@ public class specimen extends OpMode {
     private final Pose startPose = new Pose(9, 63, Math.toRadians(0));
     private final Pose score1Pose = new Pose(37, 63, Math.toRadians(0));
     private final Pose score2Pose = new Pose(39, 70, Math.toRadians(180));
-    private final Pose score3Pose = new Pose(37, 59.8, Math.toRadians(180));
-    private final Pose score4Pose = new Pose(37, 59.3, Math.toRadians(180));
-    private final Pose score5Pose = new Pose(38, 59, Math.toRadians(180));
+    private final Pose score3Pose = new Pose(39, 69, Math.toRadians(180));
+    private final Pose score4Pose = new Pose(39, 68, Math.toRadians(180));
+    private final Pose score5Pose = new Pose(39, 67, Math.toRadians(180));
 
 
     /** Grabbing the specimen from the observation zone */
