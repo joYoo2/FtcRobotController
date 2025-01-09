@@ -35,15 +35,16 @@ public class specimen extends OpMode {
     public Subsystem actions;
 
     private final Pose startPose = new Pose(9, 63, Math.toRadians(0));
-    private final Pose score1Pose = new Pose(38, 63, Math.toRadians(0));
-    private final Pose score2Pose = new Pose(37, 60, Math.toRadians(180));
+    private final Pose score1Pose = new Pose(37, 63, Math.toRadians(0));
+    private final Pose score2Pose = new Pose(39, 70, Math.toRadians(180));
     private final Pose score3Pose = new Pose(37, 59.8, Math.toRadians(180));
     private final Pose score4Pose = new Pose(37, 59.3, Math.toRadians(180));
     private final Pose score5Pose = new Pose(38, 59, Math.toRadians(180));
 
 
     /** Grabbing the specimen from the observation zone */
-    private final Pose grabPose = new Pose(12, 33, Math.toRadians(0));
+    private final Pose grabBackPose = new Pose(20, 33, Math.toRadians(0));
+    private final Pose grabPose = new Pose(10, 33, Math.toRadians(0));
 
     /** Poses for pushing the samples */
     private final Pose pushPose1 = new Pose(57, 26, Math.toRadians(0));
@@ -59,6 +60,9 @@ public class specimen extends OpMode {
     /** Maneuver Control Pose for our robot, this is used to manipulate the bezier curve that we will create for the maneuver.
      * The Robot will not go to this pose, it is used a control point for our bezier curve. */
     private final Pose maneuverControlPose = new Pose(13, 25, Math.toRadians(0));
+
+
+    private final Pose parkPose = new Pose(15, 33, Math.toRadians(0));
 
     /* These are our Paths and PathChains that we will define in buildPaths() */
     private Path scorePreload, maneuver, park;
@@ -135,10 +139,11 @@ public class specimen extends OpMode {
 
         /* This is our grabSpecimen1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabSpecimen1 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(moveBackPose), new Point(grabPose)))
-                .setLinearHeadingInterpolation(moveBackPose.getHeading(), grabPose.getHeading(), 0.5)
-                .setPathEndTimeoutConstraint(200)
-                .setPathEndHeadingConstraint(.007)
+                .addPath(new BezierLine(new Point(score1Pose), new Point(grabBackPose)))
+                .setLinearHeadingInterpolation(score1Pose.getHeading(), grabPose.getHeading(), 0.5)
+                .addPath(new BezierLine(new Point(grabBackPose), new Point(grabPose)))
+                .setLinearHeadingInterpolation(grabBackPose.getHeading(), grabPose.getHeading())
+                .setZeroPowerAccelerationMultiplier(1)
                 .build();
 
         scoreSpecimen1 = follower.pathBuilder()
@@ -149,10 +154,11 @@ public class specimen extends OpMode {
                 .build();
 
         grabSpecimen2 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(score2Pose), new Point(grabPose)))
+                .addPath(new BezierLine(new Point(score2Pose), new Point(grabBackPose)))
                 .setLinearHeadingInterpolation(score2Pose.getHeading(), grabPose.getHeading(), 0.5)
-                .setPathEndTimeoutConstraint(200)
-                .setPathEndHeadingConstraint(.007)
+                .addPath(new BezierLine(new Point(grabBackPose), new Point(grabPose)))
+                .setLinearHeadingInterpolation(grabBackPose.getHeading(), grabPose.getHeading())
+                .setZeroPowerAccelerationMultiplier(1)
                 .build();
 
         scoreSpecimen2 = follower.pathBuilder()
@@ -163,10 +169,11 @@ public class specimen extends OpMode {
                 .build();
 
         grabSpecimen3 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(score3Pose), new Point(grabPose)))
+                .addPath(new BezierLine(new Point(score3Pose), new Point(grabBackPose)))
                 .setLinearHeadingInterpolation(score3Pose.getHeading(), grabPose.getHeading(), 0.5)
-                .setPathEndTimeoutConstraint(200)
-                .setPathEndHeadingConstraint(.007)
+                .addPath(new BezierLine(new Point(grabBackPose), new Point(grabPose)))
+                .setLinearHeadingInterpolation(grabBackPose.getHeading(), grabPose.getHeading())
+                .setZeroPowerAccelerationMultiplier(1)
                 .build();
 
         scoreSpecimen3 = follower.pathBuilder()
@@ -177,12 +184,12 @@ public class specimen extends OpMode {
                 .build();
 
         grabSpecimen4 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(score4Pose), new Point(grabPose)))
+                .addPath(new BezierLine(new Point(score4Pose), new Point(grabBackPose)))
                 .setLinearHeadingInterpolation(score4Pose.getHeading(), grabPose.getHeading(), 0.5)
-                .setPathEndTimeoutConstraint(200)
-                .setPathEndHeadingConstraint(.007)
+                .addPath(new BezierLine(new Point(grabBackPose), new Point(grabPose)))
+                .setLinearHeadingInterpolation(grabBackPose.getHeading(), grabPose.getHeading())
+                .setZeroPowerAccelerationMultiplier(1)
                 .build();
-
         scoreSpecimen4 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(grabPose), new Point(score5Pose)))
                 .setLinearHeadingInterpolation(grabPose.getHeading(), score5Pose.getHeading(), 0.5)
@@ -190,8 +197,9 @@ public class specimen extends OpMode {
                 .setPathEndHeadingConstraint(.007)
                 .build();
 
-        park = new Path(new BezierLine(new Point(score5Pose), new Point(pushForwardPose3)));
-        park.setLinearHeadingInterpolation(score5Pose.getHeading(), pushForwardPose3.getHeading(), 0.5);
+        park = new Path(new BezierLine(new Point(score2Pose), new Point(parkPose)));
+        park.setTangentHeadingInterpolation();
+        //TODO: change back if necessary
     }
 
     /** This switch is called continuously and runs the pathing, at certain points, it triggers the action state.
@@ -217,28 +225,22 @@ public class specimen extends OpMode {
                 */
 
                 if(!follower.isBusy()) {
-                    /* Score Preload */
+                /* Score Preload */
 
-                    if(actions.slides.getCurrentRightPosition() > 1250 || actions.slides.getCurrentLeftPosition() > 1250 || pathTimer.getElapsedTimeSeconds() > 3) {
-                        if ((actions.slides.getCurrentRightPosition() > 1270 && actions.slides.getCurrentRightPosition() < 1280) || (pathTimer.getElapsedTimeSeconds() > 3 && pathTimer.getElapsedTimeSeconds() < 3.2)) {
-                            pathTimer.resetTimer();
-
-                        }
-                        if (pathTimer.getElapsedTimeSeconds() > .7) {
-                            actions.highChamberDown();
-                        }
-                    }
-                        if (pathTimer.getElapsedTimeSeconds() > 1.5) {
-                            actions.openClaw();
-                        }
-                        if (pathTimer.getElapsedTimeSeconds() > 1.7) {
-                            /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-                            follower.followPath(maneuver, true);
-                            actions.slidesResting();
-                            actions.clawEvenMoreVertical();
-                            setPathState(2);
-                        }
-
+                if (pathTimer.getElapsedTimeSeconds() > 2) {
+                    actions.highChamberDown();
+                }
+                if (pathTimer.getElapsedTimeSeconds() > 3) {
+                    actions.openClaw();
+                    actions.specimenOpen();
+                }
+                if (pathTimer.getElapsedTimeSeconds() > 3.1) {
+                    /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
+                    follower.followPath(grabSpecimen1, true);
+                    actions.slidesResting();
+                    actions.clawEvenMoreVertical();
+                    setPathState(2);
+                }
 
                 }
                 break;
@@ -258,35 +260,31 @@ public class specimen extends OpMode {
                 break;
             case 4:
                 if(!follower.isBusy()) {
-                        if(pathTimer.getElapsedTimeSeconds() > 3){
-                            actions.specimenClose();
+                    if(pathTimer.getElapsedTimeSeconds() > 3){
+                        actions.specimenClose();
+                    }
+                    if(pathTimer.getElapsedTimeSeconds() > 3.5){
+                        actions.highChamberSpecimenClaw();
+                        if(actions.slides.getCurrentRightPosition() > 100) {
+                            follower.followPath(scoreSpecimen1, true);
+                            setPathState(3);
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 3.5){
-                            actions.highChamberSpecimenClaw();
-                            if(actions.slides.getCurrentRightPosition() > 100) {
-                                follower.followPath(scoreSpecimen1, true);
-                                setPathState(5);
-                            }
-                        }
+                    }
                 }
                 break;
             case 5:
                 if(!follower.isBusy()) {
                     /* Grab Sample */
-                    if(actions.slides.getCurrentRightPosition() > 1700 || pathTimer.getElapsedTimeSeconds() > 5) {
-                        if ((actions.slides.getCurrentRightPosition() > 1720 && actions.slides.getCurrentRightPosition() < 1730) || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) {
-                            actionTimer.resetTimer();
-                        }
-                        if (actionTimer.getElapsedTimeSeconds() > 2) {
-                            actions.highChamberDownSpecimenClaw();
-                        }
-                        if (actionTimer.getElapsedTimeSeconds() > 2.5) {
-                            actions.specimenOpen();
+                    if (pathTimer.getElapsedTimeSeconds() > 3) {
+                        actions.highChamberDownSpecimenClaw();
+                    }
+                    if (pathTimer.getElapsedTimeSeconds() > 3.5) {
+                        actions.specimenOpen();
                             follower.followPath(grabSpecimen2, true);
                             setPathState(6);
                             actions.slidesResting();
                         }
-                    }
+
                 }
                 break;
             case 6:
@@ -308,21 +306,15 @@ public class specimen extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup3Pose's position */
                 if(!follower.isBusy()) {
                     /* Grab Sample */
-                    if(actions.slides.getCurrentRightPosition() > 1700 || pathTimer.getElapsedTimeSeconds() > 5) {
-                        if ((actions.slides.getCurrentRightPosition() > 1720 && actions.slides.getCurrentRightPosition() < 1730) || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) {
-                            actionTimer.resetTimer();
-                        }
-                        if (actionTimer.getElapsedTimeSeconds() > 2) {
-                            actions.highChamberDownSpecimenClaw();
-                        }
-                        if (actionTimer.getElapsedTimeSeconds() > 2.5) {
-                            actions.specimenOpen();
-                            /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-                            follower.followPath(grabSpecimen3, true);
-                            setPathState(8);
-                            actions.slidesResting();
-                            }
-                        }
+                    if (pathTimer.getElapsedTimeSeconds() > 3) {
+                        actions.highChamberDownSpecimenClaw();
+                    }
+                    if (pathTimer.getElapsedTimeSeconds() > 3.5) {
+                        actions.specimenOpen();
+                        follower.followPath(grabSpecimen3, true);
+                        setPathState(8);
+                        actions.slidesResting();
+                    }
 
 
                 }
@@ -343,22 +335,19 @@ public class specimen extends OpMode {
                 break;
             case 9:
                 if(!follower.isBusy()) {
-                    if(actions.slides.getCurrentRightPosition() > 1700 || pathTimer.getElapsedTimeSeconds() > 5) {
-                        if ((actions.slides.getCurrentRightPosition() > 1720 && actions.slides.getCurrentRightPosition() < 1730) || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) {
-                            actionTimer.resetTimer();
-                        }
-                        if (actionTimer.getElapsedTimeSeconds() > 2) {
-                            actions.highChamberDownSpecimenClaw();
-                        }
-                        if (actionTimer.getElapsedTimeSeconds() > 2.5) {
-                            actions.specimenOpen();
+                    /* Grab Sample */
+                    if (pathTimer.getElapsedTimeSeconds() > 3) {
+                        actions.highChamberDownSpecimenClaw();
+                    }
+                    if (pathTimer.getElapsedTimeSeconds() > 3.5) {
+                        actions.specimenOpen();
                             follower.followPath(grabSpecimen4, true);
                             //disables any more paths
                             ///it doesnt finish becuase there is not enough time to place the last specimen
                             setPathState(-1);
                             actions.slidesResting();
                         }
-                        }
+
 
 
                 }
@@ -380,21 +369,18 @@ public class specimen extends OpMode {
             case 11:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
-                    if(actions.slides.getCurrentRightPosition() > 1700 || pathTimer.getElapsedTimeSeconds() > 5) {
-                        if ((actions.slides.getCurrentRightPosition() > 1720 && actions.slides.getCurrentRightPosition() < 1730) || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) {
-                            actionTimer.resetTimer();
-                        }
-                        if (actionTimer.getElapsedTimeSeconds() > 2) {
-                            actions.highChamberDownSpecimenClaw();
-                        }
-                        if (actionTimer.getElapsedTimeSeconds() > 2.5) {
-                            actions.specimenOpen();
+                    /* Grab Sample */
+                    if (pathTimer.getElapsedTimeSeconds() > 3) {
+                        actions.highChamberDownSpecimenClaw();
+                    }
+                    if (pathTimer.getElapsedTimeSeconds() > 3.5) {
+                        actions.specimenOpen();
                             /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                             follower.followPath(park, true);
                             setPathState(-1);
                             actions.slidesResting();
                             }
-                        }
+
 
 
                 }

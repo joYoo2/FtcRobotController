@@ -54,6 +54,7 @@ public class LETDRIVE extends yooniversalOpMode{
                 reverseDrive = true;
             }
 
+            //SERVO TEST CODE
             if(gamepad1.options){
                 test();
             }else if(gamepad1.share){
@@ -61,6 +62,12 @@ public class LETDRIVE extends yooniversalOpMode{
             }else if(gamepad1.touchpad){
                 test3();
             }
+            if(gamepad1.left_trigger > 0.1){
+                testRotateBackward();
+            }else if(gamepad1.right_trigger > 0.1){
+                testRotate();
+            }
+            //SERVO TEST CODE BLOCK ENDS HERE
 
             if (!reverseDrive){
                 train.manualDrive(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x,

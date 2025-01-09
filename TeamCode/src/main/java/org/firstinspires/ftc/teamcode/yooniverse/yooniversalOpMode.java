@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public abstract class yooniversalOpMode extends LinearOpMode{
     public yooniversalInit train;
     public Servo clawServo;
-    public CRServo clawRotateServo;
+    public Servo clawRotateServo;
     public Servo clawTestServo;
     public Servo extenderRight, extenderLeft;
     public Servo clawTurnLeft, clawTurnRight;
@@ -20,16 +20,20 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     }
     public void setup(double cranePower,boolean auton){
         slides = new crane(hardwareMap, cranePower, false, false);
+
         train = new yooniversalInit(hardwareMap, this);
         train.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //comment out the train brake if the power gets too low (which it probably shouldnt but whatever)
         clawServo = hardwareMap.get(Servo.class, "clawServo");
         clawTestServo = hardwareMap.get(Servo.class, "clawTestServo");
-        //clawRotateServo = hardwareMap.get(CRServo.class, "clawServo");
+        clawRotateServo = hardwareMap.get(Servo.class, "clawRotateServo");
+
         extenderRight = hardwareMap.get(Servo.class, "extenderRight");
         extenderLeft = hardwareMap.get(Servo.class, "extenderLeft");
+
         clawTurnLeft = hardwareMap.get(Servo.class, "clawTurnLeft");
         clawTurnRight = hardwareMap.get(Servo.class, "clawTurnRight");
+
         specimenLeft = hardwareMap.get(Servo.class, "specimenLeft");
         specimenRight = hardwareMap.get(Servo.class, "specimenRight");
         specimenLeft.setDirection(Servo.Direction.REVERSE);
@@ -46,6 +50,9 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     public void test3(){
         clawTestServo.setPosition(0.35);
     }
+    public void testRotate(){clawRotateServo.setPosition(clawRotateServo.getPosition() + 0.01); }
+
+    public void testRotateBackward(){clawRotateServo.setPosition(clawRotateServo.getPosition() - 0.01); }
 
     public void foward(int distance){
         train.foward(distance);
@@ -81,14 +88,6 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     public void clawMove(double amount){
         extenderRight.setPosition(1-amount);
         extenderLeft.setPosition(amount);
-    }
-
-    public void clawMoveThing(){
-        clawRotateServo.setPower(0.1);
-    }
-
-    public void clawMoveThingOther(){
-        clawRotateServo.setPower(-0.1);
     }
 
     public void retractClaw(){
