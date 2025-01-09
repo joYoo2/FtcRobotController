@@ -36,10 +36,10 @@ public class specimen extends OpMode {
 
     private final Pose startPose = new Pose(9, 63, Math.toRadians(0));
     private final Pose score1Pose = new Pose(37, 63, Math.toRadians(0));
-    private final Pose score2Pose = new Pose(39, 70, Math.toRadians(180));
+    private final Pose score2Pose = new Pose(39, 66, Math.toRadians(180));
     private final Pose score3Pose = new Pose(39, 69, Math.toRadians(180));
-    private final Pose score4Pose = new Pose(39, 68, Math.toRadians(180));
-    private final Pose score5Pose = new Pose(39, 67, Math.toRadians(180));
+    private final Pose score4Pose = new Pose(39, 72, Math.toRadians(180));
+    private final Pose score5Pose = new Pose(39, 60, Math.toRadians(180));
 
 
     /** Grabbing the specimen from the observation zone */
@@ -102,24 +102,24 @@ public class specimen extends OpMode {
         moveBlocks = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(maneuverPose), new Point(pushPose1)))
                 .setConstantHeadingInterpolation(maneuverPose.getHeading())
-                .setZeroPowerAccelerationMultiplier(6)
+                .setZeroPowerAccelerationMultiplier(3)
 
                 .addPath(new BezierLine(new Point(pushPose1), new Point(pushForwardPose1)))
                 .setConstantHeadingInterpolation(maneuverPose.getHeading())
-                .setZeroPowerAccelerationMultiplier(6)
+                .setZeroPowerAccelerationMultiplier(3)
 
                 .addPath(new BezierLine(new Point(pushForwardPose1), new Point(pushPose1)))
                 .setConstantHeadingInterpolation(maneuverPose.getHeading())
-                .setZeroPowerAccelerationMultiplier(6)
+                .setZeroPowerAccelerationMultiplier(3)
 
 
                 .addPath(new BezierLine(new Point(pushPose1), new Point(pushPose2)))
                 .setConstantHeadingInterpolation(maneuverPose.getHeading())
-                .setZeroPowerAccelerationMultiplier(6)
+                .setZeroPowerAccelerationMultiplier(3)
 
                 .addPath(new BezierLine(new Point(pushPose2), new Point(pushForwardPose2)))
                 .setConstantHeadingInterpolation(maneuverPose.getHeading())
-                .setZeroPowerAccelerationMultiplier(6)
+                .setZeroPowerAccelerationMultiplier(3)
 
                 //no time i think (3rd specimen pushing)
 //                .addPath(new BezierLine(new Point(pushForwardPose2), new Point(pushPose2)))
