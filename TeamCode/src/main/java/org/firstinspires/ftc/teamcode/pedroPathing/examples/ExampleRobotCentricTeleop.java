@@ -73,6 +73,7 @@ public class ExampleRobotCentricTeleop extends OpMode {
     public void start() {
         follower.startTeleopDrive();
     }
+    //TODO: if robot gets stuck, redo the follower.startTeleopDrive(); somewhere at the end of the path
 
     /** This is the main loop of the opmode and runs continuously after play **/
     @Override
