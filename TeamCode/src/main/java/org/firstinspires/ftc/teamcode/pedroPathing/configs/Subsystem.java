@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.yooniverse.yooniversalInit;
 
 public class Subsystem {
     public Servo clawServo;
+    public Servo clawRotateServo;
     public Servo extenderRight, extenderLeft;
     public Servo clawTurnLeft, clawTurnRight;
     public Servo specimenLeft, specimenRight;
@@ -19,16 +20,19 @@ public class Subsystem {
         slides = new crane(hardwareMap, .1, false, true);
         slides.resetEncoders();
         clawServo = hardwareMap.get(Servo.class, "clawServo");
+        clawRotateServo = hardwareMap.get(Servo.class, "clawRotateServo");
+
         extenderRight = hardwareMap.get(Servo.class, "extenderRight");
         extenderLeft = hardwareMap.get(Servo.class, "extenderLeft");
+
         clawTurnLeft = hardwareMap.get(Servo.class, "clawTurnLeft");
         clawTurnRight = hardwareMap.get(Servo.class, "clawTurnRight");
+
         specimenLeft = hardwareMap.get(Servo.class, "specimenLeft");
         specimenRight = hardwareMap.get(Servo.class, "specimenRight");
         specimenLeft.setDirection(Servo.Direction.REVERSE);
         specimenRight.setDirection(Servo.Direction.REVERSE);
     }
-
 
 
 
@@ -66,13 +70,27 @@ public class Subsystem {
         specimenRight.setPosition(0.8);
     }
 
+    public void clawHover(){
+        clawRotateServo.setPosition(0.5);
+        clawTurnLeft.setPosition(0.36);
+        clawTurnRight.setPosition(0.64);
+    }
+
+    public void clawHoverUp(){
+        clawRotateServo.setPosition(0.5);
+        clawTurnLeft.setPosition(0.30);
+        clawTurnRight.setPosition(0.7);
+    }
+
+
     public void clawDown(){
-        clawTurnLeft.setPosition(0.41);
-        clawTurnRight.setPosition(0.59);
+        clawTurnLeft.setPosition(0.42);
+        clawTurnRight.setPosition(0.58);
 
     }
 
     public void clawUp(){
+        clawRotateServo.setPosition(0.5);
         clawTurnLeft.setPosition(0.20);
         clawTurnRight.setPosition(0.8);
 
@@ -110,7 +128,7 @@ public class Subsystem {
 
 
     public void highBasket(){
-        slides.setTargetPosition(3950);
+        slides.setTargetPosition(4000);
     }
 
     public void slidesResting(){

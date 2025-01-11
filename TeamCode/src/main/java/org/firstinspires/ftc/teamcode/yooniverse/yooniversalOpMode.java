@@ -10,7 +10,6 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     public yooniversalInit train;
     public Servo clawServo;
     public Servo clawRotateServo;
-    public Servo clawTestServo;
     public Servo extenderRight, extenderLeft;
     public Servo clawTurnLeft, clawTurnRight;
     public Servo specimenLeft, specimenRight;
@@ -25,7 +24,6 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         train.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //comment out the train brake if the power gets too low (which it probably shouldnt but whatever)
         clawServo = hardwareMap.get(Servo.class, "clawServo");
-        clawTestServo = hardwareMap.get(Servo.class, "clawTestServo");
         clawRotateServo = hardwareMap.get(Servo.class, "clawRotateServo");
 
         extenderRight = hardwareMap.get(Servo.class, "extenderRight");
@@ -40,19 +38,9 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         specimenRight.setDirection(Servo.Direction.REVERSE);
     }
 
-    public void test(){
-        clawTestServo.setPosition(0.22);
-    }
-    public void test2(){
-        clawTestServo.setPosition(0.3);
-    }
+    public void testRotate(){clawRotateServo.setPosition(clawRotateServo.getPosition() + 0.05); }
 
-    public void test3(){
-        clawTestServo.setPosition(0.35);
-    }
-    public void testRotate(){clawRotateServo.setPosition(clawRotateServo.getPosition() + 0.01); }
-
-    public void testRotateBackward(){clawRotateServo.setPosition(clawRotateServo.getPosition() - 0.01); }
+    public void testRotateBackward(){clawRotateServo.setPosition(clawRotateServo.getPosition() - 0.05); }
 
     public void foward(int distance){
         train.foward(distance);
@@ -107,11 +95,13 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     }
 
     public void clawHover(){
-        clawTurnLeft.setPosition(0.36);
-        clawTurnRight.setPosition(0.64);
+        clawRotateServo.setPosition(0.5);
+        clawTurnLeft.setPosition(0.35);
+        clawTurnRight.setPosition(0.65);
     }
 
     public void clawHoverUp(){
+        clawRotateServo.setPosition(0.5);
         clawTurnLeft.setPosition(0.30);
         clawTurnRight.setPosition(0.7);
     }
@@ -124,6 +114,7 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     }
 
     public void clawUp(){
+        clawRotateServo.setPosition(0.5);
         clawTurnLeft.setPosition(0.20);
         clawTurnRight.setPosition(0.8);
 

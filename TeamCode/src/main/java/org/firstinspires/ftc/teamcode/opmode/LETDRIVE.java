@@ -18,6 +18,7 @@ public class LETDRIVE extends yooniversalOpMode{
         telemetry.update();
 
         train.setPower(1);
+        clawRotateServo.setPosition(0.5);
 
 
 
@@ -26,6 +27,7 @@ public class LETDRIVE extends yooniversalOpMode{
         boolean byPower = false;
         boolean reverseDrive = false;
         boolean specimenTimer = false;
+        boolean insideOut = false;
 
 
 
@@ -54,20 +56,11 @@ public class LETDRIVE extends yooniversalOpMode{
                 reverseDrive = true;
             }
 
-            //SERVO TEST CODE
-            if(gamepad1.options){
-                test();
-            }else if(gamepad1.share){
-                test2();
-            }else if(gamepad1.touchpad){
-                test3();
-            }
             if(gamepad1.left_trigger > 0.1){
-                testRotateBackward();
-            }else if(gamepad1.right_trigger > 0.1){
                 testRotate();
+            }else if(gamepad1.right_trigger > 0.1){
+                testRotateBackward();
             }
-            //SERVO TEST CODE BLOCK ENDS HERE
 
             if (!reverseDrive){
                 train.manualDrive(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x,
@@ -84,17 +77,30 @@ public class LETDRIVE extends yooniversalOpMode{
             }
 
             if(gamepad1.left_bumper){
-                openClaw();
+                extendClaw();
+                if(!insideOut){
+                    openClaw();
+                }else if(insideOut){
+                    closeClaw();
+                }
                 clawHover();
             }
+
             if(gamepad1.right_bumper){
                 clawDown();
                 timer.reset();
             }
             if(timer.time() > .2 && timer.time() < .35 && !specimenTimer){
-                closeClaw();
+                if(!insideOut){
+                    closeClaw();
+                }else if(insideOut){
+                    openClaw();
+                }
+
                 if(timer.time() > .3){
-                    clawHoverUp();
+                    clawUp();
+                    retractClaw();
+                    clawRotateServo.setPosition(0.5);
                 }
             }
 
@@ -182,6 +188,14 @@ public class LETDRIVE extends yooniversalOpMode{
             }
 
 
+            //code to switch from opening from the inside
+            if(gamepad1.share && !insideOut){
+                insideOut = true;
+            }else if (gamepad1.share && insideOut){
+                insideOut = false;
+            }
+
+
 
 
             slides.craneMaintenance();
@@ -190,6 +204,8 @@ public class LETDRIVE extends yooniversalOpMode{
             telemetry.addData("Right Crane Motor Position", slides.getCurrentRightPosition());
             telemetry.addData("left crane amps", slides.getAmpsLeft());
             telemetry.addData("right crane amps", slides.getAmpsRight());
+            telemetry.addData("inside out", insideOut);
+            telemetry.addData("timer", timer.time());
             telemetry.update();
         }
 

@@ -48,24 +48,24 @@ public class sample extends OpMode {
     private final Pose startPose = new Pose(9, 111, Math.toRadians(90));
 
     /** Scoring Pose of our robot. It is facing the basket at a 135 degree angle. */
-    private final Pose scorePose = new Pose(21, 122, Math.toRadians(140));
+    private final Pose scorePose = new Pose(18, 125, Math.toRadians(140));
 
     /** Lowest (First) Sample from the Spike Mark */
-    private final Pose pickup1Pose = new Pose(29, 121, Math.toRadians(0));
+    private final Pose pickup1Pose = new Pose(31, 120, Math.toRadians(0));
 
     /** Middle (Second) Sample from the Spike Mark */
-    private final Pose pickup2Pose = new Pose(29, 129, Math.toRadians(0));
+    private final Pose pickup2Pose = new Pose(31, 131, Math.toRadians(0));
 
     /** Highest (Third) Sample from the Spike Mark */
-    private final Pose pickup3Pose = new Pose(27, 127, Math.toRadians(35));
+    private final Pose pickup3Pose = new Pose(29, 129, Math.toRadians(35));
 
     /** Park Pose for our robot, after we do all of the scoring. */
     //private final Pose parkPose = new Pose(60, 98, Math.toRadians(-90));
-    private final Pose parkPose = new Pose(70, 103, Math.toRadians(-90));
+    private final Pose parkPose = new Pose(70, 98, Math.toRadians(-90));
 
     /** Park Control Pose for our robot, this is used to manipulate the bezier curve that we will create for the parking.
      * The Robot will not go to this pose, it is used a control point for our bezier curve. */
-    private final Pose parkControlPose = new Pose(70, 105, Math.toRadians(-90));
+    private final Pose parkControlPose = new Pose(70, 98, Math.toRadians(-90));
 
     /* These are our Paths and PathChains that we will define in buildPaths() */
     private Path scorePreload, park;
@@ -146,8 +146,9 @@ public class sample extends OpMode {
             case 0:
                 follower.followPath(scorePreload);
                 setPathState(1);
+                actions.clawRotateServo.setPosition(0.5);
                 actions.closeClaw();
-                actions.clawUp();
+                actions.clawVertical();
                 actions.highBasket();
                 break;
             case 1:
@@ -197,7 +198,7 @@ public class sample extends OpMode {
                             actions.closeClaw();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3){
-                            actions.clawUp();
+                            actions.clawVertical();
                             actions.slides.resetEncoders();
                             actions.highBasket();
 
@@ -247,7 +248,7 @@ public class sample extends OpMode {
                             actions.closeClaw();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3){
-                            actions.clawUp();
+                            actions.clawVertical();
                             actions.slides.resetEncoders();
                             actions.highBasket();
 
@@ -299,7 +300,7 @@ public class sample extends OpMode {
                             actions.closeClaw();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3.5){
-                            actions.clawUp();
+                            actions.clawVertical();
                             actions.retractClaw();
                             actions.slides.resetEncoders();
                             actions.highBasket();
