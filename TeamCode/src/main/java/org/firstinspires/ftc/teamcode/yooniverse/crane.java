@@ -82,15 +82,15 @@ public class crane {
             rightDrawerSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
             rightDrawerSlide.setPower(0);
         }
-        int maxCurrent = 4;
-        if(leftDrawerSlide.getCurrentAlert(CurrentUnit.AMPS)>maxCurrent){
-            leftDrawerSlide.setCurrentAlert(maxCurrent, CurrentUnit.AMPS);
-        }
-
-
-        if(rightDrawerSlide.getCurrentAlert(CurrentUnit.AMPS)>maxCurrent){
-            rightDrawerSlide.setCurrentAlert(maxCurrent, CurrentUnit.AMPS);
-        }
+//        int maxCurrent = 4;
+//        if(leftDrawerSlide.getCurrentAlert(CurrentUnit.AMPS)>maxCurrent){
+//            leftDrawerSlide.setCurrentAlert(maxCurrent, CurrentUnit.AMPS);
+//        }
+//
+//
+//        if(rightDrawerSlide.getCurrentAlert(CurrentUnit.AMPS)>maxCurrent){
+//            rightDrawerSlide.setCurrentAlert(maxCurrent, CurrentUnit.AMPS);
+//        }
 
     }
 

@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.autons;
 
 
+import com.pedropathing.localization.PoseUpdater;
 import com.pedropathing.util.Constants;
+import com.pedropathing.util.DashboardPoseTracker;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
@@ -30,6 +32,10 @@ public class sample extends OpMode {
      * It is used by the pathUpdate method. */
     private int pathState;
     private boolean timerReset;
+
+    //newcode
+    private PoseUpdater poseUpdater;
+    private DashboardPoseTracker dashboardPoseTracker;
 
     /** This is our subsystem.
      * We call its methods to manipulate the stuff that it has within the subsystem. */
@@ -65,7 +71,7 @@ public class sample extends OpMode {
 
     /** Park Control Pose for our robot, this is used to manipulate the bezier curve that we will create for the parking.
      * The Robot will not go to this pose, it is used a control point for our bezier curve. */
-    private final Pose parkControlPose = new Pose(50, 132, Math.toRadians(-90));
+    private final Pose parkControlPose = new Pose(63, 132, Math.toRadians(-90));
 
     /* These are our Paths and PathChains that we will define in buildPaths() */
     private Path scorePreload, park;
@@ -296,17 +302,17 @@ public class sample extends OpMode {
                             pathTimer.resetTimer();
                             timerReset = true;
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 0.5){
+                        if(pathTimer.getElapsedTimeSeconds() > 2.5){
                             actions.rotateClaw(0.65);
                             actions.extendClaw();
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 1.5){
+                        if(pathTimer.getElapsedTimeSeconds() > 2.8){
                             actions.clawDown();
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 1.7){
+                        if(pathTimer.getElapsedTimeSeconds() > 3.1){
                             actions.closeClaw();
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 1.8){
+                        if(pathTimer.getElapsedTimeSeconds() > 3.3){
                             actions.clawVertical();
                             actions.retractClaw();
                             actions.rotateClaw(0.5);
@@ -374,6 +380,9 @@ public class sample extends OpMode {
         follower.update();
         autonomousPathUpdate();
 
+        poseUpdater.update();
+        dashboardPoseTracker.update();
+
         // Feedback to Driver Hub
         telemetry.addData("path state", pathState);
         telemetry.addData("path timer", pathTimer.getElapsedTimeSeconds());
@@ -381,6 +390,7 @@ public class sample extends OpMode {
         telemetry.addData("y", follower.getPose().getY());
         telemetry.addData("slides", actions.slides.getCurrentRightPosition());
         telemetry.update();
+
 
 
     }
@@ -391,6 +401,10 @@ public class sample extends OpMode {
         pathTimer = new Timer();
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
+
+        //newcode
+        poseUpdater = new PoseUpdater(hardwareMap);
+        dashboardPoseTracker = new DashboardPoseTracker(poseUpdater);
 
         Constants.setConstants(FConstants.class, LConstants.class);
 
