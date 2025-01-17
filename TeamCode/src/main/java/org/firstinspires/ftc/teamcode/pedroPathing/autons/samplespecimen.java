@@ -160,6 +160,7 @@ public class samplespecimen extends OpMode {
             case 0:
                 follower.followPath(scorePreload);
                 setPathState(1);
+                actions.clawRotateServo.setPosition(0.5);
                 actions.closeClaw();
                 actions.clawVertical();
                 actions.highChamber();
