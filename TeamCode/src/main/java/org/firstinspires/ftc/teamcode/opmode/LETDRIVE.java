@@ -141,7 +141,7 @@ public class LETDRIVE extends yooniversalOpMode{
                 slides.setTargetPosition(400);
 
             }else{
-                //slides.move(slides.getCurrentRightPosition(), false);
+                slides.move(slides.getCurrentRightPosition(), false);
             }
 
 

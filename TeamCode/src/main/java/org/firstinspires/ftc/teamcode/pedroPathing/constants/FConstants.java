@@ -5,6 +5,7 @@ import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.util.CustomFilteredPIDFCoefficients;
 import com.pedropathing.util.CustomPIDFCoefficients;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 public class FConstants {
     static {
@@ -28,17 +29,30 @@ public class FConstants {
         FollowerConstants.forwardZeroPowerAcceleration = -33.215;
         FollowerConstants.lateralZeroPowerAcceleration = -72.3818;
 
-        FollowerConstants.translationalPIDFCoefficients.setCoefficients(0.15,0,0.02,0);
+//        FollowerConstants.translationalPIDFCoefficients.setCoefficients(0.15,0,0.02,0);
+//        FollowerConstants.useSecondaryTranslationalPID = false;
+//        FollowerConstants.secondaryTranslationalPIDFCoefficients.setCoefficients(0.1,0,0.01,0); // Not being used, @see useSecondaryTranslationalPID
+//
+//        FollowerConstants.headingPIDFCoefficients.setCoefficients(2,0,0.2,0);
+//        FollowerConstants.useSecondaryHeadingPID = false;
+//        FollowerConstants.secondaryHeadingPIDFCoefficients.setCoefficients(2,0,0.1,0); // Not being used, @see useSecondaryHeadingPID
+//
+//        FollowerConstants.drivePIDFCoefficients.setCoefficients(0.019,0,0.0002,0.6,0);
+//        FollowerConstants.useSecondaryDrivePID = false;
+//        FollowerConstants.secondaryDrivePIDFCoefficients.setCoefficients(0.1,0,0,0.6,0); // Not being used, @see useSecondaryDrivePID
+
+
+        FollowerConstants.translationalPIDFCoefficients = new CustomPIDFCoefficients(0.15,0,0.02,0);
         FollowerConstants.useSecondaryTranslationalPID = false;
-        FollowerConstants.secondaryTranslationalPIDFCoefficients.setCoefficients(0.1,0,0.01,0); // Not being used, @see useSecondaryTranslationalPID
+        FollowerConstants.secondaryTranslationalPIDFCoefficients = new CustomPIDFCoefficients(0.1,0,0.01,0); // Not being used, @see useSecondaryTranslationalPID
 
-        FollowerConstants.headingPIDFCoefficients.setCoefficients(2,0,0.2,0);
+        FollowerConstants.headingPIDFCoefficients = new CustomPIDFCoefficients(2,0,0.2,0);
         FollowerConstants.useSecondaryHeadingPID = false;
-        FollowerConstants.secondaryHeadingPIDFCoefficients.setCoefficients(2,0,0.1,0); // Not being used, @see useSecondaryHeadingPID
+        FollowerConstants.secondaryHeadingPIDFCoefficients = new CustomPIDFCoefficients(2,0,0.1,0); // Not being used, @see useSecondaryHeadingPID
 
-        FollowerConstants.drivePIDFCoefficients.setCoefficients(0.019,0,0.0002,0.6,0);
+        FollowerConstants.drivePIDFCoefficients = new CustomFilteredPIDFCoefficients(0.019,0,0.0002,0.6,0);
         FollowerConstants.useSecondaryDrivePID = false;
-        FollowerConstants.secondaryDrivePIDFCoefficients.setCoefficients(0.1,0,0,0.6,0); // Not being used, @see useSecondaryDrivePID
+        FollowerConstants.secondaryDrivePIDFCoefficients = new CustomFilteredPIDFCoefficients(0.1,0,0,0.6,0); // No
 
         FollowerConstants.zeroPowerAccelerationMultiplier = 4;
         FollowerConstants.centripetalScaling = 0.0005;
