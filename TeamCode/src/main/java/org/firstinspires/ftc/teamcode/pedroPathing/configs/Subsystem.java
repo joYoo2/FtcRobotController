@@ -21,6 +21,7 @@ public class Subsystem {
         slides.resetEncoders();
         clawServo = hardwareMap.get(Servo.class, "clawServo");
         clawRotateServo = hardwareMap.get(Servo.class, "clawRotateServo");
+        clawRotateServo.setDirection(Servo.Direction.REVERSE);
 
         extenderRight = hardwareMap.get(Servo.class, "extenderRight");
         extenderLeft = hardwareMap.get(Servo.class, "extenderLeft");
@@ -34,7 +35,7 @@ public class Subsystem {
         specimenRight.setDirection(Servo.Direction.REVERSE);
     }
 
-
+    public void rotateClaw(double amount){clawRotateServo.setPosition(amount); }
 
     public void openClaw(){
         clawServo.setPosition(values.clawLessOpen);
@@ -111,24 +112,24 @@ public class Subsystem {
     }
 
     public void highChamber(){
-        slides.setTargetPosition(1300);
+        slides.setTargetPosition(1700);
     }
 
     public void highChamberSpecimenClaw(){
-        slides.setTargetPosition(1875);
+        slides.setTargetPosition(1950);
     }
 
     public void highChamberDown(){
-        slides.setTargetPosition(900);
+        slides.setTargetPosition(1000);
     }
 
     public void highChamberDownSpecimenClaw(){
-        slides.setTargetPosition(1400);
+        slides.setTargetPosition(1300);
     }
 
 
     public void highBasket(){
-        slides.setTargetPosition(4000);
+        slides.setTargetPosition(4050);
     }
 
     public void slidesResting(){

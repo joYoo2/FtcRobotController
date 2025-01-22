@@ -3,9 +3,12 @@ package org.firstinspires.ftc.teamcode.yooniverse;
 public class values {
 
     //Claw Positions
-    public static double clawOpen = 1;
-    public static double clawLessOpen = 0.9;
-    public static double clawClsoed = 0.77;
+//    public static double clawOpen = 1;
+//    public static double clawLessOpen = 0.9;
+//    public static double clawClsoed = 0.77;
+    public static double clawClsoed = 0.07;
+    public static double clawLessOpen = 0.17;
+    public static double clawOpen = 0.30;
 
     public static double clawExtend = 0.26;
     // was 0.23

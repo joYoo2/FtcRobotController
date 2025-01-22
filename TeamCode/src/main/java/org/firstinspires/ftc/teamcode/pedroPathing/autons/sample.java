@@ -45,27 +45,27 @@ public class sample extends OpMode {
      * Lets assume the Robot is facing the human player and we want to score in the bucket */
 
     /** Start Pose of our robot */
-    private final Pose startPose = new Pose(9, 111, Math.toRadians(90));
+    private final Pose startPose = new Pose(9, 110, Math.toRadians(90));
 
     /** Scoring Pose of our robot. It is facing the basket at a 135 degree angle. */
-    private final Pose scorePose = new Pose(18, 125, Math.toRadians(140));
+    private final Pose scorePose = new Pose(19, 123, Math.toRadians(135));
 
     /** Lowest (First) Sample from the Spike Mark */
-    private final Pose pickup1Pose = new Pose(31, 120, Math.toRadians(0));
+    private final Pose pickup1Pose = new Pose(32, 119, Math.toRadians(0));
 
     /** Middle (Second) Sample from the Spike Mark */
-    private final Pose pickup2Pose = new Pose(31, 131, Math.toRadians(0));
+    private final Pose pickup2Pose = new Pose(32, 129, Math.toRadians(0));
 
     /** Highest (Third) Sample from the Spike Mark */
-    private final Pose pickup3Pose = new Pose(29, 129, Math.toRadians(35));
+    private final Pose pickup3Pose = new Pose(31, 129, Math.toRadians(35));
 
     /** Park Pose for our robot, after we do all of the scoring. */
     //private final Pose parkPose = new Pose(60, 98, Math.toRadians(-90));
-    private final Pose parkPose = new Pose(70, 98, Math.toRadians(-90));
+    private final Pose parkPose = new Pose(63, 98, Math.toRadians(-90));
 
     /** Park Control Pose for our robot, this is used to manipulate the bezier curve that we will create for the parking.
      * The Robot will not go to this pose, it is used a control point for our bezier curve. */
-    private final Pose parkControlPose = new Pose(70, 98, Math.toRadians(-90));
+    private final Pose parkControlPose = new Pose(63, 131, Math.toRadians(-90));
 
     /* These are our Paths and PathChains that we will define in buildPaths() */
     private Path scorePreload, park;
@@ -101,6 +101,9 @@ public class sample extends OpMode {
         grabPickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(scorePose), new Point(pickup1Pose)))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading(), .5)
+                .setPathEndHeadingConstraint(Math.toRadians(.5))
+                .setPathEndTranslationalConstraint(0.1)
+                .setPathEndTimeoutConstraint(400)
                 .build();
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -113,6 +116,9 @@ public class sample extends OpMode {
         grabPickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(scorePose), new Point(pickup2Pose)))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup2Pose.getHeading(), .5)
+                .setPathEndHeadingConstraint(Math.toRadians(.5))
+                .setPathEndTranslationalConstraint(0.1)
+                .setPathEndTimeoutConstraint(400)
                 .build();
 
         /* This is our scorePickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -125,6 +131,9 @@ public class sample extends OpMode {
         grabPickup3 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(scorePose), new Point(pickup3Pose)))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup3Pose.getHeading(), .5)
+                .setPathEndHeadingConstraint(Math.toRadians(.5))
+                .setPathEndTranslationalConstraint(0.1)
+                .setPathEndTimeoutConstraint(400)
                 .build();
 
         /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -146,7 +155,6 @@ public class sample extends OpMode {
             case 0:
                 follower.followPath(scorePreload);
                 setPathState(1);
-                actions.clawRotateServo.setPosition(0.5);
                 actions.closeClaw();
                 actions.clawVertical();
                 actions.highBasket();
@@ -197,7 +205,7 @@ public class sample extends OpMode {
                         if(pathTimer.getElapsedTimeSeconds() > 2.5){
                             actions.closeClaw();
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 3){
+                        if(pathTimer.getElapsedTimeSeconds() > 2.7){
                             actions.clawVertical();
                             actions.slides.resetEncoders();
                             actions.highBasket();
@@ -247,7 +255,7 @@ public class sample extends OpMode {
                         if(pathTimer.getElapsedTimeSeconds() > 2.5){
                             actions.closeClaw();
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 3){
+                        if(pathTimer.getElapsedTimeSeconds() > 2.7){
                             actions.clawVertical();
                             actions.slides.resetEncoders();
                             actions.highBasket();
@@ -295,6 +303,7 @@ public class sample extends OpMode {
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 0.5){
                             actions.extendClaw();
+                            actions.clawRotateServo.setPosition(0.65);
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3){
                             actions.closeClaw();
@@ -304,11 +313,12 @@ public class sample extends OpMode {
                             actions.retractClaw();
                             actions.slides.resetEncoders();
                             actions.highBasket();
+                            actions.clawRotateServo.setPosition(0.5);
 
                             /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                             follower.followPath(scorePickup3,true);
                             setPathState(7);
-                    }
+                        }
 
                     }
                 }
@@ -397,6 +407,7 @@ public class sample extends OpMode {
         // Set the claw to positions for init
         actions.closeClaw();
         actions.retractClaw();
+        actions.clawRotateServo.setPosition(0.5);
     }
 
     /** This method is called continuously after Init while waiting for "play". **/

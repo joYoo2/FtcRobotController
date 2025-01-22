@@ -18,7 +18,6 @@ public class LETDRIVE extends yooniversalOpMode{
         telemetry.update();
 
         train.setPower(1);
-        clawRotateServo.setPosition(0.5);
 
 
 
@@ -35,6 +34,7 @@ public class LETDRIVE extends yooniversalOpMode{
         ElapsedTime timer = new ElapsedTime();
         ElapsedTime matchTime = new ElapsedTime();
 
+        clawRotateServo.setPosition(0.5);
 
         while(opModeIsActive()){
             telemetry.addData("Status", "Running");
@@ -57,9 +57,9 @@ public class LETDRIVE extends yooniversalOpMode{
             }
 
             if(gamepad1.left_trigger > 0.1){
-                testRotate();
-            }else if(gamepad1.right_trigger > 0.1){
                 testRotateBackward();
+            }else if(gamepad1.right_trigger > 0.1){
+                testRotate();
             }
 
             if (!reverseDrive){
@@ -106,6 +106,8 @@ public class LETDRIVE extends yooniversalOpMode{
 
             if(gamepad1.triangle){
                 clawUp();
+            }else if(gamepad1.options){
+                clawVertical();
             }
             if(gamepad1.cross){
                 openClaw();
@@ -129,6 +131,7 @@ public class LETDRIVE extends yooniversalOpMode{
 
             }else if(gamepad2.left_bumper){
                 slides.setTargetPosition(values.craneHighBasket);
+                clawVertical();
 
             //Code to automatically raise the slides after releasing the closeSpecimen button VVV
             }else if(timer.time() > 0.3 && specimenTimer){
@@ -161,6 +164,8 @@ public class LETDRIVE extends yooniversalOpMode{
 
             if(gamepad2.options){
                 slides.resetEncoders();
+            }else if(gamepad2.share) {
+                slides.setTargetPosition(-3000);
             }
 
             //rumble code
@@ -189,13 +194,19 @@ public class LETDRIVE extends yooniversalOpMode{
 
 
             //code to switch from opening from the inside
-            if(gamepad1.share && !insideOut){
+            if(gamepad1.share && !insideOut && timer.time() > 0.5){
                 insideOut = true;
-            }else if (gamepad1.share && insideOut){
+                timer.reset();
+            }else if (gamepad1.share && insideOut && timer.time() > 0.5){
                 insideOut = false;
+                timer.reset();
             }
 
-
+            if(insideOut){
+                gamepad1.setLedColor(0.1, 0.5, 0.1, 50000);
+            }else{
+                gamepad1.setLedColor(0, 0, 1, 50000);
+            }
 
 
             slides.craneMaintenance();
@@ -204,6 +215,7 @@ public class LETDRIVE extends yooniversalOpMode{
             telemetry.addData("Right Crane Motor Position", slides.getCurrentRightPosition());
             telemetry.addData("left crane amps", slides.getAmpsLeft());
             telemetry.addData("right crane amps", slides.getAmpsRight());
+            telemetry.addData("rotate", clawRotateServo.getPosition());
             telemetry.addData("inside out", insideOut);
             telemetry.addData("timer", timer.time());
             telemetry.update();

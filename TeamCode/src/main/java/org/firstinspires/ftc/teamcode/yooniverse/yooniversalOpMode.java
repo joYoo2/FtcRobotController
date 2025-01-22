@@ -25,6 +25,7 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         //comment out the train brake if the power gets too low (which it probably shouldnt but whatever)
         clawServo = hardwareMap.get(Servo.class, "clawServo");
         clawRotateServo = hardwareMap.get(Servo.class, "clawRotateServo");
+        clawRotateServo.setDirection(Servo.Direction.REVERSE);
 
         extenderRight = hardwareMap.get(Servo.class, "extenderRight");
         extenderLeft = hardwareMap.get(Servo.class, "extenderLeft");

@@ -35,15 +35,15 @@ public class specimenless extends OpMode {
     public Subsystem actions;
 
     private final Pose startPose = new Pose(9, 63, Math.toRadians(0));
-    private final Pose score1Pose = new Pose(37, 63, Math.toRadians(0));
+    private final Pose score1Pose = new Pose(38, 63, Math.toRadians(0));
     private final Pose score2Pose = new Pose(39, 70, Math.toRadians(180));
 
 
     /** Grabbing the specimen from the observation zone */
     private final Pose grabBackPose = new Pose(20, 33, Math.toRadians(0));
-    private final Pose grabPose = new Pose(10, 33, Math.toRadians(0));
+    private final Pose grabPose = new Pose(10.5, 33, Math.toRadians(0));
 
-    private final Pose parkPose = new Pose(15, 33, Math.toRadians(0));
+    private final Pose parkPose = new Pose(12, 30, Math.toRadians(0));
 
 
     /* These are our Paths and PathChains that we will define in buildPaths() */
@@ -71,6 +71,7 @@ public class specimenless extends OpMode {
 
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
         scorePreload = new Path(new BezierLine(new Point(startPose), new Point(score1Pose)));
+        scorePreload.setZeroPowerAccelerationMultiplier(3);
         scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), score1Pose.getHeading());
 
 

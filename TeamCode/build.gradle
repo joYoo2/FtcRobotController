@@ -12,35 +12,35 @@
 // Custom definitions may go here
 
 // Include common definitions from above.
-
-buildscript {
-    repositories {
-        mavenCentral()
-        maven {
-            url "https://repo.dairy.foundation/snapshots"
-        }
-    }
-    dependencies {
-        classpath "dev.frozenmilk.sinister.sloth:Load:0.0.2"
-    }
-}
+//
+//buildscript {
+//    repositories {
+//        mavenCentral()
+//        maven {
+//            url "https://repo.dairy.foundation/snapshots"
+//        }
+//    }
+//    dependencies {
+//        classpath "dev.frozenmilk.sinister.sloth:Load:0.0.2"
+//    }
+//}
 
 
 apply from: '../build.common.gradle'
 apply from: '../build.dependencies.gradle'
 
-apply plugin: 'dev.frozenmilk.sinister.sloth.Load'
+//apply plugin: 'dev.frozenmilk.sinister.sloth.Load'
 
 repositories {
     maven {
         url = 'https://maven.brott.dev/'
     }
-    maven {
-        url = 'https://repo.dairy.foundation/releases'
-    }
-    maven {
-        url = 'https://repo.dairy.foundation/snapshots'
-    }
+//    maven {
+//        url = 'https://repo.dairy.foundation/releases'
+//    }
+//    maven {
+//        url = 'https://repo.dairy.foundation/snapshots'
+//    }
 }
 
 
@@ -64,7 +64,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.7'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.9.20'
 
-    implementation "dev.frozenmilk.sinister:Sloth:0.0.1"
+    //implementation "dev.frozenmilk.sinister:Sloth:0.0.1"
 
 
 }
