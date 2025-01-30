@@ -21,9 +21,9 @@ public class crane {
 
     public crane(HardwareMap hardwareMap, double power, boolean craneByPower, boolean auton){
         leftDrawerSlide = hardwareMap.get(DcMotorEx.class, "leftDrawerSlide");
-        leftDrawerSlide.setDirection((DcMotorEx.Direction.REVERSE));
         rightDrawerSlide = hardwareMap.get(DcMotorEx.class, "rightDrawerSlide");
         rightDrawerSlide.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        rightDrawerSlide.setDirection((DcMotorEx.Direction.REVERSE));
 
 
         targetPosition = 0;
@@ -70,13 +70,13 @@ public class crane {
     }
 
     public void craneMaintenance(){
-        if(leftDrawerSlide.getCurrentPosition() < 50 && leftDrawerSlide.getCurrent(CurrentUnit.AMPS) > 0.5 && leftDrawerSlide.getTargetPosition() == 0){
+        if(leftDrawerSlide.getCurrentPosition() < 30 && leftDrawerSlide.getCurrent(CurrentUnit.AMPS) > 0.5 && leftDrawerSlide.getTargetPosition() == 0){
             leftDrawerSlide.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
             leftDrawerSlide.setTargetPosition(0);
             leftDrawerSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
             leftDrawerSlide.setPower(0);
         }
-        if(rightDrawerSlide.getCurrentPosition() < 50 && rightDrawerSlide.getCurrent(CurrentUnit.AMPS)  > 0.5 && rightDrawerSlide.getTargetPosition() == 0){
+        if(rightDrawerSlide.getCurrentPosition() < 30 && rightDrawerSlide.getCurrent(CurrentUnit.AMPS)  > 0.5 && rightDrawerSlide.getTargetPosition() == 0){
             rightDrawerSlide.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
             rightDrawerSlide.setTargetPosition(0);
             rightDrawerSlide.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);

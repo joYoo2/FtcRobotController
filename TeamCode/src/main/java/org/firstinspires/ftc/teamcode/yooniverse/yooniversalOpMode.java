@@ -130,17 +130,12 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         clawTurnRight.setPosition(0.9);
     }
 
-    public void lowChamber(){
-        slides.setTargetPosition(0);
-        //figure out how low chamber works ig idk
-    }
-
     public void highChamber(){
         slides.setTargetPosition(1300);
     }
 
     public void highChamberSpecimenClaw(){
-        slides.setTargetPosition(1875);
+        slides.setTargetPosition(values.craneHighChamberSpecimenClaw);
     }
 
     public void highChamberDown(){
@@ -153,7 +148,7 @@ public abstract class yooniversalOpMode extends LinearOpMode{
 
 
     public void highBasket(){
-        slides.setTargetPosition(3800);
+        slides.setTargetPosition(values.craneHighBasket);
     }
 
     public void slidesResting(){
@@ -161,9 +156,4 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     }
 
 
-//    public void clawStriaght(){
-//        clawTurnLeft.setPosition(0.3);
-//        clawTurnRight.setPosition(0.7);
-//
-//    }
 }

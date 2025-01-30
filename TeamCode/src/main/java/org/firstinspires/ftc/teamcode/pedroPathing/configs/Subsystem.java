@@ -72,13 +72,11 @@ public class Subsystem {
     }
 
     public void clawHover(){
-        clawRotateServo.setPosition(0.5);
         clawTurnLeft.setPosition(0.36);
         clawTurnRight.setPosition(0.64);
     }
 
     public void clawHoverUp(){
-        clawRotateServo.setPosition(0.5);
         clawTurnLeft.setPosition(0.30);
         clawTurnRight.setPosition(0.7);
     }
@@ -91,7 +89,6 @@ public class Subsystem {
     }
 
     public void clawUp(){
-        clawRotateServo.setPosition(0.5);
         clawTurnLeft.setPosition(0.20);
         clawTurnRight.setPosition(0.8);
 
@@ -112,24 +109,29 @@ public class Subsystem {
     }
 
     public void highChamber(){
-        slides.setTargetPosition(1700);
+        slides.setTargetPosition(values.craneHighChamber);
     }
 
+    public void highChamberUp(){
+        slides.setTargetPosition(values.craneHighChamber + 600);
+    }
+
+
     public void highChamberSpecimenClaw(){
-        slides.setTargetPosition(1950);
+        slides.setTargetPosition(values.craneHighChamberSpecimenClaw);
     }
 
     public void highChamberDown(){
-        slides.setTargetPosition(1000);
+        slides.setTargetPosition(values.craneHighChamber - 600);
     }
 
     public void highChamberDownSpecimenClaw(){
-        slides.setTargetPosition(1300);
+        slides.setTargetPosition(values.craneHighChamberSpecimenClaw - 600);
     }
 
 
     public void highBasket(){
-        slides.setTargetPosition(4050);
+        slides.setTargetPosition(values.craneHighBasket);
     }
 
     public void slidesResting(){

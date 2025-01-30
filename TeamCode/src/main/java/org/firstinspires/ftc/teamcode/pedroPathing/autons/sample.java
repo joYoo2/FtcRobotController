@@ -51,10 +51,10 @@ public class sample extends OpMode {
     private final Pose scorePose = new Pose(19, 123, Math.toRadians(135));
 
     /** Lowest (First) Sample from the Spike Mark */
-    private final Pose pickup1Pose = new Pose(32, 119, Math.toRadians(0));
+    private final Pose pickup1Pose = new Pose(31, 119, Math.toRadians(0));
 
     /** Middle (Second) Sample from the Spike Mark */
-    private final Pose pickup2Pose = new Pose(32, 129, Math.toRadians(0));
+    private final Pose pickup2Pose = new Pose(31, 129, Math.toRadians(0));
 
     /** Highest (Third) Sample from the Spike Mark */
     private final Pose pickup3Pose = new Pose(31, 129, Math.toRadians(35));
@@ -100,8 +100,8 @@ public class sample extends OpMode {
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(scorePose), new Point(pickup1Pose)))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading(), .5)
-                .setPathEndHeadingConstraint(Math.toRadians(.5))
+                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading(), .7)
+                //.setPathEndHeadingConstraint(Math.toRadians(.5))
                 .setPathEndTranslationalConstraint(0.1)
                 .setPathEndTimeoutConstraint(400)
                 .build();
@@ -115,8 +115,8 @@ public class sample extends OpMode {
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(scorePose), new Point(pickup2Pose)))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup2Pose.getHeading(), .5)
-                .setPathEndHeadingConstraint(Math.toRadians(.5))
+                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup2Pose.getHeading(), .7)
+                //.setPathEndHeadingConstraint(Math.toRadians(.5))
                 .setPathEndTranslationalConstraint(0.1)
                 .setPathEndTimeoutConstraint(400)
                 .build();
@@ -130,7 +130,7 @@ public class sample extends OpMode {
         /* This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup3 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(scorePose), new Point(pickup3Pose)))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup3Pose.getHeading(), .5)
+                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup3Pose.getHeading(), .7)
                 .setPathEndHeadingConstraint(Math.toRadians(.5))
                 .setPathEndTranslationalConstraint(0.1)
                 .setPathEndTimeoutConstraint(400)
@@ -171,8 +171,8 @@ public class sample extends OpMode {
                 if(!follower.isBusy()) {
                     /* Score Preload */
 
-                    if(actions.slides.getCurrentRightPosition() > 3750 || pathTimer.getElapsedTimeSeconds() > 5){
-                        if((actions.slides.getCurrentRightPosition() == 3770 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset){
+                    if(actions.slides.getCurrentRightPosition() > 2850 || pathTimer.getElapsedTimeSeconds() > 5){
+                        if((actions.slides.getCurrentRightPosition() == 2870 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset){
                             pathTimer.resetTimer();
                             timerReset = true;
                         }
@@ -194,18 +194,20 @@ public class sample extends OpMode {
                 }
                 break;
             case 2:
+                if(pathTimer.getElapsedTimeSeconds() > 1){
+                    actions.clawDown();
+                }
                 if(!follower.isBusy()) {
                     /* Grab Sample */
-                    actions.clawDown();
                     if(actions.slides.getCurrentLeftPosition() < 40 || pathTimer.getElapsedTimeSeconds() >= 5){
                         if((actions.slides.getCurrentLeftPosition() == 30 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset) {
                             pathTimer.resetTimer();
                             timerReset = true;
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 2.5){
+                        if(pathTimer.getElapsedTimeSeconds() > 2){
                             actions.closeClaw();
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 2.7){
+                        if(pathTimer.getElapsedTimeSeconds() > 2.1){
                             actions.clawVertical();
                             actions.slides.resetEncoders();
                             actions.highBasket();
@@ -222,8 +224,8 @@ public class sample extends OpMode {
             case 3:
                 if(!follower.isBusy()) {
                     /* Score Sample */
-                    if(actions.slides.getCurrentRightPosition() > 3750 || pathTimer.getElapsedTimeSeconds() > 5){
-                        if((actions.slides.getCurrentRightPosition() == 3770 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset){
+                    if(actions.slides.getCurrentRightPosition() > 2850 || pathTimer.getElapsedTimeSeconds() > 5){
+                        if((actions.slides.getCurrentRightPosition() == 2870 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset){
                             pathTimer.resetTimer();
                             timerReset = true;
                         }
@@ -244,18 +246,20 @@ public class sample extends OpMode {
                 }
                 break;
             case 4:
+                if(pathTimer.getElapsedTimeSeconds() > 1){
+                    actions.clawDown();
+                }
                 if(!follower.isBusy()) {
                     /* Grab Sample */
-                    actions.clawDown();
                     if(actions.slides.getCurrentLeftPosition() < 40 || pathTimer.getElapsedTimeSeconds() >= 5){
                         if((actions.slides.getCurrentLeftPosition() == 30 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset) {
                             pathTimer.resetTimer();
                             timerReset = true;
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 2.5){
+                        if(pathTimer.getElapsedTimeSeconds() > 2){
                             actions.closeClaw();
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 2.7){
+                        if(pathTimer.getElapsedTimeSeconds() > 2.1){
                             actions.clawVertical();
                             actions.slides.resetEncoders();
                             actions.highBasket();
@@ -271,8 +275,8 @@ public class sample extends OpMode {
             case 5:
                 if(!follower.isBusy()) {
                     /* Score Sample */
-                    if(actions.slides.getCurrentRightPosition() > 3750 || pathTimer.getElapsedTimeSeconds() > 5){
-                        if((actions.slides.getCurrentRightPosition() == 3770 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset){
+                    if(actions.slides.getCurrentRightPosition() > 2850 || pathTimer.getElapsedTimeSeconds() > 5){
+                        if((actions.slides.getCurrentRightPosition() == 2870 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset){
                             pathTimer.resetTimer();
                             timerReset = true;
                         }
@@ -293,22 +297,24 @@ public class sample extends OpMode {
                 }
                 break;
             case 6:
+                if(pathTimer.getElapsedTimeSeconds() > 1){
+                    actions.clawDown();
+                }
                 if(!follower.isBusy()) {
                     /* Grab Sample */
-                    actions.clawDown();
                     if(actions.slides.getCurrentLeftPosition() < 40 || pathTimer.getElapsedTimeSeconds() >= 5){
                         if((actions.slides.getCurrentLeftPosition() == 30 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset) {
                             pathTimer.resetTimer();
                             timerReset = true;
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 0.5){
+                        if(pathTimer.getElapsedTimeSeconds() > 1.5){
                             actions.extendClaw();
                             actions.clawRotateServo.setPosition(0.65);
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 3){
+                        if(pathTimer.getElapsedTimeSeconds() > 2.2){
                             actions.closeClaw();
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 3.5){
+                        if(pathTimer.getElapsedTimeSeconds() > 2.3){
                             actions.clawVertical();
                             actions.retractClaw();
                             actions.slides.resetEncoders();
@@ -326,8 +332,8 @@ public class sample extends OpMode {
             case 7:
                 if(!follower.isBusy()) {
                     /* Score Sample */
-                    if(actions.slides.getCurrentRightPosition() > 3750 || pathTimer.getElapsedTimeSeconds() > 5){
-                        if((actions.slides.getCurrentRightPosition() == 3770 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset){
+                    if(actions.slides.getCurrentRightPosition() > 2850 || pathTimer.getElapsedTimeSeconds() > 5){
+                        if((actions.slides.getCurrentRightPosition() == 2870 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset){
                             pathTimer.resetTimer();
                             timerReset = true;
                         }
@@ -351,7 +357,7 @@ public class sample extends OpMode {
                 if(!follower.isBusy()) {
                     /* Put the claw in position to get a level 1 ascent */
                     actions.closeClaw();
-                    actions.clawDown();
+                    actions.clawHoverUp();
 
                     /* Set the state to a Case we won't use or define, so it just stops running an new paths */
                     setPathState(-1);

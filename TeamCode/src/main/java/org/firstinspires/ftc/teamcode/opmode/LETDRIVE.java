@@ -27,6 +27,7 @@ public class LETDRIVE extends yooniversalOpMode{
         boolean reverseDrive = false;
         boolean specimenTimer = false;
         boolean insideOut = false;
+        boolean emergencySlides = false;
 
 
 
@@ -43,11 +44,11 @@ public class LETDRIVE extends yooniversalOpMode{
 
 
             //just in case code (can delete if not necessary ask miguel)
-            if(slides.getCurrentLeftPosition() > 3000 || slides.getCurrentRightPosition() > 3000){
-                train.setPower(0.5);
-            }else{
-                train.setPower(1);
-            }
+//            if(slides.getCurrentLeftPosition() > 2500 || slides.getCurrentRightPosition() > 2500){
+//                train.setPower(0.5);
+//            }else{
+//                train.setPower(1);
+//            }
 
             //reverse drive code
             if(gamepad1.dpad_up){
@@ -130,15 +131,16 @@ public class LETDRIVE extends yooniversalOpMode{
                 highChamberSpecimenClaw();
 
             }else if(gamepad2.left_bumper){
-                slides.setTargetPosition(values.craneHighBasket);
+                highBasket();
                 clawVertical();
 
             //Code to automatically raise the slides after releasing the closeSpecimen button VVV
             }else if(timer.time() > 0.3 && specimenTimer){
                 if(slides.getCurrentLeftPosition() > 350 || slides.getCurrentRightPosition() > 350){
                     specimenTimer = false;
+                }else{
+                    slides.setTargetPosition(400);
                 }
-                slides.setTargetPosition(400);
 
             }else{
                 slides.move(slides.getCurrentRightPosition(), false);
@@ -165,7 +167,13 @@ public class LETDRIVE extends yooniversalOpMode{
             if(gamepad2.options){
                 slides.resetEncoders();
             }else if(gamepad2.share) {
+                //EMERGENCY SLIDES DOWN
+                emergencySlides = true;
                 slides.setTargetPosition(-3000);
+            }else if(!gamepad2.share && emergencySlides){
+                //resets encoders after emergency slides
+                slides.resetEncoders();
+                emergencySlides = false;
             }
 
             //rumble code
@@ -189,7 +197,7 @@ public class LETDRIVE extends yooniversalOpMode{
             }
 
             if((slides.getAmpsLeft() > 5 || slides.getAmpsRight() > 5) && matchTime.seconds() < 120){
-                gamepad2.rumbleBlips(5);
+                gamepad2.rumble(50);
             }
 
 
@@ -202,11 +210,11 @@ public class LETDRIVE extends yooniversalOpMode{
                 timer.reset();
             }
 
-            if(insideOut){
-                gamepad1.setLedColor(0.1, 0.5, 0.1, 50000);
-            }else{
-                gamepad1.setLedColor(0, 0, 1, 50000);
-            }
+//            if(insideOut){
+//                gamepad1.setLedColor(0.1, 0.5, 0.1, 50000);
+//            }else{
+//                gamepad1.setLedColor(0, 0, 1, 50000);
+//            }
 
 
             slides.craneMaintenance();
@@ -217,7 +225,6 @@ public class LETDRIVE extends yooniversalOpMode{
             telemetry.addData("right crane amps", slides.getAmpsRight());
             telemetry.addData("rotate", clawRotateServo.getPosition());
             telemetry.addData("inside out", insideOut);
-            telemetry.addData("timer", timer.time());
             telemetry.update();
         }
 

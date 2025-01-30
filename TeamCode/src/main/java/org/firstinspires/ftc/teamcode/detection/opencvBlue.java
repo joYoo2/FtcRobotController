@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.detection;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -25,10 +26,11 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
+@TeleOp(name = "Concept: Vision Color-Locator w/ angle", group = "Concept")
 public class opencvBlue extends LinearOpMode {
     double cX = 0;
     double cY = 0;
-    Servo clawPivot;
+    Servo clawRotate;
     double width = 0;
     double angle = 0;
     private OpenCvCamera controlHubCam;  // Use OpenCvCamera class from FTC SDK
@@ -43,11 +45,15 @@ public class opencvBlue extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        clawPivot = hardwareMap.get(Servo.class, "clawPivot");
+        clawRotate = hardwareMap.get(Servo.class, "clawRotateServo");
         initOpenCV();
         FtcDashboard dashboard = FtcDashboard.getInstance();
+
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
         FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
+
+        boolean pressed = false;
+        int posit = 0;
 
 
         waitForStart();
@@ -60,8 +66,13 @@ public class opencvBlue extends LinearOpMode {
 //                telemetry.addData("Angle status", "not updating");
 //            }
 
-            double oneDegree = 0.00278;
-
+            double oneDegree = 0.0039; //0.00278
+            if(gamepad1.dpad_up && !pressed){
+                pressed = true;
+                posit = (posit+1)%2;
+            }else if(!gamepad1.dpad_up){
+                pressed = false;
+            }
 
             //TODO: change this variable (probably)
             double ClawPivotPos = 0.5-(oneDegree*(int)angle);
@@ -69,8 +80,11 @@ public class opencvBlue extends LinearOpMode {
             telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
             telemetry.addData("Distance in Inch", (getDistance(width)));
             telemetry.addData("angle", ClawPivotPos);
+            telemetry.addData("angle real", angle);
             telemetry.update();
-            clawPivot.setPosition(ClawPivotPos);
+
+            //oneDegree*(int)angle //
+            clawRotate.setPosition(ClawPivotPos);
 //            if (gamepad2.a){
 //                AngleFound = false;
 //            }
