@@ -11,10 +11,10 @@ import org.firstinspires.ftc.teamcode.detection.indubitably;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 
-@TeleOp(name = "cameraTest", group = "Concept")
+//@TeleOp(name = "cameraTest", group = "Concept")
 public class cameratest extends LinearOpMode{
     public indubitably cam;
     public void runOpMode() {
-        cam = new indubitably(Telemetry telemetry);
+        //cam = new indubitably(Telemetry telemetry);
     }
 }

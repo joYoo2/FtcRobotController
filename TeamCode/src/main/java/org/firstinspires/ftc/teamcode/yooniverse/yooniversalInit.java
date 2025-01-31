@@ -31,7 +31,7 @@ public class yooniversalInit {
         frontRight = hardwareMap.get(DcMotorEx.class, "frontRight");
 
         backLeft = hardwareMap.get(DcMotorEx.class, "backLeft");
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        //backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         backRight = hardwareMap.get(DcMotorEx.class, "backRight");
 
