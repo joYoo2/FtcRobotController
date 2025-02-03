@@ -218,8 +218,16 @@ public class opencvBlue extends LinearOpMode {
             return Double.NaN;
         }
         RotatedRect rotatedRect = Imgproc.minAreaRect(new MatOfPoint2f(largestContour.toArray()));
-        angle = rotatedRect.angle;
+        if (rotatedRect.size.width < rotatedRect.size.height) {
+            angle = rotatedRect.angle + 90;  // Adjust for OpenCV's convention
+        } else {
+            angle = rotatedRect.angle;
+        }
 
+// Ensure the angle is in the 0-180 range
+        if (angle < 0) {
+            angle += 180;
+        }
         return angle;
     }
 }

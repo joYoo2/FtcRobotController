@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 @TeleOp(name = "Example Robot-Centric Teleop", group = "Examples")
 public class ExampleRobotCentricTeleop extends OpMode {
     private Follower follower;
-    private final Pose startPose = new Pose(0,0,0);
+    private final Pose startPose = new Pose(63, 98, Math.toRadians(-90));
 
     private final Pose grabBackPose = new Pose(20, 33, Math.toRadians(0));
     private final Pose grabPose = new Pose(10, 33, Math.toRadians(0));
