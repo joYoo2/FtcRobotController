@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.configs.Subsystem;
+import org.firstinspires.ftc.teamcode.yooniverse.values;
 
 
 @Autonomous(name = "Samples PEDRO", group = "Pedro")
@@ -446,5 +447,6 @@ public class sample extends OpMode {
     /** We do not use this because everything should automatically disable **/
     @Override
     public void stop() {
+        values.teleopStart = follower.getPose();
     }
 }

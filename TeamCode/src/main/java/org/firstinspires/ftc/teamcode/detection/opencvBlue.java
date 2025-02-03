@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.vision.VisionPortal;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -52,11 +53,11 @@ public class opencvBlue extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
         FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
 
-        boolean pressed = false;
-        int posit = 0;
+
 
 
         waitForStart();
+        double ClawPivotPos = 0;
 
         while (opModeIsActive()) {
 //            if (!Double.isNaN(getAngle())) { // we only update the angle if its not a null value
@@ -67,15 +68,10 @@ public class opencvBlue extends LinearOpMode {
 //            }
 
             double oneDegree = 0.0039; //0.00278
-            if(gamepad1.dpad_up && !pressed){
-                pressed = true;
-                posit = (posit+1)%2;
-            }else if(!gamepad1.dpad_up){
-                pressed = false;
-            }
+
 
             //TODO: change this variable (probably)
-            double ClawPivotPos = 0.5-(oneDegree*(int)angle);
+            ClawPivotPos += 0.5-(oneDegree*(int)angle);
 
             telemetry.addData("Coordinate", "(" + (int) cX + ", " + (int) cY + ")");
             telemetry.addData("Distance in Inch", (getDistance(width)));
@@ -111,6 +107,7 @@ public class opencvBlue extends LinearOpMode {
         controlHubCam.setPipeline(new RedBlobDetectionPipeline());
 
         controlHubCam.openCameraDevice();
+
         controlHubCam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
     }
 
@@ -228,6 +225,9 @@ public class opencvBlue extends LinearOpMode {
         if (angle < 0) {
             angle += 180;
         }
-        return angle;
+        if (angle == 90) {
+            angle = 0;
+        }
+        return (angle-90);
     }
 }
