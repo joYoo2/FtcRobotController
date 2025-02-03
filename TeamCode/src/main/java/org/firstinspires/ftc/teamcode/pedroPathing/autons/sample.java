@@ -417,7 +417,23 @@ public class sample extends OpMode {
 
     /** This method is called continuously after Init while waiting for "play". **/
     @Override
-    public void init_loop() {}
+    public void init_loop() {
+        boolean posePressed = false;
+        int sampleCounter = 0;
+        telemetry.addData("Press Circle To Set Sample Pose", " (Gamepad 1)");
+        telemetry.addData("Press X to cancel last sample", " (Gamepad 1)");
+        telemetry.addData("Current sample count: ", sampleCounter);
+
+
+        if(gamepad1.a){
+            posePressed = true;
+        }
+        telemetry.update();
+
+        if(posePressed){
+
+        }
+    }
 
     /** This method is called once at the start of the OpMode.
      * It runs all the setup actions, including building paths and starting the path system **/

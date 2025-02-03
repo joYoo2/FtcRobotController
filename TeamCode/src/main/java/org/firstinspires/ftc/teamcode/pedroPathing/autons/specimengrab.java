@@ -45,11 +45,11 @@ public class specimengrab extends OpMode {
     private final Pose grabPose = new Pose(11, 30, Math.toRadians(-90));
 
     /** Poses for pushing the samples */
-    private final Pose pushPose1 = new Pose(32, 39, Math.toRadians(-57));
+    private final Pose pushPose1 = new Pose(36, 40, Math.toRadians(-57));
     private final Pose pushForwardPose1 = new Pose(26, 39, Math.toRadians(-145));
-    private final Pose pushPose2 = new Pose(32, 29, Math.toRadians(-57));
+    private final Pose pushPose2 = new Pose(36, 33, Math.toRadians(-57));
     private final Pose pushForwardPose2 = new Pose(26, 29, Math.toRadians(-145));
-    private final Pose pushPose3 = new Pose(29, 17, Math.toRadians(-46));
+    private final Pose pushPose3 = new Pose(38, 15, Math.toRadians(-46));
     private final Pose pushForwardPose3 = new Pose(26, 16, Math.toRadians(-160));
     private final Pose moveBackPose = new Pose(20, 20, Math.toRadians(0));
 
@@ -299,13 +299,11 @@ public class specimengrab extends OpMode {
                 break;
             case 6:
                 if(!follower.isBusy()) {
-                    actions.extendClaw();
                     if(pathTimer.getElapsedTimeSeconds() > 1.7) {
                         actions.clawDown();
                     }
                     if(pathTimer.getElapsedTimeSeconds() > 1.9) {
                         actions.closeClaw();
-                        actions.retractClaw();
                         follower.followPath(moveThirdBlockNet, true);
                         setPathState(7);
                     }
