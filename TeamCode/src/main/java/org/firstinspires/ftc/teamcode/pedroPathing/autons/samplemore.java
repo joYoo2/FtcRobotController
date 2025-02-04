@@ -16,6 +16,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.pedroPathing.configs.Subsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
+import org.firstinspires.ftc.teamcode.yooniverse.values;
 
 
 @Autonomous(name = "Samples BIGGER PEDRO", group = "Pedro")
@@ -28,6 +29,17 @@ public class samplemore extends OpMode {
      * It is used by the pathUpdate method. */
     private int pathState;
     private boolean timerReset;
+
+
+    ///FOR thingy
+    boolean posePressed = false;
+    int sampleCounter = 0;
+    double xCoordinate = 72;
+    double yCoordinate = 100;
+    double angle = 0;
+
+    double rotationAngle;
+    double rotationAngleMOOOOOOORE;
 
     /** This is our subsystem.
      * We call its methods to manipulate the stuff that it has within the subsystem. */
@@ -57,6 +69,11 @@ public class samplemore extends OpMode {
     private final Pose pickup3Pose = new Pose(31, 127.5, Math.toRadians(35));
     private final Pose pickup4Pose = new Pose(12, 110, Math.toRadians(-90));
 
+    //extra submersible samples
+    private Pose subBackPose = new Pose(60, 110, Math.toRadians(-90));
+    private Pose subPose = new Pose(0, 0, 0);
+    private Pose subMOOOOOOOREPose = new Pose(0, 0, 0);
+
     /** Park Pose for our robot, after we do all of the scoring. */
     //private final Pose parkPose = new Pose(60, 98, Math.toRadians(-90));
     private final Pose parkPose = new Pose(63, 98, Math.toRadians(-90));
@@ -67,7 +84,7 @@ public class samplemore extends OpMode {
 
     /* These are our Paths and PathChains that we will define in buildPaths() */
     private Path scorePreload, park;
-    private PathChain grabPickup1, grabPickup2, grabPickup3, grabPickup4, scorePickup1, scorePickup2, scorePickup3, scorePickup4;
+    private PathChain grabPickup1, grabPickup2, grabPickup3, grabPickup4, grabSubmersible, grabSubmersible2, scorePickup1, scorePickup2, scorePickup3, scorePickup4, scoreSubmersible, scoreSubmersible2;
 
     /** Build the paths for the auto (adds, for example, constant/linear headings while doing paths)
      * It is necessary to do this so that all the paths are built before the auto starts. **/
@@ -101,7 +118,7 @@ public class samplemore extends OpMode {
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading(), .7)
                 //.setPathEndHeadingConstraint(Math.toRadians(.5))
                 .setPathEndTranslationalConstraint(0.1)
-                .setPathEndTimeoutConstraint(400)
+                .setPathEndTimeoutConstraint(200)
                 .build();
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -116,7 +133,7 @@ public class samplemore extends OpMode {
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup2Pose.getHeading(), .7)
                 //.setPathEndHeadingConstraint(Math.toRadians(.5))
                 .setPathEndTranslationalConstraint(0.1)
-                .setPathEndTimeoutConstraint(400)
+                .setPathEndTimeoutConstraint(200)
                 .build();
 
         /* This is our scorePickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -131,7 +148,7 @@ public class samplemore extends OpMode {
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup3Pose.getHeading(), .7)
                 .setPathEndHeadingConstraint(Math.toRadians(.5))
                 .setPathEndTranslationalConstraint(0.1)
-                .setPathEndTimeoutConstraint(400)
+                .setPathEndTimeoutConstraint(200)
                 .build();
 
         /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -146,7 +163,7 @@ public class samplemore extends OpMode {
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup4Pose.getHeading(), .7)
                 .setPathEndHeadingConstraint(Math.toRadians(.5))
                 .setPathEndTranslationalConstraint(0.1)
-                .setPathEndTimeoutConstraint(400)
+                .setPathEndTimeoutConstraint(200)
                 .build();
 
         /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -154,6 +171,35 @@ public class samplemore extends OpMode {
                 .addPath(new BezierLine(new Point(pickup4Pose), new Point(scorePose)))
                 .setLinearHeadingInterpolation(pickup4Pose.getHeading(), scorePose.getHeading())
                 .build();
+
+        ///NEW SUB PATHS
+        grabSubmersible = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(scorePose), new Point(subBackPose)))
+                .setLinearHeadingInterpolation(scorePose.getHeading(), subPose.getHeading(), .7)
+                .addPath(new BezierLine(new Point(subBackPose), new Point(subPose)))
+                .setConstantHeadingInterpolation(subPose.getHeading())
+                .build();
+        scoreSubmersible = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(subPose), new Point(subBackPose)))
+                .setLinearHeadingInterpolation(subPose.getHeading(), scorePose.getHeading())
+                .addPath(new BezierLine(new Point(subBackPose), new Point(scorePose) ))
+                .setConstantHeadingInterpolation(scorePose.getHeading())
+                .build();
+
+
+        grabSubmersible2 = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(scorePose), new Point(subBackPose)))
+                .setLinearHeadingInterpolation(scorePose.getHeading(), subPose.getHeading(), .7)
+                .addPath(new BezierLine(new Point(subBackPose), new Point(subMOOOOOOOREPose)))
+                .setConstantHeadingInterpolation(subPose.getHeading())
+                .build();
+        scoreSubmersible2 = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(subMOOOOOOOREPose), new Point(subBackPose)))
+                .setLinearHeadingInterpolation(subPose.getHeading(), scorePose.getHeading())
+                .addPath(new BezierLine(new Point(subBackPose), new Point(scorePose) ))
+                .setConstantHeadingInterpolation(scorePose.getHeading())
+                .build();
+
 
 
         /* This is our park path. We are using a BezierCurve with 3 points, which is a curved line that is curved based off of the control point */
@@ -360,9 +406,18 @@ public class samplemore extends OpMode {
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3.5){
                             /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-                            follower.followPath(grabPickup4, true);
-                            actions.slidesResting();
-                            setPathState(8);
+                            if(sampleCounter == 0){
+                                follower.followPath(grabPickup4, true);
+                                actions.slidesResting();
+                                setPathState(8);
+                            }else if(sampleCounter == 1){
+                                follower.followPath(grabSubmersible, true);
+                                actions.slidesResting();
+                                //SKIPS TO 11
+                                setPathState(11);
+                            }
+
+
                         }
                     }
                 }
@@ -417,6 +472,111 @@ public class samplemore extends OpMode {
 
                     /* Set the state to a Case we won't use or define, so it just stops running an new paths */
                     setPathState(-1);
+                }
+                break;
+                //first sample sub
+            case 11:
+                if(!follower.isBusy()) {
+                    if(pathTimer.getElapsedTimeSeconds() > 0.1){
+                        actions.extendClaw();
+                        actions.clawHover();
+                        //0.0039 is one degree per tick of rotation servo
+                        actions.rotateClaw(0.5-(0.0039*(int)angle));
+                    }
+                    if(pathTimer.getElapsedTimeSeconds() > 1){
+                        actions.clawDown();
+
+                    }
+                    if(pathTimer.getElapsedTimeSeconds() > 2){
+                        actions.closeClaw();
+                    }
+                    if(pathTimer.getElapsedTimeSeconds() > 2.2){
+                        actions.clawVertical();
+                        follower.followPath(scoreSubmersible, true);
+                        setPathState(12);
+                    }
+
+                }
+                break;
+            case 12:
+                if(!follower.isBusy()) {
+                    /* Score Sample */
+                    if(actions.slides.getCurrentRightPosition() > 2850 || pathTimer.getElapsedTimeSeconds() > 5){
+                        if((actions.slides.getCurrentRightPosition() == 2870 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset){
+                            pathTimer.resetTimer();
+                            timerReset = true;
+                        }
+                        if(pathTimer.getElapsedTimeSeconds() > 0.5){
+                            actions.extendClaw();
+                        }
+                        if(pathTimer.getElapsedTimeSeconds() > 3){
+                            actions.openClawLarge();
+                            actions.retractClaw();
+                        }
+                        if(pathTimer.getElapsedTimeSeconds() > 3.5){
+                            /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
+                            if(sampleCounter == 1){
+                                follower.followPath(park, true);
+                                actions.highChamber();
+                                setPathState(10);
+                            }else if(sampleCounter == 2){
+                                follower.followPath(scoreSubmersible2, true);
+                                actions.slidesResting();
+                                setPathState(13);
+                            }
+
+                        }
+                    }
+                }
+                break;
+                //2nd sample sub
+            case 13:
+                if(!follower.isBusy()) {
+                    if(pathTimer.getElapsedTimeSeconds() > 0.1){
+                        actions.extendClaw();
+                        actions.clawHover();
+                        actions.rotateClaw(0.5-(0.0039*(int)angle));
+                    }
+                    if(pathTimer.getElapsedTimeSeconds() > 1){
+                        actions.clawDown();
+
+                    }
+                    if(pathTimer.getElapsedTimeSeconds() > 2){
+                        actions.closeClaw();
+                    }
+                    if(pathTimer.getElapsedTimeSeconds() > 2.2){
+                        actions.clawVertical();
+                        follower.followPath(scoreSubmersible2, true);
+                        setPathState(14);
+                    }
+
+                }
+                break;
+            case 14:
+                if(!follower.isBusy()) {
+                    /* Score Sample */
+                    if(actions.slides.getCurrentRightPosition() > 2850 || pathTimer.getElapsedTimeSeconds() > 5){
+                        if((actions.slides.getCurrentRightPosition() == 2870 || (pathTimer.getElapsedTimeSeconds() > 5 && pathTimer.getElapsedTimeSeconds() < 5.2)) && !timerReset){
+                            pathTimer.resetTimer();
+                            timerReset = true;
+                        }
+                        if(pathTimer.getElapsedTimeSeconds() > 0.5){
+                            actions.extendClaw();
+                        }
+                        if(pathTimer.getElapsedTimeSeconds() > 3){
+                            actions.openClawLarge();
+                            actions.retractClaw();
+                        }
+                        if(pathTimer.getElapsedTimeSeconds() > 3.5){
+                            /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
+                            if(sampleCounter == 1){
+                                follower.followPath(park, true);
+                                actions.highChamber();
+                                setPathState(10);
+                            }
+
+                        }
+                    }
                 }
                 break;
         }
@@ -474,7 +634,81 @@ public class samplemore extends OpMode {
 
     /** This method is called continuously after Init while waiting for "play". **/
     @Override
-    public void init_loop() {}
+    public void init_loop() {
+        if(!posePressed){
+            if(sampleCounter == 0){
+                telemetry.addData("If there no set pose, defaults to grabbing from other robot", "Currently defaulting to other robot");
+            }
+            telemetry.addData("Press Circle To Set Sample Pose", " (Gamepad 1)");
+            telemetry.addData("Press X to cancel last sample", " (Gamepad 1)");
+            telemetry.addData("Current sample count: ", sampleCounter);
+            telemetry.addData("WIP", "Only capable of 2 extra sub samples");
+
+
+            if(gamepad1.a){
+                posePressed = true;
+            }
+
+            telemetry.update();
+
+        }
+
+        if(posePressed){
+            telemetry.addData("X (DPAD Up & Down) and Y (DPAD Left & Right) Coordinates", " (Gamepad 1)");
+            telemetry.addData("X Coordinate (VERTICAL from player perspective)", xCoordinate);
+            telemetry.addData("Y Coordinate (HORIZONTAL from player perspective)", yCoordinate);
+            //used for claw rotation
+            telemetry.addData("Triggers Angle (left trigger - angle, right trigger + angle)", angle);
+            telemetry.addData("Min X: 50, Max X: 94", "");
+            telemetry.addData("Max Y: 86 Min Y: 73", "Only up to the middle");
+
+            telemetry.addData("Press Circle to Confirm", "Press X To Cancel");
+            if(gamepad1.dpad_up){
+                //UP VERTICALLY from player's perspective (further away from player)
+                xCoordinate += 0.1;
+                if(xCoordinate > 94){
+                    xCoordinate = 94;
+                }
+            }else if(gamepad1.dpad_down){
+                //DOWN VERTICALLY from player's perspective (closer to player)
+                xCoordinate -= 0.1;
+                if(xCoordinate < 50){
+                    xCoordinate = 50;
+                }
+            }
+
+            if(gamepad1.dpad_right){
+                //CLOSER to submersible
+                yCoordinate -= 0.1;
+                if(yCoordinate < 73){
+                    yCoordinate = 73;
+                }
+            }else if(gamepad1.dpad_left){
+                //FURTHER AWAY from submersible
+                yCoordinate += 0.1;
+                if(yCoordinate > 86){
+                    yCoordinate = 86;
+                }
+            }
+
+            if(gamepad1.circle){
+                newSample(xCoordinate, yCoordinate, angle);
+                //set all values back to default
+                xCoordinate = 72;
+                yCoordinate = 100;
+                angle = 0;
+
+                //increment counter for amount of samples defined
+                sampleCounter += 1;
+
+                posePressed = false;
+            }else if(gamepad1.x){
+                posePressed = false;
+            }
+
+            telemetry.update();
+        }
+    }
 
     /** This method is called once at the start of the OpMode.
      * It runs all the setup actions, including building paths and starting the path system **/
@@ -484,8 +718,22 @@ public class samplemore extends OpMode {
         setPathState(0);
     }
 
-    /** We do not use this because everything should automatically disable **/
     @Override
     public void stop() {
+        values.teleopStart = follower.getPose();
+    }
+
+
+    public void newSample(double x, double y, double angle){
+        //shifts the y up because of the reach the robot has'
+        if(sampleCounter == 0){
+            subPose = new Pose(x, y+15, Math.toRadians(-90));
+            rotationAngle = angle;
+
+        }
+        if(sampleCounter == 1){
+            subMOOOOOOOREPose = new Pose(x, y+15, Math.toRadians(-90));
+            rotationAngleMOOOOOOORE = angle;
+        }
     }
 }

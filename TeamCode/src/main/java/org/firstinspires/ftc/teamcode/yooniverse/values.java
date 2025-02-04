@@ -41,5 +41,7 @@ public class values {
 
 
     ///PEDRO PATHS
-    public static Pose teleopStart;
+    public static Pose teleopStart = new Pose(0, 0, 0);
+    public static Pose basketPose = new Pose(18, 123, Math.toRadians(135));
+
 }
