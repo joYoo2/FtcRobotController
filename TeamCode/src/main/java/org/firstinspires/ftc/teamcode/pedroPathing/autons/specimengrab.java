@@ -46,11 +46,11 @@ public class specimengrab extends OpMode {
 
 
     /** Poses for pushing the samples */
-    private final Pose pushPose1 = new Pose(36, 40, Math.toRadians(-57));
+    private final Pose pushPose1 = new Pose(35, 40, Math.toRadians(-57));
     private final Pose pushForwardPose1 = new Pose(26, 39, Math.toRadians(-145));
-    private final Pose pushPose2 = new Pose(36, 33, Math.toRadians(-57));
+    private final Pose pushPose2 = new Pose(35, 33, Math.toRadians(-57));
     private final Pose pushForwardPose2 = new Pose(26, 29, Math.toRadians(-145));
-    private final Pose pushPose3 = new Pose(38, 15, Math.toRadians(-46));
+    private final Pose pushPose3 = new Pose(37, 15, Math.toRadians(-46));
     private final Pose pushForwardPose3 = new Pose(26, 16, Math.toRadians(-160));
     private final Pose moveBackPose = new Pose(20, 20, Math.toRadians(0));
 

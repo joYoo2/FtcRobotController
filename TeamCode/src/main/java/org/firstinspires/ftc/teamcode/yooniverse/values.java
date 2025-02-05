@@ -12,8 +12,8 @@ public class values {
     public static double clawLessOpen = 0.17;
     public static double clawOpen = 0.28;
 
-    public static double clawExtend = 0.26;
-    // was 0.23
+    public static double clawExtend = 0.5;
+    // was 0.26
     public static double clawRetract = 0;
 
 
