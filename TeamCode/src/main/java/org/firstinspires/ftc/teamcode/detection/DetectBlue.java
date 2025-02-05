@@ -1,11 +1,10 @@
-package org.firstinspires.ftc.teamcode.yooniverse;
+package org.firstinspires.ftc.teamcode.detection;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -16,7 +15,8 @@ import org.openftc.easyopencv.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class camera {
+@TeleOp(name = "BlueNotCamera", group = "Concept")
+public class DetectBlue extends LinearOpMode {
     private OpenCvCamera webcam;
     private static final int CAMERA_WIDTH = 1280;
     private static final int CAMERA_HEIGHT = 720;
@@ -25,26 +25,34 @@ public class camera {
     private Servo clawRotateServo;
     private static final double oneDegree = 0.0039; // Servo step per degree
 
-    public camera(HardwareMap hardwareMap){
+    @Override
+    public void runOpMode() {
         clawRotateServo = hardwareMap.get(Servo.class, "clawRotateServo");
         initOpenCV();
 
         FtcDashboard dashboard = FtcDashboard.getInstance();
+        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
         FtcDashboard.getInstance().startCameraStream(webcam, 10);
-    }
 
+        waitForStart();
 
-    public double getAngle() {
-        MatOfPoint largestContour = getLargestContour();
-        if (largestContour != null) {
-            double detectedAngle = getAngle(largestContour);
-            return(0.5 - detectedAngle * oneDegree);
+        while (opModeIsActive()) {
+            MatOfPoint largestContour = getLargestContour();
+            if (largestContour != null) {
+                double detectedAngle = getAngle(largestContour);
+                clawRotateServo.setPosition(0.5-detectedAngle*oneDegree);
+
+                telemetry.addData("Object Angle", detectedAngle);
+                telemetry.update();
+            } else {
+                telemetry.addData("Status", "No object detected, holding position.");
+                telemetry.update();
+            }
         }
-
         webcam.stopStreaming();
     }
 
-    private void initOpenCV(HardwareMap hardwareMap) {
+    private void initOpenCV() {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(

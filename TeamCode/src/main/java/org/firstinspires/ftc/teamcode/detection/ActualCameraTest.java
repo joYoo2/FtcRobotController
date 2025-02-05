@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.opencv.core.Core;
@@ -26,11 +25,11 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-@TeleOp(name = "detectblue", group = "Concept")
-public class opencvBlue extends LinearOpMode {
+@TeleOp(name = "ActualCameraTest", group = "Concept")
+public class ActualCameraTest extends LinearOpMode {
     double cX = 0;
     double cY = 0;
-    Servo clawRotate;
+
     double width = 0;
     double angle = 0;
     private OpenCvCamera controlHubCam;
@@ -42,22 +41,22 @@ public class opencvBlue extends LinearOpMode {
 
     private Mat latestFrame = new Mat();
 
-
     @Override
     public void runOpMode() {
-        clawRotate = hardwareMap.get(Servo.class, "clawRotateServo");
         initOpenCV();
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
-        FtcDashboard.getInstance().startCameraStream(controlHubCam, 10);
+        FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
 
         // **PID Constants (Tuned for smoother motion)**
-        double Kp = 0.1;  // Reduce Proportional gain
-        double clawPosition = 0.5;
-        double targetAngle = 0;
-        double oneDegree = 0.0039;
+        double Kp = 0.5;  // Reduce Proportional gain
+        double Ki = 0.0001; // Small integral to reduce steady-state error
+        double Kd = 0.002;  // Add derivative to slow down aggressive changes
 
-        clawRotate.setPosition(0.5);
+        double previousError = 0;
+        double integral = 0;
+        double maxIntegral = 15; // **Prevent integral windup**
+
 
         waitForStart();
 
@@ -65,29 +64,31 @@ public class opencvBlue extends LinearOpMode {
             MatOfPoint largestContour = getLargestContour(); // Get detected object
 
             if (largestContour != null) {
-                double detectedAngle = getAngle(largestContour);
-                  // Assume claw should align with 90 degrees
+                double detectedAngle = -1.0*getAngle(largestContour);
+                double targetAngle = 0;  // Assume claw should align with 90 degrees
+                double error = targetAngle - detectedAngle;
 
+                // **PID Calculation**
+                integral += error;
+                integral = Math.max(-maxIntegral, Math.min(maxIntegral, integral)); // **Clamp integral term**
+                double derivative = error - previousError;
+                previousError = error;
 
-                double adjustment = (Kp * detectedAngle)/2;
+                double adjustment = (Kp * error);
 
                 // **Convert to servo position**
+                double oneDegree = 0.0039;
 
-                clawPosition -= (oneDegree * adjustment);
-                clawPosition = Math.max(0, Math.min(1, clawPosition));  // Keep within valid range
-
-                clawRotate.setPosition(clawPosition);
 
                 telemetry.addData("Object Angle", detectedAngle);
-                telemetry.addData("Servo Position", clawPosition);
+
+                telemetry.addData("Error", error);
                 telemetry.addData("adjustment", adjustment);
-                telemetry.addData("clawPosition", clawPosition);
                 telemetry.update();
             } else {
                 telemetry.addData("Status", "No object detected, holding position.");
                 telemetry.update();
             }
-
         }
 
         controlHubCam.stopStreaming();
