@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.yooniverse;
 
+import com.pedropathing.localization.Pose;
+
 public class values {
 
     //Claw Positions
@@ -13,6 +15,8 @@ public class values {
     public static double clawExtend = 0.26;
     // was 0.23
     public static double clawRetract = 0;
+
+
 
 
 
@@ -33,4 +37,11 @@ public class values {
     public static int turn90DegreesClockwise = 90;
 
     public static int turn90DegreesCounterClockwise = - 90;
+
+
+
+    ///PEDRO PATHS
+    public static Pose teleopStart = new Pose(0, 0, 0);
+    public static Pose basketPose = new Pose(18, 123, Math.toRadians(135));
+
 }

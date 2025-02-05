@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.configs.Subsystem;
+import org.firstinspires.ftc.teamcode.yooniverse.values;
 
 
 @Autonomous(name = "Samples PEDRO", group = "Pedro")
@@ -418,21 +419,7 @@ public class sample extends OpMode {
     /** This method is called continuously after Init while waiting for "play". **/
     @Override
     public void init_loop() {
-        boolean posePressed = false;
-        int sampleCounter = 0;
-        telemetry.addData("Press Circle To Set Sample Pose", " (Gamepad 1)");
-        telemetry.addData("Press X to cancel last sample", " (Gamepad 1)");
-        telemetry.addData("Current sample count: ", sampleCounter);
 
-
-        if(gamepad1.a){
-            posePressed = true;
-        }
-        telemetry.update();
-
-        if(posePressed){
-
-        }
     }
 
     /** This method is called once at the start of the OpMode.
@@ -446,5 +433,6 @@ public class sample extends OpMode {
     /** We do not use this because everything should automatically disable **/
     @Override
     public void stop() {
+        values.teleopStart = follower.getPose();
     }
 }

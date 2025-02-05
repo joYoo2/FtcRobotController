@@ -41,8 +41,9 @@ public class specimengrab extends OpMode {
 
 
     /** Grabbing the specimen from the observation zone */
-    private final Pose grabBackPose = new Pose(11, 28, Math.toRadians(-90));
-    private final Pose grabPose = new Pose(11, 30, Math.toRadians(-90));
+    private final Pose grabBackPose = new Pose(20, 32, Math.toRadians(0));
+    private final Pose grabPose = new Pose(10.5, 32, Math.toRadians(0));
+
 
     /** Poses for pushing the samples */
     private final Pose pushPose1 = new Pose(36, 40, Math.toRadians(-57));
@@ -315,7 +316,7 @@ public class specimengrab extends OpMode {
                     actions.extendClaw();
                     if(pathTimer.getElapsedTimeSeconds() > 1.5){
                         actions.openClawLarge();
-                        actions.clawHover();
+                        actions.clawEvenMoreVertical();
                         actions.retractClaw();
                         actions.clawRotateServo.setPosition(0.5);
                         follower.followPath(grabSpecimen1, true);
@@ -327,16 +328,16 @@ public class specimengrab extends OpMode {
             case 8:
                 if(!follower.isBusy()) {
                     if(pathTimer.getElapsedTimeSeconds() > 2.2){
-                        actions.clawDown();
+
                     }
                     if(pathTimer.getElapsedTimeSeconds() > 2.3){
-                        actions.closeClaw();
+
                     }
                     if(pathTimer.getElapsedTimeSeconds() > 2.4){
-                        actions.clawVertical();
+
                         actions.highChamber();
                         if(actions.slides.getCurrentRightPosition() > 100){
-                            follower.followPath(scoreSpecimen3, true);
+                            follower.followPath(scoreSpecimen1, true);
                             setPathState(9);
                         }
                     }
@@ -346,13 +347,11 @@ public class specimengrab extends OpMode {
                 if(!follower.isBusy()) {
                     /* Grab Sample */
                     if (pathTimer.getElapsedTimeSeconds() > 3) {
-                        actions.highChamberSpecimenClaw();
                     }
                     if (pathTimer.getElapsedTimeSeconds() > 4) {
-                        actions.openClaw();
                         actions.slidesResting();
-                            follower.followPath(grabSpecimen4, true);
-                        setPathState(-1);
+                            follower.followPath(grabSpecimen2, true);
+                        setPathState(10);
 
                         }
 
@@ -363,18 +362,75 @@ public class specimengrab extends OpMode {
             case 10:
                 if(!follower.isBusy()) {
                     if(pathTimer.getElapsedTimeSeconds() > 2.2){
-                        actions.specimenClose();
                     }
                     if(pathTimer.getElapsedTimeSeconds() > 2.4){
-                        actions.highChamberSpecimenClaw();
+                        actions.highChamber();
                         if(actions.slides.getCurrentRightPosition() > 100) {
-                            follower.followPath(scoreSpecimen4, true);
+                            follower.followPath(scoreSpecimen2, true);
                             setPathState(11);
                         }
                     }
                 }
                 break;
             case 11:
+                if(!follower.isBusy()) {
+                    /* Grab Sample */
+                    if (pathTimer.getElapsedTimeSeconds() > 3) {
+                    }
+                    if (pathTimer.getElapsedTimeSeconds() > 4) {
+                        actions.slidesResting();
+                        follower.followPath(grabSpecimen3, true);
+                        setPathState(12);
+
+                    }
+
+
+
+                }
+                break;
+            case 12:
+                if(!follower.isBusy()) {
+                    if(pathTimer.getElapsedTimeSeconds() > 2.2){
+                    }
+                    if(pathTimer.getElapsedTimeSeconds() > 2.4){
+                        actions.highChamberSpecimenClaw();
+                        if(actions.slides.getCurrentRightPosition() > 100) {
+                            follower.followPath(scoreSpecimen3, true);
+                            setPathState(13);
+                        }
+                    }
+                }
+                break;
+            case 13:
+                if(!follower.isBusy()) {
+                    /* Grab Sample */
+                    if (pathTimer.getElapsedTimeSeconds() > 3) {
+                    }
+                    if (pathTimer.getElapsedTimeSeconds() > 4) {
+                        actions.slidesResting();
+                        follower.followPath(grabSpecimen4, true);
+                        setPathState(14);
+
+                    }
+
+
+
+                }
+                break;
+            case 14:
+                if(!follower.isBusy()) {
+                    if(pathTimer.getElapsedTimeSeconds() > 2.2){
+                    }
+                    if(pathTimer.getElapsedTimeSeconds() > 2.4){
+                        actions.highChamberSpecimenClaw();
+                        if(actions.slides.getCurrentRightPosition() > 100) {
+                            follower.followPath(scoreSpecimen4, true);
+                            setPathState(15);
+                        }
+                    }
+                }
+                break;
+            case 16:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Grab Sample */
@@ -382,7 +438,6 @@ public class specimengrab extends OpMode {
                         actions.highChamberDownSpecimenClaw();
                     }
                     if (pathTimer.getElapsedTimeSeconds() > 4) {
-                        actions.specimenOpen();
                         actions.slidesResting();
                             /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                             follower.followPath(park, true);
