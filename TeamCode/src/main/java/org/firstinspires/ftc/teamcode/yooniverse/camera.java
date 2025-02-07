@@ -27,7 +27,7 @@ public class camera {
 
     public camera(HardwareMap hardwareMap){
         clawRotateServo = hardwareMap.get(Servo.class, "clawRotateServo");
-        initOpenCV();
+        //initOpenCV();
 
         FtcDashboard dashboard = FtcDashboard.getInstance();
         FtcDashboard.getInstance().startCameraStream(webcam, 10);
@@ -40,8 +40,8 @@ public class camera {
             double detectedAngle = getAngle(largestContour);
             return(0.5 - detectedAngle * oneDegree);
         }
-
         webcam.stopStreaming();
+        return(0.5);
     }
 
     private void initOpenCV(HardwareMap hardwareMap) {

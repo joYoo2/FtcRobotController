@@ -34,7 +34,7 @@ public class samplemore extends OpMode {
     ///FOR thingy
     boolean posePressed = false;
     int sampleCounter = 0;
-    double xCoordinate = 69;
+    double xCoordinate = 72;
     double yCoordinate = 84;
     double angle = 0;
 
@@ -176,8 +176,12 @@ public class samplemore extends OpMode {
         grabSubmersible = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(scorePose), new Point(subBackPose)))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), subPose.getHeading(), .7)
+                .setPathEndTimeoutConstraint(200)
+                .setZeroPowerAccelerationMultiplier(3)
                 .addPath(new BezierLine(new Point(subBackPose), new Point(subPose)))
                 .setConstantHeadingInterpolation(subPose.getHeading())
+                .setPathEndTimeoutConstraint(200)
+                .setZeroPowerAccelerationMultiplier(2)
                 .build();
         scoreSubmersible = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(subPose), new Point(subBackPose)))
@@ -380,6 +384,7 @@ public class samplemore extends OpMode {
                                 actions.slidesResting();
                                 setPathState(8);
                             }else if(sampleCounter == 1){
+                                follower.setMaxPower(0.8);
                                 follower.followPath(grabSubmersible, true);
                                 actions.slidesResting();
                                 //SKIPS TO 11
@@ -449,7 +454,7 @@ public class samplemore extends OpMode {
                 if (pathTimer.getElapsedTimeSeconds() > 1.8) {
                     actions.extendClaw();
                 }
-                if(!follower.isBusy()) {
+                if(!follower.isBusy() || pathTimer.getElapsedTimeSeconds() > 2.7) {
                     if(pathTimer.getElapsedTimeSeconds() > 3){
                         actions.clawDown();
 
@@ -460,6 +465,7 @@ public class samplemore extends OpMode {
                     if(pathTimer.getElapsedTimeSeconds() > 4.2){
                         actions.clawVertical();
                         actions.rotateClaw(0.5);
+                        follower.setMaxPower(1);
                         follower.followPath(scoreSubmersible, true);
                         setPathState(12);
                     }
@@ -625,11 +631,11 @@ public class samplemore extends OpMode {
         if(posePressed){
             telemetry.addData("X (DPAD Up & Down) and Y (DPAD Left & Right) Coordinates", " (Gamepad 1)");
             telemetry.addData("X Coordinate (VERTICAL from player perspective)", xCoordinate-72);
-            telemetry.addData("Y Coordinate (HORIZONTAL from player perspective)", yCoordinate-100);
+            telemetry.addData("Y Coordinate (HORIZONTAL from player perspective)", yCoordinate-84);
             //used for claw rotation
             telemetry.addData("Triggers Angle (left trigger - angle, right trigger + angle)", angle);
-            telemetry.addData("Min X: 55, Max X: 94", "");
-            telemetry.addData("Max Y: 86 Min Y: 73", "Only up to the middle");
+            telemetry.addData("Min X: -17, Max X: 22", "");
+            telemetry.addData("Max Y: -6 Min Y: 11", "Only up to the middle");
 
             telemetry.addData("Press Circle to Confirm", "Press X To Cancel");
             if(gamepad1.dpad_up){
@@ -655,8 +661,8 @@ public class samplemore extends OpMode {
             }else if(gamepad1.dpad_left){
                 //FURTHER AWAY from submersible
                 yCoordinate += 0.01;
-                if(yCoordinate > 86){
-                    yCoordinate = 86;
+                if(yCoordinate > 90){
+                    yCoordinate = 90;
                 }
             }
 
@@ -670,7 +676,7 @@ public class samplemore extends OpMode {
                 newSample(xCoordinate, yCoordinate, angle);
                 //set all values back to default
                 xCoordinate = 72;
-                yCoordinate = 100;
+                yCoordinate = 84;
                 angle = 0;
 
                 //increment counter for amount of samples defined
@@ -703,12 +709,12 @@ public class samplemore extends OpMode {
     public void newSample(double x, double y, double angle){
         //shifts the y up because of the reach the robot has'
         if(sampleCounter == 0){
-            subPose = new Pose((int)x, (int)y+15, Math.toRadians(-90));
+            subPose = new Pose((int)x, (int)y+13, Math.toRadians(-90));
             rotationAngle = angle;
 
         }
         if(sampleCounter == 1){
-            subMOOOOOOOREPose = new Pose((int)x, (int)y+15, Math.toRadians(-90));
+            subMOOOOOOOREPose = new Pose((int)x, (int)y+13, Math.toRadians(-90));
             rotationAngleMOOOOOOORE = angle;
         }
     }
