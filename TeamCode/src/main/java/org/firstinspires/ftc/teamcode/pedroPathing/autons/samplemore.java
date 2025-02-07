@@ -446,7 +446,7 @@ public class samplemore extends OpMode {
                     //0.0039 is one degree per tick of rotation servo
                     actions.rotateClaw(0.5-(0.0039*(int)rotationAngle));
                 }
-                if (pathTimer.getElapsedTimeSeconds() > 1.5) {
+                if (pathTimer.getElapsedTimeSeconds() > 1.8) {
                     actions.extendClaw();
                 }
                 if(!follower.isBusy()) {
@@ -461,13 +461,15 @@ public class samplemore extends OpMode {
                         actions.clawVertical();
                         actions.rotateClaw(0.5);
                         follower.followPath(scoreSubmersible, true);
-                        actions.highBasket();
                         setPathState(12);
                     }
 
                 }
                 break;
             case 12:
+                if(pathTimer.getElapsedTimeSeconds() > 0.7){
+                    actions.highBasket();
+                }
                 if(!follower.isBusy()) {
                     /* Score Sample */
                         if(pathTimer.getElapsedTimeSeconds() > 2.5){
@@ -622,8 +624,8 @@ public class samplemore extends OpMode {
 
         if(posePressed){
             telemetry.addData("X (DPAD Up & Down) and Y (DPAD Left & Right) Coordinates", " (Gamepad 1)");
-            telemetry.addData("X Coordinate (VERTICAL from player perspective)", xCoordinate);
-            telemetry.addData("Y Coordinate (HORIZONTAL from player perspective)", yCoordinate);
+            telemetry.addData("X Coordinate (VERTICAL from player perspective)", xCoordinate-72);
+            telemetry.addData("Y Coordinate (HORIZONTAL from player perspective)", yCoordinate-100);
             //used for claw rotation
             telemetry.addData("Triggers Angle (left trigger - angle, right trigger + angle)", angle);
             telemetry.addData("Min X: 55, Max X: 94", "");
