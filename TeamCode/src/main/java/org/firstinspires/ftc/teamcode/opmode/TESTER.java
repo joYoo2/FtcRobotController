@@ -1,9 +1,12 @@
+
 package org.firstinspires.ftc.teamcode.opmode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
+import org.firstinspires.ftc.teamcode.yooniverse.camera;
 
 import org.firstinspires.ftc.teamcode.yooniverse.crane;
 import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
@@ -12,43 +15,47 @@ import org.firstinspires.ftc.teamcode.yooniverse.values;
 public class TESTER extends LinearOpMode {
     private DcMotor frontLeft, frontRight, backRight, backLeft;
     public DcMotorEx leftDrawerSlide, rightDrawerSlide;
+    private Servo clawRotateServo;
+    double detectedAngle = 0.5;
+
+
+
     @Override
-    public void runOpMode(){
+    public void runOpMode() {
+        boolean pressed = false;
 
-        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+        clawRotateServo = hardwareMap.get(Servo.class, "clawRotateServo");
 
-        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
+        camera camera = new camera(hardwareMap, telemetry); // Initialize the camera
 
-        backRight = hardwareMap.get(DcMotor.class, "backRight");
-
-
-        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
-
-        leftDrawerSlide = hardwareMap.get(DcMotorEx.class, "leftDrawerSlide");
-        rightDrawerSlide = hardwareMap.get(DcMotorEx.class, "rightDrawerSlide");
-        rightDrawerSlide.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        rightDrawerSlide.setDirection((DcMotorEx.Direction.REVERSE));
-
-        leftDrawerSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightDrawerSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        telemetry.addData("left", leftDrawerSlide.getCurrentPosition());
-        telemetry.addData("right", rightDrawerSlide.getCurrentPosition());
-        telemetry.update();
-        waitForStart();
-        while(opModeIsActive()){
-            telemetry.addData("left", leftDrawerSlide.getCurrentPosition());
-            telemetry.addData("right", rightDrawerSlide.getCurrentPosition());
+// Ensure the camera is ready before starting
+        while (!isStopRequested() && !camera.isCameraReady()) {
+            telemetry.addData("Status", "Waiting for camera...");
             telemetry.update();
-            if(gamepad1.left_bumper){
-                leftDrawerSlide.setPower(1);
+            sleep(50);
+        }
+
+        telemetry.addData("Status", "Camera Ready! Press A to detect angle.");
+        telemetry.update();
+
+        waitForStart();
+
+        while (opModeIsActive()) {
+            if (gamepad1.triangle && !pressed) { // Detect new press
+                pressed = true; // Lock input until button is released
+
+                detectedAngle = camera.getAngle(); // Capture the camera angle
+
+                telemetry.addData("Detected Angle", detectedAngle);
+            } else if (!gamepad1.triangle) { // Reset the pressed flag once button is released
+                pressed = false;
             }
+            clawRotateServo.setPosition(detectedAngle);
+            telemetry.update();
 
         }
 
 
     }
-
-
-
 }
 

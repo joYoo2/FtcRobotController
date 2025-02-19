@@ -35,7 +35,7 @@ public class samplemore extends OpMode {
     boolean posePressed = false;
     int sampleCounter = 0;
     double xCoordinate = 72;
-    double yCoordinate = 84;
+    double yCoordinate = 88;
     double angle = 0;
 
     double rotationAngle;
@@ -58,15 +58,15 @@ public class samplemore extends OpMode {
     private final Pose startPose = new Pose(9, 110, Math.toRadians(90));
 
     /** Scoring Pose of our robot. It is facing the basket at a 135 degree angle. */
-    private final Pose scorePose = new Pose(18, 123, Math.toRadians(135));
+    private final Pose scorePose = new Pose(16, 123, Math.toRadians(115));
     /** Lowest (First) Sample from the Spike Mark */
-    private final Pose pickup1Pose = new Pose(30, 117, Math.toRadians(0));
+    private final Pose pickup1Pose = new Pose(29.7, 117, Math.toRadians(0));
 
     /** Middle (Second) Sample from the Spike Mark */
-    private final Pose pickup2Pose = new Pose(30, 126, Math.toRadians(0));
+    private final Pose pickup2Pose = new Pose(30.3, 126, Math.toRadians(0));
 
     /** Highest (Third) Sample from the Spike Mark */
-    private final Pose pickup3Pose = new Pose(30, 126, Math.toRadians(35));
+    private final Pose pickup3Pose = new Pose(26.8, 131, Math.toRadians(22));
     private final Pose pickup4Pose = new Pose(12, 110, Math.toRadians(-90));
 
     //extra submersible samples
@@ -76,7 +76,7 @@ public class samplemore extends OpMode {
 
     /** Park Pose for our robot, after we do all of the scoring. */
     //private final Pose parkPose = new Pose(60, 98, Math.toRadians(-90));
-    private final Pose parkPose = new Pose(63, 97, Math.toRadians(-90));
+    private final Pose parkPose = new Pose(64, 100, Math.toRadians(-90));
 
     /** Park Control Pose for our robot, this is used to manipulate the bezier curve that we will create for the parking.
      * The Robot will not go to this pose, it is used a control point for our bezier curve. */
@@ -108,7 +108,6 @@ public class samplemore extends OpMode {
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
         scorePreload = new Path(new BezierLine(new Point(startPose), new Point(scorePose)));
         scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
-
         /* Here is an example for Constant Interpolation
         scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
@@ -181,7 +180,8 @@ public class samplemore extends OpMode {
                 .addPath(new BezierLine(new Point(subBackPose), new Point(subPose)))
                 .setConstantHeadingInterpolation(subPose.getHeading())
                 .setPathEndTimeoutConstraint(200)
-                .setZeroPowerAccelerationMultiplier(2)
+                .setPathEndTranslationalConstraint(0.1)
+                .setZeroPowerAccelerationMultiplier(1)
                 .build();
         scoreSubmersible = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(subPose), new Point(subBackPose)))
@@ -208,7 +208,7 @@ public class samplemore extends OpMode {
 
         /* This is our park path. We are using a BezierCurve with 3 points, which is a curved line that is curved based off of the control point */
         park = new Path(new BezierCurve(new Point(scorePose), /* Control Point */ new Point(parkControlPose), new Point(parkPose)));
-        park.setLinearHeadingInterpolation(scorePose.getHeading(), parkPose.getHeading());
+        park.setLinearHeadingInterpolation(scorePose.getHeading(), parkPose.getHeading(), 0.7);
     }
 
     /** This switch is called continuously and runs the pathing, at certain points, it triggers the action state.
@@ -238,7 +238,7 @@ public class samplemore extends OpMode {
                         if(pathTimer.getElapsedTimeSeconds() > 1.5){
                             actions.extendClaw();
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 2){
+                        if(pathTimer.getElapsedTimeSeconds() > 2.2){
                             actions.openClawLarge();
                             actions.retractClaw();
                         }
@@ -280,7 +280,7 @@ public class samplemore extends OpMode {
                         if(pathTimer.getElapsedTimeSeconds() > 1.5 ){
                             actions.extendClaw();
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 2){
+                        if(pathTimer.getElapsedTimeSeconds() > 2.2){
                             actions.openClawLarge();
                             actions.retractClaw();
                         }
@@ -322,7 +322,7 @@ public class samplemore extends OpMode {
                         if(pathTimer.getElapsedTimeSeconds() > 1.5){
                             actions.extendClaw();
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 2){
+                        if(pathTimer.getElapsedTimeSeconds() > 2.2){
                             actions.openClawLarge();
                             actions.retractClaw();
                         }
@@ -355,7 +355,6 @@ public class samplemore extends OpMode {
                         if(pathTimer.getElapsedTimeSeconds() > 2.5){
                             actions.clawVertical();
                             actions.retractClaw();
-                            actions.slides.resetEncoders();
                             actions.highBasket();
                             actions.clawRotateServo.setPosition(0.5);
 
@@ -373,8 +372,8 @@ public class samplemore extends OpMode {
                         if(pathTimer.getElapsedTimeSeconds() > 1.5){
                             actions.extendClaw();
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 2){
-                            actions.openClaw();
+                        if(pathTimer.getElapsedTimeSeconds() > 2.2){
+                            actions.openClawLarge();
                             actions.retractClaw();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3){
@@ -384,7 +383,7 @@ public class samplemore extends OpMode {
                                 actions.slidesResting();
                                 setPathState(8);
                             }else if(sampleCounter == 1){
-                                follower.setMaxPower(0.8);
+                                follower.setMaxPower(0.4);
                                 follower.followPath(grabSubmersible, true);
                                 actions.slidesResting();
                                 //SKIPS TO 11
@@ -399,7 +398,7 @@ public class samplemore extends OpMode {
             case 8:
                 if(!follower.isBusy()) {
                     /* Put the claw in position to get a level 1 ascent */
-                    actions.clawDown();
+                    actions.clawDownMore();
                     if(pathTimer.getElapsedTimeSeconds() > 2){
                         actions.closeClaw();
 
@@ -439,15 +438,16 @@ public class samplemore extends OpMode {
                     /* Put the claw in position to get a level 1 ascent */
                     actions.closeClaw();
                     actions.clawHoverUp();
-
+                    stop();
                     /* Set the state to a Case we won't use or define, so it just stops running an new paths */
                     setPathState(-1);
                 }
                 break;
                 //first sample sub
             case 11:
+                follower.setMaxPower(0.5);
                 if(pathTimer.getElapsedTimeSeconds() > .5 && pathTimer.getElapsedTimeSeconds() < 1){
-                    actions.clawHover();
+                    actions.clawHoverUp();
                     //0.0039 is one degree per tick of rotation servo
                     actions.rotateClaw(0.5-(0.0039*(int)rotationAngle));
                 }
@@ -456,7 +456,7 @@ public class samplemore extends OpMode {
                 }
                 if(!follower.isBusy() || pathTimer.getElapsedTimeSeconds() > 2.7) {
                     if(pathTimer.getElapsedTimeSeconds() > 3){
-                        actions.clawDown();
+                        actions.clawDownMore();
 
                     }
                     if(pathTimer.getElapsedTimeSeconds() > 4){
@@ -473,7 +473,7 @@ public class samplemore extends OpMode {
                 }
                 break;
             case 12:
-                if(pathTimer.getElapsedTimeSeconds() > 0.7){
+                if(pathTimer.getElapsedTimeSeconds() > 0.5){
                     actions.highBasket();
                 }
                 if(!follower.isBusy()) {
@@ -501,7 +501,7 @@ public class samplemore extends OpMode {
                 //2nd sample sub
             case 13:
                 if(pathTimer.getElapsedTimeSeconds() > .5 && pathTimer.getElapsedTimeSeconds() < 1){
-                    actions.clawHover();
+                    actions.clawHoverUp();
                     //0.0039 is one degree per tick of rotation servo
                     actions.rotateClaw(0.5-(0.0039*(int)angle));
                 }
@@ -631,7 +631,7 @@ public class samplemore extends OpMode {
         if(posePressed){
             telemetry.addData("X (DPAD Up & Down) and Y (DPAD Left & Right) Coordinates", " (Gamepad 1)");
             telemetry.addData("X Coordinate (VERTICAL from player perspective)", xCoordinate-72);
-            telemetry.addData("Y Coordinate (HORIZONTAL from player perspective)", yCoordinate-84);
+            telemetry.addData("Y Coordinate (HORIZONTAL from player perspective)", yCoordinate-88);
             //used for claw rotation
             telemetry.addData("Triggers Angle (left trigger - angle, right trigger + angle)", angle);
             telemetry.addData("Min X: -17, Max X: 22", "");
@@ -655,14 +655,14 @@ public class samplemore extends OpMode {
             if(gamepad1.dpad_right){
                 //CLOSER to submersible
                 yCoordinate -= 0.01;
-                if(yCoordinate < 73){
-                    yCoordinate = 73;
+                if(yCoordinate < 77){
+                    yCoordinate = 77;
                 }
             }else if(gamepad1.dpad_left){
                 //FURTHER AWAY from submersible
                 yCoordinate += 0.01;
-                if(yCoordinate > 90){
-                    yCoordinate = 90;
+                if(yCoordinate > 94){
+                    yCoordinate = 94;
                 }
             }
 
@@ -676,7 +676,7 @@ public class samplemore extends OpMode {
                 newSample(xCoordinate, yCoordinate, angle);
                 //set all values back to default
                 xCoordinate = 72;
-                yCoordinate = 84;
+                yCoordinate = 88;
                 angle = 0;
 
                 //increment counter for amount of samples defined

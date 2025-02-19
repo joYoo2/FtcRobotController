@@ -5,20 +5,25 @@ import android.os.HardwarePropertiesManager;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.yooniverse.crane;
 import org.firstinspires.ftc.teamcode.yooniverse.values;
+import org.firstinspires.ftc.teamcode.yooniverse.camera;
 import org.firstinspires.ftc.teamcode.yooniverse.yooniversalInit;
 
 public class Subsystem {
+    public camera camera;
     public Servo clawServo;
     public Servo clawRotateServo;
     public Servo extenderRight, extenderLeft;
     public Servo clawTurnLeft, clawTurnRight;
     public Servo specimenLeft, specimenRight;
     public crane slides;
+    public Telemetry telemetry;
     public Subsystem(HardwareMap hardwareMap){
         slides = new crane(hardwareMap, .1, false, true);
         slides.resetEncoders();
+        camera = new camera(hardwareMap, telemetry);
         clawServo = hardwareMap.get(Servo.class, "clawServo");
         clawRotateServo = hardwareMap.get(Servo.class, "clawRotateServo");
         clawRotateServo.setDirection(Servo.Direction.REVERSE);
@@ -77,14 +82,21 @@ public class Subsystem {
     }
 
     public void clawHoverUp(){
-        clawTurnLeft.setPosition(0.30);
-        clawTurnRight.setPosition(0.7);
+        clawRotateServo.setPosition(0.5);
+        clawTurnLeft.setPosition(0.33);//.3
+        clawTurnRight.setPosition(0.67);//.7
     }
+
 
 
     public void clawDown(){
         clawTurnLeft.setPosition(0.42);
         clawTurnRight.setPosition(0.58);
+
+    }
+    public void clawDownMore(){
+        clawTurnLeft.setPosition(0.44);
+        clawTurnRight.setPosition(0.56);
 
     }
 
@@ -138,6 +150,9 @@ public class Subsystem {
         slides.setTargetPosition(0);
     }
 
+    public void detectBlue(){
+        clawRotateServo.setPosition(camera.getAngle());
+    }
 
 
 }

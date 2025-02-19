@@ -74,6 +74,11 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         extenderLeft.setPosition(values.clawExtend);
     }
 
+    public void extendClawhover(){
+        extenderRight.setPosition(1-(values.clawExtend-0.1));
+        extenderLeft.setPosition(values.clawExtend-0.05);
+    }
+
     public void clawMove(double amount){
         extenderRight.setPosition(1-amount);
         extenderLeft.setPosition(amount);
@@ -103,8 +108,8 @@ public abstract class yooniversalOpMode extends LinearOpMode{
 
     public void clawHoverUp(){
         clawRotateServo.setPosition(0.5);
-        clawTurnLeft.setPosition(0.30);
-        clawTurnRight.setPosition(0.7);
+        clawTurnLeft.setPosition(0.33);//.3
+        clawTurnRight.setPosition(0.67);//.7
     }
 
 
