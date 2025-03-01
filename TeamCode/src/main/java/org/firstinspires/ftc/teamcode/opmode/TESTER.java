@@ -47,6 +47,7 @@ public class TESTER extends LinearOpMode {
 //        telemetry.addData("right", rightDrawerSlide.getCurrentPosition());
 //        telemetry.update();
         axon.setPosition(0.5);
+        //base servo
         clawRotate.setPosition(0.5);
         transferLeft.setPosition(0.5);
         transferClaw.setPosition(0.5);
