@@ -5,7 +5,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
-@TeleOp(name = "servoTester", group = "Concept")
+//@TeleOp(name = "servoTester", group = "Concept")
 public class servoTester extends LinearOpMode{
     Servo clawRotate;
     @Override

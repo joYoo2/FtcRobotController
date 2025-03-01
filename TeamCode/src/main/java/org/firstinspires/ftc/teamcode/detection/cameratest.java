@@ -7,7 +7,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-@TeleOp(name = "Camera Test", group = "Concept")
+//@TeleOp(name = "Camera Test", group = "Concept")
 public class cameratest extends LinearOpMode {
     private OpenCvCamera webcam;
     private indubitably pipeline;

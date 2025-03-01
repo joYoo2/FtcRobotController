@@ -26,7 +26,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-@TeleOp(name = "detectblue", group = "Concept")
+//@TeleOp(name = "detectblue", group = "Concept")
 public class opencvBlue extends LinearOpMode {
     double cX = 0;
     double cY = 0;
