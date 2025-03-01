@@ -15,7 +15,7 @@ import org.openftc.easyopencv.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//@TeleOp(name = "BlueNotCamera", group = "Concept")
+@TeleOp(name = "BlueNotCamera", group = "Concept")
 public class DetectBlue extends LinearOpMode {
     private OpenCvCamera webcam;
     private static final int CAMERA_WIDTH = 1280;

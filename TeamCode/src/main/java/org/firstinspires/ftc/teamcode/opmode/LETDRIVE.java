@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
+//import org.firstinspires.ftc.teamcode.yooniverse.camera;
 import org.firstinspires.ftc.teamcode.yooniverse.values;
 @TeleOp(name="LETDRIVE", group="yooniverse")
 
@@ -18,16 +19,15 @@ public class LETDRIVE extends yooniversalOpMode{
         telemetry.update();
 
         train.setPower(1);
-
-
-
-
-        telemetry.update();
+        boolean pressed = false;
+        double detectedAngle = 0;
         boolean byPower = false;
+        //double cameraangle = 0;
         boolean reverseDrive = false;
         boolean specimenTimer = false;
         boolean insideOut = false;
         boolean emergencySlides = false;
+        //camera camera = new camera(hardwareMap, telemetry);
 
 
 
@@ -38,6 +38,7 @@ public class LETDRIVE extends yooniversalOpMode{
         clawRotateServo.setPosition(0.5);
 
         while(opModeIsActive()){
+
             telemetry.addData("Status", "Running");
             matchTime.startTime();
 
@@ -78,16 +79,17 @@ public class LETDRIVE extends yooniversalOpMode{
             }
 
             if(gamepad1.left_bumper){
-                extendClaw();
+                extendClawhover();
                 if(!insideOut){
                     openClaw();
                 }else if(insideOut){
                     closeClaw();
                 }
-                clawHover();
+                clawHoverUp();
             }
 
             if(gamepad1.right_bumper){
+                extendClaw();
                 clawDown();
                 timer.reset();
             }
@@ -98,7 +100,7 @@ public class LETDRIVE extends yooniversalOpMode{
                     openClaw();
                 }
 
-                if(timer.time() > .3){
+                if(timer.time() > .3 && timer.time() < .5){
                     clawUp();
                     retractClaw();
                     clawRotateServo.setPosition(0.5);
@@ -157,7 +159,19 @@ public class LETDRIVE extends yooniversalOpMode{
             if(gamepad2.circle){
                 specimenOpen();
             }
+/*
+            if (gamepad2.triangle && !pressed) { // Detect new press
+                pressed = true; // Lock input until button is released9oo8o
 
+                detectedAngle = camera.getAngle(); // Capture the camera angle
+                clawRotateServo.setPosition(detectedAngle);
+
+            } else if (!gamepad2.triangle) { // Reset the pressed flag once button is released
+                pressed = false;
+            }
+
+            telemetry.addData("Detected Angle", detectedAngle);
+*/
             if(gamepad2.square){
                 specimenClose();
                 timer.reset();
@@ -218,7 +232,7 @@ public class LETDRIVE extends yooniversalOpMode{
 
 
             slides.craneMaintenance();
-
+            //telemetry.addData("camera angle",cameraangle);
             telemetry.addData("Left Crane Motor Position", slides.getCurrentLeftPosition());
             telemetry.addData("Right Crane Motor Position", slides.getCurrentRightPosition());
             telemetry.addData("left crane amps", slides.getAmpsLeft());
