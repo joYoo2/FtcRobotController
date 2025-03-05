@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public abstract class yooniversalOpMode extends LinearOpMode{
     public yooniversalInit train;
-    public Servo armRotateLeft, clawMountRotate;
+    public Servo armRotateLeft, armRotateRight, clawMountRotate;
     public Servo clawServo, clawRotateServo;
     public Servo transferLeft, transferClaw;
 
@@ -21,6 +21,7 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         train.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //comment out the train brake if the power gets too low (which it probably shouldnt but whatever)
         armRotateLeft = hardwareMap.get(Servo.class, "test");
+        armRotateRight = hardwareMap.get(Servo.class, "armRotateRight");
         clawMountRotate = hardwareMap.get(Servo.class, "clawRotate");
 
         clawServo = hardwareMap.get(Servo.class, "clawServo");
@@ -65,6 +66,7 @@ public abstract class yooniversalOpMode extends LinearOpMode{
 
     public void clawHover(){
         armRotateLeft.setPosition(0.9);
+        armRotateRight.setPosition(0.9);
         clawMountRotate.setPosition(0.13);
     }
     public void transferDown(){
@@ -77,15 +79,16 @@ public abstract class yooniversalOpMode extends LinearOpMode{
 
     public void clawUp(){
         armRotateLeft.setPosition(0.5);
+        armRotateRight.setPosition(0.5);
         clawMountRotate.setPosition(.73);
     }
 
     public void transferClawClose(){
-        transferClaw.setPosition(0.3);
+        transferClaw.setPosition(values.clawClsoed);
     }
 
     public void transferClawOpen(){
-        transferClaw.setPosition(0.4);
+        transferClaw.setPosition(values.clawLessOpen);
     }
 
 

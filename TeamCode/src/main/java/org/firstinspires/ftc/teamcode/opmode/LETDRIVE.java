@@ -22,6 +22,8 @@ public class LETDRIVE extends yooniversalOpMode {
         double detectedAngle = 0;
         //double cameraangle = 0;
         boolean emergencySlides = false;
+        boolean movingSlides = false;
+        int slidesTarget = 0;
         //camera camera = new camera(hardwareMap, telemetry);
 
 
@@ -46,8 +48,6 @@ public class LETDRIVE extends yooniversalOpMode {
 //                train.setPower(1);
 //            }
 
-            //reverse drive code
-
             if (gamepad1.left_trigger > 0.1) {
                 testRotateBackward();
             } else if (gamepad1.right_trigger > 0.1) {
@@ -60,16 +60,20 @@ public class LETDRIVE extends yooniversalOpMode {
                         -gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x);
 
 
+            //just in case claw up w/ nothing else
             if (gamepad1.triangle) {
                 clawUp();
             }
 
+
+            //CLAW OUT
             if (gamepad1.left_bumper) {
                 //extendClaw();
                 openClaw();
                 clawHover();
             }
 
+            //CLAW IN
             if (gamepad1.right_bumper) {
                 //retractClaw();
                 closeClaw();
@@ -79,16 +83,12 @@ public class LETDRIVE extends yooniversalOpMode {
                 //retractClaw();
                 clawRotateServo.setPosition(0.5);
             }
-//            if (timer.time() > .2 && timer.time() < .35) {
-////                    closeClaw();
-//
-//
-//
-//            }
 
+            //just in case claw open
             if (gamepad1.circle) {
-                openClaw();
+                openClawLarge();
             }
+            //just in case claw close
             if (gamepad1.square) {
                 closeClaw();
             }
@@ -99,15 +99,44 @@ public class LETDRIVE extends yooniversalOpMode {
                 transferClawClose();
                 transferTime.reset();
             }else if(transferTime.time() > .3 && transferTime.time() < .5){
-                openClaw();
-                transferUp();
-                //highBasket();
+                openClawLarge();
+                if(transferTime.time() > .4){
+                    slidesTarget = values.craneHighBasket;
+                    movingSlides = true;
+                }
             }
 
+            //BRING TRANSFER AND SLIDES DOWN
             if(gamepad1.dpad_down){
                 transferClawOpen();
                 transferDown();
-                //slidesResting();
+                slidesTarget = values.craneResting;
+                movingSlides = true;
+            }
+
+
+            //auto transfer up
+            if(slides.getCurrentLeftPosition() > values.craneHighBasket - 50 || slides.getCurrentRightPosition() > values.craneHighBasket - 50){
+                transferUp();
+            }
+
+
+
+            //scuffed slide code
+            if(movingSlides){
+                slides.setTargetPosition(slidesTarget);
+                if(slides.getCurrentLeftPosition() < slidesTarget || slides.getCurrentLeftPosition() < slidesTarget){
+                    if(slides.getCurrentRightPosition() >= slidesTarget - 10 || slides.getCurrentLeftPosition() >= slidesTarget - 10){
+                        movingSlides = false;
+                    }
+                }
+                if(slides.getCurrentLeftPosition() > slidesTarget || slides.getCurrentLeftPosition() > slidesTarget){
+                    if(slides.getCurrentRightPosition() <= slidesTarget + 10 || slides.getCurrentLeftPosition() <= slidesTarget + 10){
+                        movingSlides = false;
+                    }
+                }
+            }else{
+                slides.move(slides.getCurrentRightPosition(), false);
             }
 
 
@@ -186,7 +215,6 @@ public class LETDRIVE extends yooniversalOpMode {
                 gamepad1.rumble(50);
                 gamepad2.rumble(50);
             } else if (matchTime.seconds() > 120) {
-                //not necessary but here just in case
                 gamepad1.stopRumble();
                 gamepad2.stopRumble();
             }
