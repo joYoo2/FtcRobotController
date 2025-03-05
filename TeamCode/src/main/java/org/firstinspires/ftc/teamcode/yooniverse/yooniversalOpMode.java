@@ -70,7 +70,7 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         clawMountRotate.setPosition(0.13);
     }
     public void transferDown(){
-        transferLeft.setPosition(0.44);
+        transferLeft.setPosition(0.50);
     }
 
     public void transferUp(){

@@ -30,7 +30,7 @@ public class values {
     public static int craneLowChamber;
     public static int craneHighChamber = 1200;
     public static int craneHighChamberSpecimenClaw = 1300;
-    public static int craneHighBasket = 2975;
+    public static int craneHighBasket = 2100;
 
 
     //Auton movement values

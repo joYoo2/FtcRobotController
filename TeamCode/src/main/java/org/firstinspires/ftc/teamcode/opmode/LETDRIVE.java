@@ -55,9 +55,9 @@ public class LETDRIVE extends yooniversalOpMode {
             }
 
             train.manualDrive(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x,
-                        -gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x,
-                        -gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x,
-                        -gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x);
+                    -gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x,
+                    -gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x,
+                    -gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x);
 
 
             //just in case claw up w/ nothing else
@@ -78,7 +78,7 @@ public class LETDRIVE extends yooniversalOpMode {
                 //retractClaw();
                 closeClaw();
                 timer.reset();
-            }else if(timer.time() > .3 && timer.time() < .5) {
+            }else if(timer.time() > .2 && timer.time() < .4) {
                 clawUp();
                 //retractClaw();
                 clawRotateServo.setPosition(0.5);
@@ -123,21 +123,21 @@ public class LETDRIVE extends yooniversalOpMode {
 
 
             //scuffed slide code
-            if(movingSlides){
-                slides.setTargetPosition(slidesTarget);
-                if(slides.getCurrentLeftPosition() < slidesTarget || slides.getCurrentLeftPosition() < slidesTarget){
-                    if(slides.getCurrentRightPosition() >= slidesTarget - 10 || slides.getCurrentLeftPosition() >= slidesTarget - 10){
-                        movingSlides = false;
-                    }
-                }
-                if(slides.getCurrentLeftPosition() > slidesTarget || slides.getCurrentLeftPosition() > slidesTarget){
-                    if(slides.getCurrentRightPosition() <= slidesTarget + 10 || slides.getCurrentLeftPosition() <= slidesTarget + 10){
-                        movingSlides = false;
-                    }
-                }
-            }else{
-                slides.move(slides.getCurrentRightPosition(), false);
-            }
+//            if(movingSlides){
+//                slides.setTargetPosition(slidesTarget);
+//                if(slides.getCurrentLeftPosition() < slidesTarget || slides.getCurrentLeftPosition() < slidesTarget){
+//                    if(slides.getCurrentRightPosition() >= slidesTarget - 10 || slides.getCurrentLeftPosition() >= slidesTarget - 10){
+//                        movingSlides = false;
+//                    }
+//                }
+//                if(slides.getCurrentLeftPosition() > slidesTarget || slides.getCurrentLeftPosition() > slidesTarget){
+//                    if(slides.getCurrentRightPosition() <= slidesTarget + 10 || slides.getCurrentLeftPosition() <= slidesTarget + 10){
+//                        movingSlides = false;
+//                    }
+//                }
+//            }else{
+//                slides.move(slides.getCurrentRightPosition(), false);
+//            }
 
 
             ///old slide code
