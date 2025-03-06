@@ -56,9 +56,6 @@ public class TESTER extends LinearOpMode {
 
         waitForStart();
         while(opModeIsActive()){
-            telemetry.addData("left", leftDrawerSlide.getCurrentPosition());
-            telemetry.addData("right", rightDrawerSlide.getCurrentPosition());
-            telemetry.update();
             if(gamepad1.left_trigger > 0.1){
                 transferClaw.setPosition(transferClaw.getPosition() - 0.0005);
             }else if(gamepad1.right_trigger > 0.1){
@@ -91,9 +88,8 @@ public class TESTER extends LinearOpMode {
                 transferLeft.setPosition(0.83);
             }
             telemetry.addData("test", transferClaw.getPosition());
-//            telemetry.addData("left", leftDrawerSlide.getCurrentPosition());
-//            telemetry.addData("right", rightDrawerSlide.getCurrentPosition());
-//            telemetry.update();
+            telemetry.addData("left", leftDrawerSlide.getCurrentPosition());
+            telemetry.addData("right", rightDrawerSlide.getCurrentPosition());
 //            if(gamepad1.left_bumper){
 //                leftDrawerSlide.setPower(1);
 //            }

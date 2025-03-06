@@ -35,9 +35,10 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         extenderRight = hardwareMap.get(Servo.class, "extenderRight");
     }
 
-    public void rotateClaw(){clawRotateServo.setPosition(clawRotateServo.getPosition() + 0.05); }
+    public void rotateClaw(){clawRotateServo.setPosition(clawRotateServo.getPosition() + 0.1755); }
+    //moves 45 degrees is 0.1755, old continuous rotation was + 0.05
 
-    public void rotateClawReverse(){clawRotateServo.setPosition(clawRotateServo.getPosition() - 0.05); }
+    public void rotateClawReverse(){clawRotateServo.setPosition(clawRotateServo.getPosition() - 0.1755); }
 
     public void openClaw(){
         clawServo.setPosition(values.clawLessOpen);

@@ -6,6 +6,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
 //import org.firstinspires.ftc.teamcode.yooniverse.camera;
 import org.firstinspires.ftc.teamcode.yooniverse.values;
+
+import dalvik.system.DelegateLastClassLoader;
+
 @TeleOp(name="LETDRIVE", group="yooniverse")
 
 public class LETDRIVE extends yooniversalOpMode {
@@ -31,6 +34,7 @@ public class LETDRIVE extends yooniversalOpMode {
         ElapsedTime timer = new ElapsedTime();
         ElapsedTime transferTime = new ElapsedTime();
         ElapsedTime matchTime = new ElapsedTime();
+        ElapsedTime rotateTime = new ElapsedTime();
 
         clawRotateServo.setPosition(0.5);
         transferDown();
@@ -48,10 +52,12 @@ public class LETDRIVE extends yooniversalOpMode {
             }
 
 
-            if (gamepad1.left_trigger > 0.1) {
+            if (gamepad1.left_trigger > 0.1 && rotateTime.time() > .5) {
                 rotateClawReverse();
-            } else if (gamepad1.right_trigger > 0.1) {
+                rotateTime.reset();
+            } else if (gamepad1.right_trigger > 0.1 && rotateTime.time() > .5) {
                 rotateClaw();
+                rotateTime.reset();
             }
 
             train.manualDrive(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x,
