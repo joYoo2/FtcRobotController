@@ -1,11 +1,8 @@
 package org.firstinspires.ftc.teamcode.opmode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
 //import org.firstinspires.ftc.teamcode.yooniverse.camera;
 import org.firstinspires.ftc.teamcode.yooniverse.values;
@@ -28,6 +25,9 @@ public class LETDRIVE extends yooniversalOpMode {
 
 
         waitForStart();
+        ///REMOVE AFTER TESTING
+        retractClaw();
+
         ElapsedTime timer = new ElapsedTime();
         ElapsedTime transferTime = new ElapsedTime();
         ElapsedTime matchTime = new ElapsedTime();
@@ -40,18 +40,18 @@ public class LETDRIVE extends yooniversalOpMode {
             telemetry.addData("Status", "Running");
             matchTime.startTime();
 
+            //move horz slides a custom amount
+            if(gamepad2.right_trigger > 0.1){
+                clawMove(extenderLeft.getPosition() + 0.001);
+            }else if(gamepad2.left_trigger > 0.1){
+                clawMove(extenderLeft.getPosition() - 0.001);
+            }
 
-            //just in case code (can delete if not necessary ask miguel)
-//            if(slides.getCurrentLeftPosition() > 2500 || slides.getCurrentRightPosition() > 2500){
-//                train.setPower(0.5);
-//            }else{
-//                train.setPower(1);
-//            }
 
             if (gamepad1.left_trigger > 0.1) {
-                testRotateBackward();
+                rotateClawReverse();
             } else if (gamepad1.right_trigger > 0.1) {
-                testRotate();
+                rotateClaw();
             }
 
             train.manualDrive(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x,
@@ -60,28 +60,11 @@ public class LETDRIVE extends yooniversalOpMode {
                     -gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x);
 
 
+
+
             //just in case claw up w/ nothing else
             if (gamepad1.triangle) {
                 clawUp();
-            }
-
-
-            //CLAW OUT
-            if (gamepad1.left_bumper) {
-                //extendClaw();
-                openClaw();
-                clawHover();
-            }
-
-            //CLAW IN
-            if (gamepad1.right_bumper) {
-                //retractClaw();
-                closeClaw();
-                timer.reset();
-            }else if(timer.time() > .2 && timer.time() < .4) {
-                clawUp();
-                //retractClaw();
-                clawRotateServo.setPosition(0.5);
             }
 
             //just in case claw open
@@ -94,11 +77,37 @@ public class LETDRIVE extends yooniversalOpMode {
             }
 
 
+
+
+            //CLAW OUT
+            if (gamepad1.left_bumper) {
+                extendClaw();
+                openClaw();
+                clawHover();
+            }
+
+            //CLAW IN
+            if (gamepad1.right_bumper) {
+                clawDown();
+                transferClawOpen();
+                timer.reset();
+            }else if((timer.time() > .2 && timer.time() < .4) && matchTime.time() > 1) {
+                closeClawTighet();
+            }else if((timer.time() > .6 && timer.time() < .8) /*&& matchTime.time() > 1*/){
+                clawUp();
+                retractClaw();
+                clawRotateServo.setPosition(0.5);
+            }else if((timer.time() > 1 && timer.time() < 1.2) && matchTime.time() > 1.5){
+                closeClaw();
+            }
+
+
+
             //TRANSFER
-            if(gamepad1.cross || gamepad1.dpad_up){
+            if(gamepad2.right_bumper){
                 transferClawClose();
                 transferTime.reset();
-            }else if(transferTime.time() > .3 && transferTime.time() < .5){
+            }else if((transferTime.time() > .3 && transferTime.time() < .5) && matchTime.time() > 1){
                 openClawLarge();
                 if(transferTime.time() > .4){
                     slidesTarget = values.craneHighBasket;
@@ -107,15 +116,18 @@ public class LETDRIVE extends yooniversalOpMode {
             }
 
             //BRING TRANSFER AND SLIDES DOWN
-            if(gamepad1.dpad_down){
+            if(gamepad2.left_bumper){
                 transferClawOpen();
                 transferDown();
                 slidesTarget = values.craneResting;
+                //might be necessary idk
+                transferClawClose();
+
                 movingSlides = true;
             }
 
 
-            //auto transfer up
+            //auto transfer arm up when slides are close to reaching high basket
             if(slides.getCurrentLeftPosition() > values.craneHighBasket - 50 || slides.getCurrentRightPosition() > values.craneHighBasket - 50){
                 transferUp();
             }
@@ -123,21 +135,21 @@ public class LETDRIVE extends yooniversalOpMode {
 
 
             //scuffed slide code
-//            if(movingSlides){
-//                slides.setTargetPosition(slidesTarget);
-//                if(slides.getCurrentLeftPosition() < slidesTarget || slides.getCurrentLeftPosition() < slidesTarget){
-//                    if(slides.getCurrentRightPosition() >= slidesTarget - 10 || slides.getCurrentLeftPosition() >= slidesTarget - 10){
-//                        movingSlides = false;
-//                    }
-//                }
-//                if(slides.getCurrentLeftPosition() > slidesTarget || slides.getCurrentLeftPosition() > slidesTarget){
-//                    if(slides.getCurrentRightPosition() <= slidesTarget + 10 || slides.getCurrentLeftPosition() <= slidesTarget + 10){
-//                        movingSlides = false;
-//                    }
-//                }
-//            }else{
-//                slides.move(slides.getCurrentRightPosition(), false);
-//            }
+            if(movingSlides){
+                slides.setTargetPosition(slidesTarget);
+                if(slides.getCurrentLeftPosition() < slidesTarget || slides.getCurrentLeftPosition() < slidesTarget){
+                    if(slides.getCurrentRightPosition() >= slidesTarget - 5 || slides.getCurrentLeftPosition() >= slidesTarget - 5){
+                        movingSlides = false;
+                    }
+                }
+                if(slides.getCurrentLeftPosition() > slidesTarget || slides.getCurrentLeftPosition() > slidesTarget){
+                    if(slides.getCurrentRightPosition() <= slidesTarget + 5 || slides.getCurrentLeftPosition() <= slidesTarget + 5){
+                        movingSlides = false;
+                    }
+                }
+            }else{
+                slides.move(slides.getCurrentRightPosition(), false);
+            }
 
 
             ///old slide code
@@ -166,13 +178,6 @@ public class LETDRIVE extends yooniversalOpMode {
 
 
 
-//            if (gamepad2.dpad_up) {
-//                extendClaw();
-//            }
-//            if (gamepad2.dpad_down) {
-//                retractClaw();
-//            }
-
 
 /*
             if (gamepad2.triangle && !pressed) { // Detect new press
@@ -193,7 +198,7 @@ public class LETDRIVE extends yooniversalOpMode {
             } else if (gamepad2.share) {
                 //EMERGENCY SLIDES DOWN
                 emergencySlides = true;
-                slides.setTargetPosition(-3000);
+                slides.setTargetPosition(-2000);
             } else if (!gamepad2.share && emergencySlides) {
                 //resets encoders after emergency slides
                 slides.resetEncoders();
@@ -231,6 +236,8 @@ public class LETDRIVE extends yooniversalOpMode {
             telemetry.addData("left crane amps", slides.getAmpsLeft());
             telemetry.addData("right crane amps", slides.getAmpsRight());
             telemetry.addData("rotate", clawRotateServo.getPosition());
+            telemetry.addData("extenderL", extenderLeft.getPosition());
+            telemetry.addData("extenderR", extenderRight.getPosition());
             telemetry.update();
         }
 
