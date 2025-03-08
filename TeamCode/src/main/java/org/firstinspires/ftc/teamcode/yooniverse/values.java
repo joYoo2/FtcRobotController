@@ -9,11 +9,11 @@ public class values {
 //    public static double clawLessOpen = 0.9;
 //    public static double clawClsoed = 0.77;
     public static double clawClsoedTighet = 0;
-    public static double clawClsoed = 0.07;
+    public static double clawClsoed = 0.03;
     public static double clawLessOpen = 0.17;
     public static double clawOpen = 0.28;
 
-    public static double clawExtend = 1;
+    public static double clawExtend = .40;
     public static double clawRetract = 0;
 
 

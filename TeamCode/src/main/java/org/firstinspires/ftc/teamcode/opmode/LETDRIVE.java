@@ -7,7 +7,6 @@ import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
 //import org.firstinspires.ftc.teamcode.yooniverse.camera;
 import org.firstinspires.ftc.teamcode.yooniverse.values;
 
-import dalvik.system.DelegateLastClassLoader;
 
 @TeleOp(name="LETDRIVE", group="yooniverse")
 
@@ -23,21 +22,26 @@ public class LETDRIVE extends yooniversalOpMode {
         //double cameraangle = 0;
         boolean emergencySlides = false;
         boolean movingSlides = false;
+        boolean transferIn = false;
         int slidesTarget = 0;
+
+        double drive;
+        double strafe;
+        double rotate;
         //camera camera = new camera(hardwareMap, telemetry);
 
 
         waitForStart();
-        ///REMOVE AFTER TESTING
-        retractClaw();
+        //retractClaw();
 
         ElapsedTime timer = new ElapsedTime();
         ElapsedTime transferTime = new ElapsedTime();
         ElapsedTime matchTime = new ElapsedTime();
         ElapsedTime rotateTime = new ElapsedTime();
 
+
         clawRotateServo.setPosition(0.5);
-        transferDown();
+        //transferUp();
 
         while (opModeIsActive()) {
 
@@ -46,9 +50,9 @@ public class LETDRIVE extends yooniversalOpMode {
 
             //move horz slides a custom amount
             if(gamepad2.right_trigger > 0.1){
-                clawMove(extenderLeft.getPosition() + 0.001);
+                clawMove(extenderLeft.getPosition() + 0.05);
             }else if(gamepad2.left_trigger > 0.1){
-                clawMove(extenderLeft.getPosition() - 0.001);
+                clawMove(extenderLeft.getPosition() - 0.05);
             }
 
 
@@ -59,11 +63,15 @@ public class LETDRIVE extends yooniversalOpMode {
                 rotateClaw();
                 rotateTime.reset();
             }
+            drive = -gamepad1.left_stick_y;
+            strafe = gamepad1.left_stick_x;
+            rotate = gamepad1.right_stick_x;
 
-            train.manualDrive(-gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x,
-                    -gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x,
-                    -gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x,
-                    -gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x);
+            train.manualDrive(drive + strafe + rotate,
+                    drive - strafe - rotate,
+                    drive -strafe + rotate,
+                    drive + strafe- rotate);
+
 
 
 
@@ -82,11 +90,23 @@ public class LETDRIVE extends yooniversalOpMode {
                 closeClaw();
             }
 
+            if(gamepad2.dpad_up){
+                extendClaw();
+            } else if (gamepad2.dpad_down) {
+                retractClaw();
+            }
 
+            if(gamepad2.dpad_left){
+                transferDown();
+            }else if(gamepad2.dpad_right){
+                transferClawClose();
+                transferUp();
+            }
 
 
             //CLAW OUT
             if (gamepad1.left_bumper) {
+                transferUp();
                 extendClaw();
                 openClaw();
                 clawHover();
@@ -95,16 +115,19 @@ public class LETDRIVE extends yooniversalOpMode {
             //CLAW IN
             if (gamepad1.right_bumper) {
                 clawDown();
-                transferClawOpen();
                 timer.reset();
+
+
             }else if((timer.time() > .2 && timer.time() < .4) && matchTime.time() > 1) {
                 closeClawTighet();
-            }else if((timer.time() > .6 && timer.time() < .8) /*&& matchTime.time() > 1*/){
+            }else if((timer.time() > .6 && timer.time() < .8) /*&& matchTime.time() > 1*/) {
                 clawUp();
+                transferUp();
                 retractClaw();
+                transferClawOpen();
                 clawRotateServo.setPosition(0.5);
-            }else if((timer.time() > 1 && timer.time() < 1.2) && matchTime.time() > 1.5){
-                closeClaw();
+            }else if(timer.time() > 1 && timer.time() < 1.2 && matchTime.time() > 1.5){
+                transferDown();
             }
 
 
@@ -112,30 +135,28 @@ public class LETDRIVE extends yooniversalOpMode {
             //TRANSFER
             if(gamepad2.right_bumper){
                 transferClawClose();
+                transferIn = true;
                 transferTime.reset();
-            }else if((transferTime.time() > .3 && transferTime.time() < .5) && matchTime.time() > 1){
+            }else if((transferTime.time() > .3 && transferTime.time() < .5) && matchTime.time() > 1 && transferIn){
                 openClawLarge();
                 if(transferTime.time() > .4){
                     slidesTarget = values.craneHighBasket;
                     movingSlides = true;
                 }
+            }else if(transferTime.time() > 1 && transferTime.time() < 1.2 && matchTime.time() > 1 && transferIn){
+                transferUp();
+                transferIn = false;
             }
 
             //BRING TRANSFER AND SLIDES DOWN
             if(gamepad2.left_bumper){
                 transferClawOpen();
-                transferDown();
+                transferTime.reset();
+            }else if(transferTime.time() > .3 && transferTime.time() < .5 && matchTime.time() > 1 && !transferIn){
                 slidesTarget = values.craneResting;
-                //might be necessary idk
-                transferClawClose();
-
                 movingSlides = true;
-            }
-
-
-            //auto transfer arm up when slides are close to reaching high basket
-            if(slides.getCurrentLeftPosition() > values.craneHighBasket - 50 || slides.getCurrentRightPosition() > values.craneHighBasket - 50){
-                transferUp();
+                transferClawClose();
+                transferMid();
             }
 
 
@@ -242,8 +263,6 @@ public class LETDRIVE extends yooniversalOpMode {
             telemetry.addData("left crane amps", slides.getAmpsLeft());
             telemetry.addData("right crane amps", slides.getAmpsRight());
             telemetry.addData("rotate", clawRotateServo.getPosition());
-            telemetry.addData("extenderL", extenderLeft.getPosition());
-            telemetry.addData("extenderR", extenderRight.getPosition());
             telemetry.update();
         }
 

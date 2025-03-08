@@ -51,17 +51,17 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     }
 
     public void extendClaw(){
-        extenderRight.setPosition(values.clawExtend);
+        extenderRight.setPosition(values.clawExtend+0.01);
         extenderLeft.setPosition(values.clawExtend);
     }
 
     public void clawMove(double amount){
-        extenderRight.setPosition(amount);
+        extenderRight.setPosition(amount+0.01);
         extenderLeft.setPosition(amount);
     }
 
     public void retractClaw(){
-        extenderRight.setPosition(values.clawRetract);
+        extenderRight.setPosition(values.clawRetract+0.01);
         extenderLeft.setPosition(values.clawRetract);
     }
 
@@ -69,7 +69,7 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     public void clawHover(){
         armRotateLeft.setPosition(0.8);
         armRotateRight.setPosition(0.8);
-        clawMountRotate.setPosition(0.05);
+        clawMountRotate.setPosition(0.08);
         //idk real values tbh lmao
     }
     public void clawDown(){
@@ -78,25 +78,27 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         clawMountRotate.setPosition(0.13);
     }
     public void transferDown(){
-        transferLeft.setPosition(0.50);
+        transferLeft.setPosition(0.45);
     }
-
+    public void transferMid(){
+        transferLeft.setPosition(0.70);
+    }
     public void transferUp(){
         transferLeft.setPosition(0.83);
     }
 
     public void clawUp(){
-        armRotateLeft.setPosition(0.5);
-        armRotateRight.setPosition(0.5);
-        clawMountRotate.setPosition(.73);
+        armRotateLeft.setPosition(0.52);
+        armRotateRight.setPosition(0.52);
+        clawMountRotate.setPosition(.74);
     }
 
     public void transferClawClose(){
-        transferClaw.setPosition(values.clawClsoed);
+        transferClaw.setPosition(.25);
     }
 
     public void transferClawOpen(){
-        transferClaw.setPosition(values.clawLessOpen);
+        transferClaw.setPosition(.42);
     }
 
 
