@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.pedroPathing.configs;
 
 import android.os.HardwarePropertiesManager;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -12,35 +13,37 @@ import org.firstinspires.ftc.teamcode.yooniverse.camera;
 import org.firstinspires.ftc.teamcode.yooniverse.yooniversalInit;
 
 public class Subsystem {
-    public camera camera;
-    public Servo clawServo;
-    public Servo clawRotateServo;
-    public Servo extenderRight, extenderLeft;
-    public Servo clawTurnLeft, clawTurnRight;
-    public Servo specimenLeft, specimenRight;
+    public yooniversalInit train;
+    public Servo armRotateLeft, armRotateRight, clawMountRotate;
+    public Servo clawServo, clawRotateServo;
+    public Servo transferLeft, transferClaw;
+    public Servo extenderLeft, extenderRight;
+
     public crane slides;
-    public Telemetry telemetry;
+
     public Subsystem(HardwareMap hardwareMap){
-        slides = new crane(hardwareMap, .1, false, true);
-        slides.resetEncoders();
-        camera = new camera(hardwareMap, telemetry);
+        slides = new crane(hardwareMap, .1, false, false);
+
+        //comment out the train brake if the power gets too low (which it probably shouldnt but whatever)
+        armRotateLeft = hardwareMap.get(Servo.class, "test");
+        armRotateRight = hardwareMap.get(Servo.class, "armRotateRight");
+        clawMountRotate = hardwareMap.get(Servo.class, "clawRotate");
+
         clawServo = hardwareMap.get(Servo.class, "clawServo");
         clawRotateServo = hardwareMap.get(Servo.class, "clawRotateServo");
-        clawRotateServo.setDirection(Servo.Direction.REVERSE);
 
-        extenderRight = hardwareMap.get(Servo.class, "extenderRight");
+        transferLeft = hardwareMap.get(Servo.class, "transferLeft");
+        transferClaw = hardwareMap.get(Servo.class, "transferClaw");
+
         extenderLeft = hardwareMap.get(Servo.class, "extenderLeft");
-
-        clawTurnLeft = hardwareMap.get(Servo.class, "clawTurnLeft");
-        clawTurnRight = hardwareMap.get(Servo.class, "clawTurnRight");
-
-        specimenLeft = hardwareMap.get(Servo.class, "specimenLeft");
-        specimenRight = hardwareMap.get(Servo.class, "specimenRight");
-        specimenLeft.setDirection(Servo.Direction.REVERSE);
-        specimenRight.setDirection(Servo.Direction.REVERSE);
+        extenderRight = hardwareMap.get(Servo.class, "extenderRight");
     }
 
-    public void rotateClaw(double amount){clawRotateServo.setPosition(amount); }
+    public void rotateClaw(double rotation){clawRotateServo.setPosition(rotation);}
+    public void rotateClawTeleop(){clawRotateServo.setPosition(clawRotateServo.getPosition() - 0.1755); }
+    //moves 45 degrees is 0.1755, old continuous rotation was + 0.05
+
+    public void rotateClawReverse(){clawRotateServo.setPosition(clawRotateServo.getPosition() + 0.1755); }
 
     public void openClaw(){
         clawServo.setPosition(values.clawLessOpen);
@@ -49,96 +52,84 @@ public class Subsystem {
     public void closeClaw(){
         clawServo.setPosition(values.clawClsoed);
     }
+    public void closeClawTighet(){clawServo.setPosition(values.clawClsoedTighet);
+    }
 
     public void extendClaw(){
-        extenderRight.setPosition(1-values.clawExtend);
+        extenderRight.setPosition(values.clawExtend+0.01);
         extenderLeft.setPosition(values.clawExtend);
     }
 
     public void clawMove(double amount){
-        extenderRight.setPosition(1-amount);
+        extenderRight.setPosition(amount+0.01);
         extenderLeft.setPosition(amount);
     }
 
     public void retractClaw(){
-        extenderRight.setPosition(1-values.clawRetract);
+        extenderRight.setPosition(values.clawRetract+0.01);
         extenderLeft.setPosition(values.clawRetract);
     }
 
-    public void specimenOpen(){
-        specimenLeft.setPosition(0.65);
-        specimenRight.setPosition(0.7);
-    }
 
-
-    public void specimenClose(){
-        specimenLeft.setPosition(0.5);
-        specimenRight.setPosition(0.8);
+    public void clawSpecimen(){
+        armRotateLeft.setPosition(0.5);
+        armRotateRight.setPosition(0.5);
+        clawMountRotate.setPosition(0.08);
+        //idk real values tbh lmao
     }
 
     public void clawHover(){
-        clawTurnLeft.setPosition(0.36);
-        clawTurnRight.setPosition(0.64);
+        armRotateLeft.setPosition(0.77);
+        armRotateRight.setPosition(0.77);
+        clawMountRotate.setPosition(0.08);
+        //idk real values tbh
     }
-
-    public void clawHoverUp(){
-        clawRotateServo.setPosition(0.5);
-        clawTurnLeft.setPosition(0.33);//.3
-        clawTurnRight.setPosition(0.67);//.7
-    }
-
-
-
     public void clawDown(){
-        clawTurnLeft.setPosition(0.42);
-        clawTurnRight.setPosition(0.58);
-
+        armRotateLeft.setPosition(0.9);
+        armRotateRight.setPosition(0.9);
+        clawMountRotate.setPosition(0.13);
     }
-    public void clawDownMore(){
-        clawTurnLeft.setPosition(0.44);
-        clawTurnRight.setPosition(0.56);
-
+    public void transferDown(){
+        transferLeft.setPosition(0.45);
+    }
+    public void transferMid(){
+        transferLeft.setPosition(0.70);
+    }
+    public void transferUp(){
+        transferLeft.setPosition(0.83);
     }
 
     public void clawUp(){
-        clawTurnLeft.setPosition(0.20);
-        clawTurnRight.setPosition(0.8);
-
-    }
-    public void clawEvenMoreVertical(){
-        clawTurnLeft.setPosition(0);
-        clawTurnRight.setPosition(1);
+        armRotateLeft.setPosition(0.52);
+        armRotateRight.setPosition(0.52);
+        clawMountRotate.setPosition(.74);
     }
 
-    public void clawVertical(){
-        clawTurnLeft.setPosition(0.1);
-        clawTurnRight.setPosition(0.9);
+    public void transferClawClose(){
+        transferClaw.setPosition(.25);
     }
 
-    public void lowChamber(){
-        slides.setTargetPosition(0);
-        //figure out how low chamber works ig idk
+    public void transferClawOpen(){
+        transferClaw.setPosition(.42);
     }
+
+
+
 
     public void highChamber(){
-        slides.setTargetPosition(values.craneHighChamber);
+        slides.setTargetPosition(1300);
     }
-
-    public void highChamberUp(){
-        slides.setTargetPosition(values.craneHighChamber + 600);
-    }
-
 
     public void highChamberSpecimenClaw(){
         slides.setTargetPosition(values.craneHighChamberSpecimenClaw);
     }
 
     public void highChamberDown(){
-        slides.setTargetPosition(values.craneHighChamber - 600);
+        slides.setTargetPosition(730);
     }
 
     public void highChamberDownSpecimenClaw(){
-        slides.setTargetPosition(values.craneHighChamberSpecimenClaw - 600);
+        slides.setTargetPosition(1200);
     }
 
 
@@ -149,10 +140,4 @@ public class Subsystem {
     public void slidesResting(){
         slides.setTargetPosition(0);
     }
-
-    public void detectBlue(){
-        clawRotateServo.setPosition(camera.getAngle());
-    }
-
-
 }

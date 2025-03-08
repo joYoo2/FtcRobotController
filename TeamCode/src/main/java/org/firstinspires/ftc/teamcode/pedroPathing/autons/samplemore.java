@@ -220,7 +220,7 @@ public class samplemore extends OpMode {
                 follower.followPath(scorePreload);
                 setPathState(1);
                 actions.closeClaw();
-                actions.clawVertical();
+                actions.clawUp();
                 actions.highBasket();
                 break;
             case 1:
@@ -261,7 +261,7 @@ public class samplemore extends OpMode {
                             actions.closeClaw();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 1.6){
-                            actions.clawVertical();
+                            actions.clawUp();
                             actions.slides.resetEncoders();
                             actions.highBasket();
 
@@ -304,7 +304,7 @@ public class samplemore extends OpMode {
                             actions.closeClaw();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 1.6){
-                            actions.clawVertical();
+                            actions.clawUp();
                             actions.slides.resetEncoders();
                             actions.highBasket();
 
@@ -353,7 +353,7 @@ public class samplemore extends OpMode {
                             actions.closeClaw();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 2.5){
-                            actions.clawVertical();
+                            actions.clawUp();
                             actions.retractClaw();
                             actions.highBasket();
                             actions.clawRotateServo.setPosition(0.5);
@@ -398,13 +398,13 @@ public class samplemore extends OpMode {
             case 8:
                 if(!follower.isBusy()) {
                     /* Put the claw in position to get a level 1 ascent */
-                    actions.clawDownMore();
+                    actions.clawDown();
                     if(pathTimer.getElapsedTimeSeconds() > 2){
                         actions.closeClaw();
 
                     }
                     if(pathTimer.getElapsedTimeSeconds() > 2.1){
-                        actions.clawVertical();
+                        actions.clawUp();
                         actions.highBasket();
                         follower.followPath(scorePickup4, true);
                         actions.clawHover();
@@ -437,7 +437,7 @@ public class samplemore extends OpMode {
                 if(!follower.isBusy()) {
                     /* Put the claw in position to get a level 1 ascent */
                     actions.closeClaw();
-                    actions.clawHoverUp();
+                    actions.clawHover();
                     stop();
                     /* Set the state to a Case we won't use or define, so it just stops running an new paths */
                     setPathState(-1);
@@ -447,7 +447,7 @@ public class samplemore extends OpMode {
             case 11:
                 follower.setMaxPower(0.5);
                 if(pathTimer.getElapsedTimeSeconds() > .5 && pathTimer.getElapsedTimeSeconds() < 1){
-                    actions.clawHoverUp();
+                    actions.clawHover();
                     //0.0039 is one degree per tick of rotation servo
                     actions.rotateClaw(0.5-(0.0039*(int)rotationAngle));
                 }
@@ -456,14 +456,14 @@ public class samplemore extends OpMode {
                 }
                 if(!follower.isBusy() || pathTimer.getElapsedTimeSeconds() > 2.7) {
                     if(pathTimer.getElapsedTimeSeconds() > 3){
-                        actions.clawDownMore();
+                        actions.clawDown();
 
                     }
                     if(pathTimer.getElapsedTimeSeconds() > 4){
                         actions.closeClaw();
                     }
                     if(pathTimer.getElapsedTimeSeconds() > 4.2){
-                        actions.clawVertical();
+                        actions.clawUp();
                         actions.rotateClaw(0.5);
                         follower.setMaxPower(1);
                         follower.followPath(scoreSubmersible, true);
@@ -501,7 +501,7 @@ public class samplemore extends OpMode {
                 //2nd sample sub
             case 13:
                 if(pathTimer.getElapsedTimeSeconds() > .5 && pathTimer.getElapsedTimeSeconds() < 1){
-                    actions.clawHoverUp();
+                    actions.clawHover();
                     //0.0039 is one degree per tick of rotation servo
                     actions.rotateClaw(0.5-(0.0039*(int)angle));
                 }
@@ -518,7 +518,7 @@ public class samplemore extends OpMode {
                         actions.closeClaw();
                     }
                     if(pathTimer.getElapsedTimeSeconds() > 2.2){
-                        actions.clawVertical();
+                        actions.clawUp();
                         actions.rotateClaw(0.5);
                         follower.followPath(scoreSubmersible2, true);
                         setPathState(14);

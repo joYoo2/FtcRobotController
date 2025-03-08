@@ -23,6 +23,7 @@ public class LETDRIVE extends yooniversalOpMode {
         boolean emergencySlides = false;
         boolean movingSlides = false;
         boolean transferIn = false;
+        boolean specimenIntake = false;
         int slidesTarget = 0;
 
         double drive;
@@ -37,7 +38,7 @@ public class LETDRIVE extends yooniversalOpMode {
         ElapsedTime timer = new ElapsedTime();
         ElapsedTime transferTime = new ElapsedTime();
         ElapsedTime matchTime = new ElapsedTime();
-        ElapsedTime rotateTime = new ElapsedTime();
+        ElapsedTime buttonTime = new ElapsedTime();
 
 
         clawRotateServo.setPosition(0.5);
@@ -49,31 +50,32 @@ public class LETDRIVE extends yooniversalOpMode {
             matchTime.startTime();
 
             //move horz slides a custom amount
-            if(gamepad2.right_trigger > 0.1){
+            if (gamepad2.right_trigger > 0.1) {
                 clawMove(extenderLeft.getPosition() + 0.05);
-            }else if(gamepad2.left_trigger > 0.1){
+            } else if (gamepad2.left_trigger > 0.1) {
                 clawMove(extenderLeft.getPosition() - 0.05);
             }
 
 
-            if (gamepad1.left_trigger > 0.1 && rotateTime.time() > .5) {
+            //clawrotate
+            if (gamepad1.left_trigger > 0.1 && buttonTime.time() > .4) {
                 rotateClawReverse();
-                rotateTime.reset();
-            } else if (gamepad1.right_trigger > 0.1 && rotateTime.time() > .5) {
+                buttonTime.reset();
+            } else if (gamepad1.right_trigger > 0.1 && buttonTime.time() > .4) {
                 rotateClaw();
-                rotateTime.reset();
+                buttonTime.reset();
             }
+
+
+            //drive train code
             drive = -gamepad1.left_stick_y;
             strafe = gamepad1.left_stick_x;
             rotate = gamepad1.right_stick_x;
 
             train.manualDrive(drive + strafe + rotate,
                     drive - strafe - rotate,
-                    drive -strafe + rotate,
-                    drive + strafe- rotate);
-
-
-
+                    drive - strafe + rotate,
+                    drive + strafe - rotate);
 
 
             //just in case claw up w/ nothing else
@@ -90,15 +92,10 @@ public class LETDRIVE extends yooniversalOpMode {
                 closeClaw();
             }
 
-            if(gamepad2.dpad_up){
-                extendClaw();
-            } else if (gamepad2.dpad_down) {
-                retractClaw();
-            }
-
-            if(gamepad2.dpad_left){
+            //just in case transfer up and down (IMPORTANT!)
+            if (gamepad2.dpad_left) {
                 transferDown();
-            }else if(gamepad2.dpad_right){
+            } else if (gamepad2.dpad_right) {
                 transferClawClose();
                 transferUp();
             }
@@ -116,14 +113,14 @@ public class LETDRIVE extends yooniversalOpMode {
             if (gamepad1.right_bumper) {
                 clawDown();
                 timer.reset();
-
-
-            }else if((timer.time() > .2 && timer.time() < .4) && matchTime.time() > 1) {
+            } else if ((timer.time() > .2 && timer.time() < .4) && matchTime.time() > 1) {
                 closeClawTighet();
-            }else if((timer.time() > .6 && timer.time() < .8) /*&& matchTime.time() > 1*/) {
+            }else if(timer.time() > .4 && timer.time() < .6 && matchTime.time() > 1){
+                clawHover();
+                retractClaw();
+            }else if((timer.time() > .8 && timer.time() < 1) /*&& matchTime.time() > 1*/) {
                 clawUp();
                 transferUp();
-                retractClaw();
                 transferClawOpen();
                 clawRotateServo.setPosition(0.5);
             }else if(timer.time() > 1 && timer.time() < 1.2 && matchTime.time() > 1.5){
@@ -131,33 +128,72 @@ public class LETDRIVE extends yooniversalOpMode {
             }
 
 
-
-            //TRANSFER
-            if(gamepad2.right_bumper){
-                transferClawClose();
-                transferIn = true;
-                transferTime.reset();
-            }else if((transferTime.time() > .3 && transferTime.time() < .5) && matchTime.time() > 1 && transferIn){
-                openClawLarge();
-                if(transferTime.time() > .4){
-                    slidesTarget = values.craneHighBasket;
-                    movingSlides = true;
+            if(gamepad2.touchpad && buttonTime.time() > .5){
+                if(!specimenIntake){
+                    specimenIntake = true;
+                }else{
+                    specimenIntake = false;
                 }
-            }else if(transferTime.time() > 1 && transferTime.time() < 1.2 && matchTime.time() > 1 && transferIn){
-                transferUp();
-                transferIn = false;
+                buttonTime.reset();
             }
 
-            //BRING TRANSFER AND SLIDES DOWN
-            if(gamepad2.left_bumper){
-                transferClawOpen();
-                transferTime.reset();
-            }else if(transferTime.time() > .3 && transferTime.time() < .5 && matchTime.time() > 1 && !transferIn){
-                slidesTarget = values.craneResting;
-                movingSlides = true;
-                transferClawClose();
-                transferMid();
+            if(!specimenIntake){
+                //TRANSFER
+                if(gamepad2.right_bumper){
+                    transferClawClose();
+                    transferIn = true;
+                    transferTime.reset();
+                }else if((transferTime.time() > .3 && transferTime.time() < .5) && matchTime.time() > 1 && transferIn){
+                    openClawLarge();
+                    if(transferTime.time() > .4){
+                        slidesTarget = values.craneHighBasket;
+                        movingSlides = true;
+                    }
+                }else if(transferTime.time() > 1 && transferTime.time() < 1.2 && matchTime.time() > 1 && transferIn){
+                    transferUp();
+                    transferIn = false;
+                }
+
+                //BRING TRANSFER AND SLIDES DOWN
+                if(gamepad2.left_bumper){
+                    transferClawOpen();
+                    transferTime.reset();
+                }else if(transferTime.time() > .3 && transferTime.time() < .5 && matchTime.time() > 1 && !transferIn){
+                    slidesTarget = values.craneResting;
+                    movingSlides = true;
+                    transferClawClose();
+                    transferMid();
+                }
+            }else if(specimenIntake){
+                ///REALLLYYY WIP LIKE NONE OF THIS WILL PROBABLY WORK JUST WRITTEN AS LIKE PLACEHOLDER AND STUFF
+                //TRANSFER specimen edition
+                if(gamepad2.right_bumper && transferTime.time() < .2){
+                    //YOU MUST HOLD DOWN THE BUTTON IN ORDER TO HOLD THE INTAKE POSITION
+                    clawSpecimen();
+                    transferIn = true;
+                    transferTime.reset();
+                }else if(transferTime.time() > .2 && transferTime.time() < .4 && transferIn){
+                    closeClawTighet();
+                    transferDown();
+                }else if(transferTime.time() > .4 && transferTime.time() < .6 && transferIn){
+                    clawUp();
+                }else if(transferTime.time() > .6 && transferTime.time() < .8 && transferIn){
+                    transferClawClose();
+                }else if(transferTime.time() > .8 && transferTime.time() < 1 && transferIn){
+                    openClawLarge();
+                    transferUp();
+                }
+
+                //BRING TRANSFER AND SLIDES DOWN specimen edition
+                if(gamepad2.left_bumper && transferTime.time() < .2){
+                    //HOLD THE BUTTON DOWN ish kinda
+                    transferDown();
+                    transferTime.reset();
+                }else if(transferTime.time() > .3 && transferTime.time() < .5 && matchTime.time() > 1 && !transferIn){
+                    transferClawOpen();
+                }
             }
+
 
 
 
@@ -165,12 +201,12 @@ public class LETDRIVE extends yooniversalOpMode {
             if(movingSlides){
                 slides.setTargetPosition(slidesTarget);
                 if(slides.getCurrentLeftPosition() < slidesTarget || slides.getCurrentLeftPosition() < slidesTarget){
-                    if(slides.getCurrentRightPosition() >= slidesTarget - 5 || slides.getCurrentLeftPosition() >= slidesTarget - 5){
+                    if(slides.getCurrentRightPosition() >= slidesTarget - 15 || slides.getCurrentLeftPosition() >= slidesTarget - 15){
                         movingSlides = false;
                     }
                 }
                 if(slides.getCurrentLeftPosition() > slidesTarget || slides.getCurrentLeftPosition() > slidesTarget){
-                    if(slides.getCurrentRightPosition() <= slidesTarget + 5 || slides.getCurrentLeftPosition() <= slidesTarget + 5){
+                    if(slides.getCurrentRightPosition() <= slidesTarget + 15 || slides.getCurrentLeftPosition() <= slidesTarget + 15){
                         movingSlides = false;
                     }
                 }
