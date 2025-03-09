@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.pedropathing.configs;
+package org.firstinspires.ftc.teamcode.pedroPathing.configs;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;

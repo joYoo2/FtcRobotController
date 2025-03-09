@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.pedropathing.constants;
+package org.firstinspires.ftc.teamcode.pedroPathing.constants;
 
 import com.pedropathing.localization.*;
 import com.pedropathing.localization.constants.*;
@@ -20,6 +20,7 @@ public class LConstants {
         PinpointConstants.customEncoderResolution = 13.26291192;
         PinpointConstants.forwardEncoderDirection = GoBildaPinpointDriver.EncoderDirection.REVERSED;
         PinpointConstants.strafeEncoderDirection = GoBildaPinpointDriver.EncoderDirection.FORWARD;
+
     }
 }
 

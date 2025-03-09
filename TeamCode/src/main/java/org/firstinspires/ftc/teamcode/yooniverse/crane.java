@@ -23,7 +23,7 @@ public class crane {
         leftDrawerSlide = hardwareMap.get(DcMotorEx.class, "leftDrawerSlide");
         rightDrawerSlide = hardwareMap.get(DcMotorEx.class, "rightDrawerSlide");
         rightDrawerSlide.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        leftDrawerSlide.setDirection((DcMotorEx.Direction.REVERSE));
+        rightDrawerSlide.setDirection((DcMotorEx.Direction.REVERSE));
 
 
         targetPosition = 0;

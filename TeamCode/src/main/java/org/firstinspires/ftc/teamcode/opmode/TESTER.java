@@ -41,7 +41,7 @@ public class TESTER extends LinearOpMode {
         leftDrawerSlide = hardwareMap.get(DcMotorEx.class, "leftDrawerSlide");
         rightDrawerSlide = hardwareMap.get(DcMotorEx.class, "rightDrawerSlide");
         rightDrawerSlide.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        leftDrawerSlide.setDirection((DcMotorEx.Direction.REVERSE));
+        rightDrawerSlide.setDirection((DcMotorEx.Direction.REVERSE));
 
         leftDrawerSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDrawerSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

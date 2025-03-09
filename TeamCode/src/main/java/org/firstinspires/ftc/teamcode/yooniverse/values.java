@@ -22,13 +22,13 @@ public class values {
 
     //Crane Arm Positions (REDO?)
     public static int craneResting = 0;
-    public static int craneMax = 2100;
+    public static int craneMax = 800;
 
 
     public static int craneLowChamber;
     public static int craneHighChamber = 1200;
     public static int craneHighChamberSpecimenClaw = 1300;
-    public static int craneHighBasket = 2100;
+    public static int craneHighBasket = 795;
 
 
 

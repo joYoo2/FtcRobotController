@@ -1,20 +1,18 @@
-package org.firstinspires.ftc.teamcode.pedropathing.examples;
+package org.firstinspires.ftc.teamcode.pedroPathing.examples;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
 import com.pedropathing.pathgen.BezierCurve;
-import com.pedropathing.pathgen.BezierLine;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
-import com.pedropathing.util.Constants;
 import com.pedropathing.util.Timer;
 import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.pedropathing.configs.Subsystem;
-import org.firstinspires.ftc.teamcode.pedropathing.constants.FConstants;
-import org.firstinspires.ftc.teamcode.pedropathing.constants.LConstants;
+import org.firstinspires.ftc.teamcode.pedroPathing.configs.Subsystem;
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 import org.firstinspires.ftc.teamcode.yooniverse.values;
 
 /**
@@ -63,7 +61,6 @@ public class ExampleRobotCentricTeleop extends OpMode {
     @Override
     public void init() {
         follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
-
         follower.setStartingPose(startPose);
         pathTimer = new Timer();
         buildPaths();
