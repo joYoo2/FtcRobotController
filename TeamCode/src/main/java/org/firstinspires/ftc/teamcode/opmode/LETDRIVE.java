@@ -139,7 +139,7 @@ public class LETDRIVE extends yooniversalOpMode {
 
             if(!specimenIntake){
                 //TRANSFER
-                if(gamepad2.right_bumper){
+                if(gamepad2.left_bumper){
                     transferClawClose();
                     transferIn = true;
                     transferTime.reset();
@@ -155,7 +155,7 @@ public class LETDRIVE extends yooniversalOpMode {
                 }
 
                 //BRING TRANSFER AND SLIDES DOWN
-                if(gamepad2.left_bumper){
+                if(gamepad2.right_bumper){
                     transferClawOpen();
                     transferTime.reset();
                 }else if(transferTime.time() > .3 && transferTime.time() < .5 && matchTime.time() > 1 && !transferIn){
