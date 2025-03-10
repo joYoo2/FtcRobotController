@@ -124,6 +124,7 @@ public class LETDRIVE extends yooniversalOpMode {
                 transferClawOpen();
                 clawRotateServo.setPosition(0.5);
             }else if(timer.time() > 1 && timer.time() < 1.2 && matchTime.time() > 1.5){
+                closeClaw();
                 transferDown();
             }
 
