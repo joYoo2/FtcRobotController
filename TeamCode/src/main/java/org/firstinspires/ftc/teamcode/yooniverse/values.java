@@ -26,8 +26,7 @@ public class values {
 
 
     public static int craneLowChamber;
-    public static int craneHighChamber = 1200;
-    public static int craneHighChamberSpecimenClaw = 1300;
+    public static int craneHighChamber = 170;
     public static int craneHighBasket = 795;
 
 

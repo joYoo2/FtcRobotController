@@ -13,7 +13,7 @@ public abstract class yooniversalOpMode extends LinearOpMode{
 
     public crane slides;
     public void setup(){
-        setup(.1, false);
+        setup(1, false);
     }
     public void setup(double cranePower,boolean auton){
         slides = new crane(hardwareMap, cranePower, false, false);
@@ -69,8 +69,14 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     public void clawSpecimen(){
         armRotateLeft.setPosition(0.5);
         armRotateRight.setPosition(0.5);
-        clawMountRotate.setPosition(0.08);
+        clawMountRotate.setPosition(0.2);
         //idk real values tbh lmao
+    }
+
+    public void clawSpecimenUp(){
+        armRotateLeft.setPosition(0.25);
+        armRotateRight.setPosition(0.25);
+        clawMountRotate.setPosition(0.25);
     }
 
     public void clawHover(){
@@ -87,11 +93,12 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     public void transferDown(){
         transferLeft.setPosition(0.45);
     }
+    public void specimenIntake(){transferLeft.setPosition(0.48);}
     public void transferMid(){
         transferLeft.setPosition(0.70);
     }
     public void transferUp(){
-        transferLeft.setPosition(0.83);
+        transferLeft.setPosition(0.85);
     }
 
     public void clawUp(){
@@ -110,31 +117,6 @@ public abstract class yooniversalOpMode extends LinearOpMode{
 
 
 
-
-    public void highChamber(){
-        slides.setTargetPosition(1300);
-    }
-
-    public void highChamberSpecimenClaw(){
-        slides.setTargetPosition(values.craneHighChamberSpecimenClaw);
-    }
-
-    public void highChamberDown(){
-        slides.setTargetPosition(730);
-    }
-
-    public void highChamberDownSpecimenClaw(){
-        slides.setTargetPosition(1200);
-    }
-
-
-    public void highBasket(){
-        slides.setTargetPosition(values.craneHighBasket);
-    }
-
-    public void slidesResting(){
-        slides.setTargetPosition(0);
-    }
 
 
 }

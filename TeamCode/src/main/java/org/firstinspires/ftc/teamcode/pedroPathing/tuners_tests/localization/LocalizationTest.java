@@ -55,8 +55,8 @@ public class LocalizationTest extends OpMode {
      */
     @Override
     public void init() {
-        poseUpdater = new PoseUpdater(hardwareMap, FConstants.class, LConstants.class);
         Constants.setConstants(FConstants.class, LConstants.class);
+        poseUpdater = new PoseUpdater(hardwareMap);
 
         dashboardPoseTracker = new DashboardPoseTracker(poseUpdater);
 
@@ -123,8 +123,8 @@ public class LocalizationTest extends OpMode {
 
         telemetryA.addData("x", poseUpdater.getPose().getX());
         telemetryA.addData("y", poseUpdater.getPose().getY());
-        telemetryA.addData("heading", poseUpdater.getPose().getHeading());
-        telemetryA.addData("total heading", poseUpdater.getTotalHeading());
+        telemetryA.addData("heading", Math.toDegrees(poseUpdater.getPose().getHeading()));
+        telemetryA.addData("total heading", Math.toDegrees(poseUpdater.getTotalHeading()));
         telemetryA.update();
 
         Drawing.drawPoseHistory(dashboardPoseTracker, "#4CAF50");

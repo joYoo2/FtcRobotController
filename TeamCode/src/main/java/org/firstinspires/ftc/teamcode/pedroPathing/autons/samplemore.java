@@ -8,6 +8,7 @@ import com.pedropathing.pathgen.BezierLine;
 import com.pedropathing.pathgen.Path;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
+import com.pedropathing.util.Constants;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -54,18 +55,18 @@ public class samplemore extends OpMode {
      * Lets assume the Robot is facing the human player and we want to score in the bucket */
 
     /** Start Pose of our robot */
-    private final Pose startPose = new Pose(9, 110, Math.toRadians(90));
+    private final Pose startPose = new Pose(9, 110, Math.toRadians(-90));
 
     /** Scoring Pose of our robot. It is facing the basket at a 135 degree angle. */
-    private final Pose scorePose = new Pose(16, 123, Math.toRadians(115));
+    private final Pose scorePose = new Pose(15, 129, Math.toRadians(-45));
     /** Lowest (First) Sample from the Spike Mark */
-    private final Pose pickup1Pose = new Pose(29.7, 117, Math.toRadians(0));
+    private final Pose pickup1Pose = new Pose(15, 133, Math.toRadians(-19.61786));
 
     /** Middle (Second) Sample from the Spike Mark */
-    private final Pose pickup2Pose = new Pose(30.3, 126, Math.toRadians(0));
+    private final Pose pickup2Pose = new Pose(14, 135, Math.toRadians(-8.06704));
 
     /** Highest (Third) Sample from the Spike Mark */
-    private final Pose pickup3Pose = new Pose(26.8, 131, Math.toRadians(22));
+    private final Pose pickup3Pose = new Pose(16, 130, Math.toRadians(25.5656));
     private final Pose pickup4Pose = new Pose(12, 110, Math.toRadians(-90));
 
     //extra submersible samples
@@ -105,48 +106,39 @@ public class samplemore extends OpMode {
          * Here is a explanation of the difference between Paths and PathChains <https://pedropathing.com/commonissues/pathtopathchain.html> */
 
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
-        scorePreload = new Path(new BezierLine(new Point(startPose), new Point(scorePose)));
-        scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
+        scorePreload = new Path(new BezierLine(new Point(startPose), new Point(pickup1Pose)));
+        scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), pickup1Pose.getHeading());
         /* Here is an example for Constant Interpolation
         scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
-        /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        grabPickup1 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(scorePose), new Point(pickup1Pose)))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading(), .7)
-                //.setPathEndHeadingConstraint(Math.toRadians(.5))
-                .setPathEndTranslationalConstraint(0.1)
-                .setPathEndTimeoutConstraint(200)
-                .build();
-
-        /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        scorePickup1 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(pickup1Pose), new Point(scorePose)))
-                .setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePose.getHeading())
-                .build();
+//        /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
+//        grabPickup1 = follower.pathBuilder()
+//                .addPath(new BezierLine(new Point(pickup1Pose), new Point(pickup1Pose)))
+//                .setLinearHeadingInterpolation(pickup1Pose.getHeading(), pickup1Pose.getHeading(), .7)
+//                .build();
+//
+//        /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
+//        scorePickup1 = follower.pathBuilder()
+//                .addPath(new BezierLine(new Point(pickup1Pose), new Point(scorePose)))
+//                .setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePose.getHeading())
+//                .build();
 
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup2 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(scorePose), new Point(pickup2Pose)))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup2Pose.getHeading(), .7)
-                //.setPathEndHeadingConstraint(Math.toRadians(.5))
-                .setPathEndTranslationalConstraint(0.1)
-                .setPathEndTimeoutConstraint(200)
+                .addPath(new BezierLine(new Point(pickup1Pose), new Point(pickup2Pose)))
+                .setLinearHeadingInterpolation(pickup1Pose.getHeading(), pickup2Pose.getHeading(), .7)
                 .build();
 
         /* This is our scorePickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        scorePickup2 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(pickup2Pose), new Point(scorePose)))
-                .setLinearHeadingInterpolation(pickup2Pose.getHeading(), scorePose.getHeading())
-                .build();
+//        scorePickup2 = follower.pathBuilder()
+//                .addPath(new BezierLine(new Point(pickup2Pose), new Point(scorePose)))
+//                .setLinearHeadingInterpolation(pickup2Pose.getHeading(), scorePose.getHeading())
+//                .build();
 
         /* This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup3 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(scorePose), new Point(pickup3Pose)))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup3Pose.getHeading(), .7)
-                .setPathEndHeadingConstraint(Math.toRadians(.5))
-                .setPathEndTranslationalConstraint(0.1)
-                .setPathEndTimeoutConstraint(200)
+                .addPath(new BezierLine(new Point(pickup2Pose), new Point(pickup3Pose)))
+                .setLinearHeadingInterpolation(pickup2Pose.getHeading(), pickup3Pose.getHeading(), .7)
                 .build();
 
         /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -159,9 +151,6 @@ public class samplemore extends OpMode {
         grabPickup4 = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(scorePose), new Point(pickup4Pose)))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup4Pose.getHeading(), .7)
-                .setPathEndHeadingConstraint(Math.toRadians(.5))
-                .setPathEndTranslationalConstraint(0.1)
-                .setPathEndTimeoutConstraint(200)
                 .build();
 
         /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -174,13 +163,8 @@ public class samplemore extends OpMode {
         grabSubmersible = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(scorePose), new Point(subBackPose)))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), subPose.getHeading(), .7)
-                .setPathEndTimeoutConstraint(200)
-                .setZeroPowerAccelerationMultiplier(3)
                 .addPath(new BezierLine(new Point(subBackPose), new Point(subPose)))
                 .setConstantHeadingInterpolation(subPose.getHeading())
-                .setPathEndTimeoutConstraint(200)
-                .setPathEndTranslationalConstraint(0.1)
-                .setZeroPowerAccelerationMultiplier(1)
                 .build();
         scoreSubmersible = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(subPose), new Point(subBackPose)))
@@ -219,7 +203,7 @@ public class samplemore extends OpMode {
                 follower.followPath(scorePreload);
                 setPathState(1);
                 actions.closeClaw();
-                actions.clawUp();
+                actions.transferUp();
                 actions.highBasket();
                 break;
             case 1:
@@ -235,14 +219,16 @@ public class samplemore extends OpMode {
                     /* Score Preload */
 
                         if(pathTimer.getElapsedTimeSeconds() > 1.5){
-                            actions.extendClaw();
+                            actions.transferClawOpen();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 2.2){
-                            actions.openClawLarge();
-                            actions.retractClaw();
+                            actions.transferMid();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 3){
                             actions.slidesResting();
+                            actions.extendClaw();
+                            actions.clawHover();
+                            actions.openClaw();
                             /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                             follower.followPath(grabPickup1,true);
                             setPathState(2);
@@ -256,10 +242,17 @@ public class samplemore extends OpMode {
                 }
                 if(!follower.isBusy()) {
                     /* Grab Sample */
-                        if(pathTimer.getElapsedTimeSeconds() > 1.5){
-                            actions.closeClaw();
+                        if(pathTimer.getElapsedTimeSeconds() > 1.2){
+                            actions.closeClawTighet();
+                        }
+                        if(pathTimer.getElapsedTimeSeconds() > 1.4){
+                            actions.retractClaw();
+                            actions.clawUp();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 1.6){
+
+                        }
+                        if(pathTimer.getElapsedTimeSeconds() > 2){
                             actions.clawUp();
                             actions.slides.resetEncoders();
                             actions.highBasket();
@@ -583,7 +576,8 @@ public class samplemore extends OpMode {
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
 
-        follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
+        follower = new Follower(hardwareMap);
+        Constants.setConstants(FConstants.class, LConstants.class);
         follower.setStartingPose(startPose);
         buildPaths();
 
@@ -593,7 +587,7 @@ public class samplemore extends OpMode {
         //follower.setMaxPower(0.8);
 
         // Set the claw to positions for init
-        actions.closeClaw();
+        actions.transferClawClose();
         actions.retractClaw();
         actions.clawRotateServo.setPosition(0.5);
     }

@@ -18,13 +18,13 @@ public class FConstants {
         FollowerConstants.rightFrontMotorDirection = DcMotorSimple.Direction.FORWARD;
         FollowerConstants.rightRearMotorDirection = DcMotorSimple.Direction.FORWARD;
 
-        FollowerConstants.mass = 12.2135;
+        FollowerConstants.mass = 11.71;
 
-        FollowerConstants.xMovement = 72.7508;
-        FollowerConstants.yMovement = 50.9624;
+        FollowerConstants.xMovement = 74.8969;
+        FollowerConstants.yMovement = 57.2351;
 
-        FollowerConstants.forwardZeroPowerAcceleration = -39.9134;
-        FollowerConstants.lateralZeroPowerAcceleration = -85.1704;
+        FollowerConstants.forwardZeroPowerAcceleration = -29.0959;
+        FollowerConstants.lateralZeroPowerAcceleration = -67.8112;
 
         FollowerConstants.translationalPIDFCoefficients.setCoefficients(0.15,0,0.02,0);
         FollowerConstants.useSecondaryTranslationalPID = false;
@@ -59,6 +59,5 @@ public class FConstants {
         FollowerConstants.pathEndVelocityConstraint = 0.1;
         FollowerConstants.pathEndTranslationalConstraint = 0.1;
         FollowerConstants.pathEndHeadingConstraint = 0.007;
-        FollowerConstants.turnHeadingErrorThreshold = 0.01; // default is 0.01
     }
 }

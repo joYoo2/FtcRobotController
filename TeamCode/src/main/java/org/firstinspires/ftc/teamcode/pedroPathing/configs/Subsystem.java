@@ -115,16 +115,9 @@ public class Subsystem {
         slides.setTargetPosition(1300);
     }
 
-    public void highChamberSpecimenClaw(){
-        slides.setTargetPosition(values.craneHighChamberSpecimenClaw);
-    }
 
     public void highChamberDown(){
         slides.setTargetPosition(730);
-    }
-
-    public void highChamberDownSpecimenClaw(){
-        slides.setTargetPosition(1200);
     }
 
 

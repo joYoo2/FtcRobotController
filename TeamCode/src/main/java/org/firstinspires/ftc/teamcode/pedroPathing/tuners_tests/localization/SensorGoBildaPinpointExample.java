@@ -22,8 +22,7 @@
 
 package org.firstinspires.ftc.teamcode.pedroPathing.tuners_tests.localization;
 
-import com.pedropathing.localization.Pose;
-import com.pedropathing.pathgen.MathFunctions;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -61,7 +60,7 @@ For support, contact tech@gobilda.com
  */
 
 
-@TeleOp(name="goBILDA® PinPoint Odometry Example", group="Teleop Test")
+//@TeleOp(name="goBILDA® PinPoint Odometry Example", group="Teleop Test")
 
 public class SensorGoBildaPinpointExample extends LinearOpMode {
 
@@ -166,33 +165,18 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
 
 
             /*
-            gets the current Position (x & y in inches, and heading in radians) of the robot, and prints it.
-             */
-            Pose pos = odo.getPosition();
-            String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(), pos.getY(), pos.getHeading());
-            telemetry.addData("Position in Inches and Radians", data);
-
-            /*
             gets the current Position (x & y in mm, and heading in degrees) of the robot, and prints it.
              */
-            Pose poss = odo.getPosition();
-            String datas = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", MathFunctions.inToMM(pos.getX()), MathFunctions.inToMM(poss.getY()), Math.toDegrees(poss.getHeading()));
-            telemetry.addData("Position in MM and Degrees", datas);
-
-
-            /*
-            gets the current Velocity (x & y in in/sec and heading in radians/sec) and prints it.
-             */
-            Pose vels = odo.getVelocity();
-            String velocitys = String.format(Locale.US,"{XVel: %.3f, YVel: %.3f, HVel: %.3f}", (vels.getX()), (vels.getY()), (vels.getHeading()));
-            telemetry.addData("Velocity in MM && Degrees", velocitys);
+            Pose2D pos = odo.getPosition();
+            String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.DEGREES));
+            telemetry.addData("Position", data);
 
             /*
             gets the current Velocity (x & y in mm/sec and heading in degrees/sec) and prints it.
              */
-            Pose vel = odo.getVelocity();
-            String velocity = String.format(Locale.US,"{XVel: %.3f, YVel: %.3f, HVel: %.3f}", MathFunctions.inToMM(vel.getX()), MathFunctions.inToMM(vel.getY()), Math.toDegrees(vel.getHeading()));
-            telemetry.addData("Velocity in MM && Degrees", velocity);
+            Pose2D vel = odo.getVelocity();
+            String velocity = String.format(Locale.US,"{XVel: %.3f, YVel: %.3f, HVel: %.3f}", vel.getX(DistanceUnit.MM), vel.getY(DistanceUnit.MM), vel.getHeading(AngleUnit.DEGREES));
+            telemetry.addData("Velocity", velocity);
 
 
             /*
