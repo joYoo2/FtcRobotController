@@ -73,6 +73,12 @@ public class Subsystem {
         //idk real values tbh lmao
     }
 
+    public void clawSpecimenUp(){
+        armRotateLeft.setPosition(0.25);
+        armRotateRight.setPosition(0.25);
+        clawMountRotate.setPosition(0.25);
+    }
+
     public void clawHover(){
         armRotateLeft.setPosition(0.77);
         armRotateRight.setPosition(0.77);
@@ -93,19 +99,20 @@ public class Subsystem {
     public void transferUp(){
         transferLeft.setPosition(0.83);
     }
+    public void transferUpMore(){transferLeft.setPosition(0.9);}
 
     public void clawUp(){
-        armRotateLeft.setPosition(0.52);
-        armRotateRight.setPosition(0.52);
+        armRotateLeft.setPosition(0.49);
+        armRotateRight.setPosition(0.49);
         clawMountRotate.setPosition(.74);
     }
 
     public void transferClawClose(){
-        transferClaw.setPosition(.25);
+        transferClaw.setPosition(.43);
     }
 
     public void transferClawOpen(){
-        transferClaw.setPosition(.42);
+        transferClaw.setPosition(.62);
     }
 
 

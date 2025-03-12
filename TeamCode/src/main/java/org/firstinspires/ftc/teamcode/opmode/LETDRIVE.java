@@ -141,6 +141,7 @@ public class LETDRIVE extends yooniversalOpMode {
             if(!specimenIntake){
                 //TRANSFER
                 if(gamepad2.left_bumper){
+                    retractClaw();
                     transferClawClose();
                     transferIn = true;
                     transferTime.reset();
