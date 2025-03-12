@@ -233,7 +233,7 @@ public class samplemore extends OpMode {
                             follower.followPath(grabPickup1,true);
                             setPathState(2);
                         }
-                    }
+                }
 
                 break;
             case 2:
@@ -248,19 +248,24 @@ public class samplemore extends OpMode {
                         if(pathTimer.getElapsedTimeSeconds() > 1.4){
                             actions.retractClaw();
                             actions.clawUp();
+                            actions.transferClawOpen();
                         }
+                        //wait dylan i totally messed up this should be on the next case right?
                         if(pathTimer.getElapsedTimeSeconds() > 1.6){
-
+                            actions.transferDown();
+                        }
+                        if(pathTimer.getElapsedTimeSeconds() > 1.8) {
+                            actions.transferClawClose();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 2){
-                            actions.clawUp();
-                            actions.slides.resetEncoders();
+                            actions.transferUp();
                             actions.highBasket();
-
                             /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                             follower.followPath(scorePickup1,true);
                             setPathState(3);
                         }
+
+
                     }
 
 
