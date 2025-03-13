@@ -1,8 +1,16 @@
 package org.firstinspires.ftc.teamcode.opmode;
 
+import com.pedropathing.follower.Follower;
+import com.pedropathing.pathgen.BezierCurve;
+import com.pedropathing.pathgen.PathChain;
+import com.pedropathing.pathgen.Point;
+import com.pedropathing.util.Constants;
+import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
+import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 import org.firstinspires.ftc.teamcode.yooniverse.yooniversalOpMode;
 //import org.firstinspires.ftc.teamcode.yooniverse.camera;
 import org.firstinspires.ftc.teamcode.yooniverse.values;
@@ -14,6 +22,25 @@ public class LETDRIVE extends yooniversalOpMode {
     @Override
     public void runOpMode() {
         setup();
+
+        //pedro stuff
+
+        Follower follower;
+
+        Constants.setConstants(FConstants.class, LConstants.class);
+        follower = new Follower(hardwareMap);
+        follower.setStartingPose(values.teleopStart);
+
+        //pathTimer = new Timer();
+        PathChain scoreSample;
+        //path
+        scoreSample = follower.pathBuilder()
+                .addPath(new BezierCurve(new Point(follower.getPose()), new Point(60, 140), new Point(values.basketPose)))
+                .setLinearHeadingInterpolation(follower.getPose().getHeading(), values.basketPose.getHeading())
+                .build();
+
+
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -33,6 +60,8 @@ public class LETDRIVE extends yooniversalOpMode {
 
 
         waitForStart();
+        follower.startTeleopDrive();
+
         retractClaw();
 
         ElapsedTime timer = new ElapsedTime();
@@ -51,7 +80,9 @@ public class LETDRIVE extends yooniversalOpMode {
 
             //move horz slides a custom amount
             if (gamepad2.right_trigger > 0.1) {
-                clawMove(extenderLeft.getPosition() + 0.03);
+                if(extenderLeft.getPosition() <= values.clawExtend){
+                    clawMove(extenderLeft.getPosition() + 0.03);
+                }
             } else if (gamepad2.left_trigger > 0.1) {
                 clawMove(extenderLeft.getPosition() - 0.03);
             }
@@ -68,14 +99,27 @@ public class LETDRIVE extends yooniversalOpMode {
 
 
             //drive train code
-            drive = -gamepad1.left_stick_y;
-            strafe = gamepad1.left_stick_x;
-            rotate = gamepad1.right_stick_x;
+//            drive = -gamepad1.left_stick_y;
+//            strafe = gamepad1.left_stick_x;
+//            rotate = gamepad1.right_stick_x;
+//
+//            train.manualDrive(drive + strafe + rotate,
+//                    drive - strafe - rotate,
+//                    drive - strafe + rotate,
+//                    drive + strafe - rotate);
+            follower.setTeleOpMovementVectors(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, false);
+            follower.update();
 
-            train.manualDrive(drive + strafe + rotate,
-                    drive - strafe - rotate,
-                    drive - strafe + rotate,
-                    drive + strafe - rotate);
+            //JOYSTICK OVERRIDE
+            if ((gamepad1.left_stick_y != 0 || gamepad1.left_stick_x != 0 || gamepad1.right_stick_x != 0 || gamepad1.right_stick_y != 0) && follower.isBusy()) {
+                follower.breakFollowing();
+                follower.startTeleopDrive();
+            }
+
+            //pedro auto path to basket
+            if(gamepad2.triangle){
+                follower.followPath(scoreSample);
+            }
 
 
             //just in case claw up w/ nothing else
@@ -92,12 +136,15 @@ public class LETDRIVE extends yooniversalOpMode {
                 closeClaw();
             }
 
-            //just in case transfer up and down (IMPORTANT!)
-            if (gamepad2.dpad_left) {
+            //just in case transfer up and down and open and close (IMPORTANT!)
+            if (gamepad2.dpad_down) {
                 transferDown();
-            } else if (gamepad2.dpad_right) {
-                transferClawClose();
+            } else if (gamepad2.dpad_up) {
                 transferUp();
+            }else if(gamepad2.dpad_left){
+                transferClawClose();
+            } else if (gamepad2.dpad_right) {
+                transferClawOpen();
             }
 
 
@@ -152,7 +199,7 @@ public class LETDRIVE extends yooniversalOpMode {
                         movingSlides = true;
                     }
                 }else if(transferTime.time() > 1 && transferTime.time() < 1.2 && matchTime.time() > 1 && transferIn){
-                    transferUp();
+                    transferUpMore();
                     transferIn = false;
                 }
 

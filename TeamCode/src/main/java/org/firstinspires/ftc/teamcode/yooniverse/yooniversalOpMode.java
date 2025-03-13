@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.yooniverse;
 
+import com.pedropathing.pathgen.BezierCurve;
+import com.pedropathing.pathgen.Point;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -101,6 +103,7 @@ public abstract class yooniversalOpMode extends LinearOpMode{
         transferLeft.setPosition(0.85);
     }
 
+    public void transferUpMore(){transferLeft.setPosition(0.9);}
     public void clawUp(){
         armRotateLeft.setPosition(0.5);
         armRotateRight.setPosition(0.5);
@@ -114,6 +117,10 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     public void transferClawOpen(){
         transferClaw.setPosition(.62);
     }
+
+
+
+
 
 
 
