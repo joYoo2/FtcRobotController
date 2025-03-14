@@ -115,7 +115,7 @@ public abstract class yooniversalOpMode extends LinearOpMode{
     }
 
     public void transferClawOpen(){
-        transferClaw.setPosition(.62);
+        transferClaw.setPosition(.64);
     }
 
 

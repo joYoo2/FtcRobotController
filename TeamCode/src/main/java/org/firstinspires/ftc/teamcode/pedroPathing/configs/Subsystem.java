@@ -102,17 +102,17 @@ public class Subsystem {
     public void transferUpMore(){transferLeft.setPosition(0.9);}
 
     public void clawUp(){
-        armRotateLeft.setPosition(0.49);
-        armRotateRight.setPosition(0.49);
+        armRotateLeft.setPosition(0.5);
+        armRotateRight.setPosition(0.5);
         clawMountRotate.setPosition(.74);
     }
 
     public void transferClawClose(){
-        transferClaw.setPosition(.43);
+        transferClaw.setPosition(.4);
     }
 
     public void transferClawOpen(){
-        transferClaw.setPosition(.62);
+        transferClaw.setPosition(.65);
     }
 
 

@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.opmode;
 
 import com.pedropathing.follower.Follower;
+import com.pedropathing.localization.Pose;
 import com.pedropathing.pathgen.BezierCurve;
+import com.pedropathing.pathgen.BezierLine;
 import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
 import com.pedropathing.util.Constants;
@@ -32,10 +34,10 @@ public class LETDRIVE extends yooniversalOpMode {
         follower.setStartingPose(values.teleopStart);
 
         //pathTimer = new Timer();
-        PathChain scoreSample;
+        PathChain scoreSample, adjustSubmersible;
         //path
         scoreSample = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(follower.getPose()), new Point(60, 140), new Point(values.basketPose)))
+                .addPath(new BezierLine(new Point(follower.getPose()), new Point(values.basketPose)))
                 .setLinearHeadingInterpolation(follower.getPose().getHeading(), values.basketPose.getHeading())
                 .build();
 
@@ -107,12 +109,14 @@ public class LETDRIVE extends yooniversalOpMode {
 //                    drive - strafe - rotate,
 //                    drive - strafe + rotate,
 //                    drive + strafe - rotate);
-            follower.setTeleOpMovementVectors(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, false);
+            follower.setTeleOpMovementVectors(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, true);
             follower.update();
 
             //JOYSTICK OVERRIDE
             if ((gamepad1.left_stick_y != 0 || gamepad1.left_stick_x != 0 || gamepad1.right_stick_x != 0 || gamepad1.right_stick_y != 0) && follower.isBusy()) {
                 follower.breakFollowing();
+                follower.setTeleOpMovementVectors(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, true);
+                telemetry.addData("e", "a");
                 follower.startTeleopDrive();
             }
 
@@ -120,6 +124,26 @@ public class LETDRIVE extends yooniversalOpMode {
             if(gamepad2.triangle){
                 follower.followPath(scoreSample);
             }
+
+
+//            if(gamepad2.x){
+//                ///SCAN CAMERA HERE
+//                double displacementX = 0;
+//                double displacementY = 0;
+//                double clawRotation = 0;
+//                ///JOE REPLACE THESE WITH THE CAMERA STUFF
+//
+//                Pose adjust = new Pose(follower.getPose().getX()+displacementX, follower.getPose().getY()+displacementY);
+//                adjustSubmersible = follower.pathBuilder()
+//                        .addPath(new BezierLine(new Point(follower.getPose()), new Point(adjust)))
+//                        .setConstantHeadingInterpolation(Math.toRadians(-90))
+//                        .build();
+//
+//                clawRotateServo.setPosition(0.5-(0.0039*(int)clawRotation));
+//
+//
+//                follower.followPath(adjustSubmersible);
+//            }
 
 
             //just in case claw up w/ nothing else
@@ -140,7 +164,7 @@ public class LETDRIVE extends yooniversalOpMode {
             if (gamepad2.dpad_down) {
                 transferDown();
             } else if (gamepad2.dpad_up) {
-                transferUp();
+                transferUpMore();
             }else if(gamepad2.dpad_left){
                 transferClawClose();
             } else if (gamepad2.dpad_right) {
@@ -150,7 +174,7 @@ public class LETDRIVE extends yooniversalOpMode {
 
             //CLAW OUT
             if (gamepad1.left_bumper) {
-                transferUp();
+                transferUpMore();
                 extendClaw();
                 openClaw();
                 clawHover();
@@ -167,10 +191,10 @@ public class LETDRIVE extends yooniversalOpMode {
                 retractClaw();
             }else if((timer.time() > .8 && timer.time() < 1) /*&& matchTime.time() > 1*/) {
                 clawUp();
-                transferUp();
+                transferUpMore();
                 transferClawOpen();
                 clawRotateServo.setPosition(0.5);
-            }else if(timer.time() > 1 && timer.time() < 1.2 && matchTime.time() > 1.5){
+            }else if(timer.time() > .9 && timer.time() < 1 && matchTime.time() > 1.5){
                 closeClaw();
                 transferDown();
             }
@@ -242,7 +266,7 @@ public class LETDRIVE extends yooniversalOpMode {
                         openClawLarge();
                         slidesTarget = values.craneHighChamber - 60;
                         movingSlides = true;
-                        transferUp();
+                        transferUpMore();
                         transferIn = false;
                     }
                     //BRING TRANSFER AND SLIDES DOWN specimen edition

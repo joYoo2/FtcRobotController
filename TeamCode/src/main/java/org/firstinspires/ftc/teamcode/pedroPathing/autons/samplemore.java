@@ -64,8 +64,8 @@ public class samplemore extends OpMode {
     // was 15
 
     /** Middle (Second) Sample from the Spike Mark */
-    private final Pose pickup2Pose = new Pose(15, 134, Math.toRadians(-4));
-    //TBD pose, not sure if it works
+    private final Pose pickup2Pose = new Pose(14.5, 134, Math.toRadians(-4));
+
 
     /** Highest (Third) Sample from the Spike Mark */
     private final Pose pickup3Pose = new Pose(14, 131, Math.toRadians(25.5656));
@@ -86,7 +86,7 @@ public class samplemore extends OpMode {
 
     /* These are our Paths and PathChains that we will define in buildPaths() */
     private Path scorePreload, park;
-    private PathChain grabPickup1, grabPickup2, grabPickup3, grabPickup4, grabSubmersible, grabSubmersible2, scorePickup1, scorePickup2, scorePickup3, scorePickup4, scoreSubmersible, scoreSubmersible2;
+    private PathChain grabPickup1, grabPickup2, grabPickup3, grabPickup4, grabSubmersible, adjustSubmersible, grabSubmersible2, scorePickup1, scorePickup2, scorePickup3, scorePickup4, scoreSubmersible, scoreSubmersible2;
 
     /** Build the paths for the auto (adds, for example, constant/linear headings while doing paths)
      * It is necessary to do this so that all the paths are built before the auto starts. **/
@@ -120,10 +120,10 @@ public class samplemore extends OpMode {
 //                .build();
 //
 //        /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-//        scorePickup1 = follower.pathBuilder()
-//                .addPath(new BezierLine(new Point(pickup1Pose), new Point(scorePose)))
-//                .setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePose.getHeading())
-//                .build();
+        scorePickup1 = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(pickup1Pose), new Point(scorePose)))
+                .setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePose.getHeading())
+                .build();
 
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup2 = follower.pathBuilder()
@@ -132,10 +132,10 @@ public class samplemore extends OpMode {
                 .build();
 
         /* This is our scorePickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-//        scorePickup2 = follower.pathBuilder()
-//                .addPath(new BezierLine(new Point(pickup2Pose), new Point(scorePose)))
-//                .setLinearHeadingInterpolation(pickup2Pose.getHeading(), scorePose.getHeading())
-//                .build();
+        scorePickup2 = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(pickup2Pose), new Point(scorePose)))
+                .setLinearHeadingInterpolation(pickup2Pose.getHeading(), scorePose.getHeading())
+                .build();
 
         /* This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup3 = follower.pathBuilder()
@@ -202,10 +202,12 @@ public class samplemore extends OpMode {
     public void autonomousPathUpdate() {
         switch (pathState) {
             case 0:
-                follower.followPath(scorePreload);
-                setPathState(1);
                 actions.closeClaw();
                 actions.highBasket();
+                follower.followPath(scorePreload);
+                setPathState(1);
+
+
                 break;
             case 1:
 
@@ -216,19 +218,21 @@ public class samplemore extends OpMode {
                 - other robot position: "if(follower.getPose().getX() > (pickup3Pose.getX() - 1) && follower.getPose().getY() > (pickup3Pose.getY() - 1)) {}"
                 */
 
+                if(pathTimer.getElapsedTimeSeconds() > 1 && pathTimer.getElapsedTimeSeconds() < 1.5){
+                    //idk why it no work
+                    actions.transferUpMore();
+                }
+
                 if(!follower.isBusy()) {
                     /* Score Preload */
-                    if(pathTimer.getElapsedTimeSeconds() > 1 && pathTimer.getElapsedTimeSeconds() < 1.5){
-                        actions.transferUpMore();
-                    }
 
                         if(pathTimer.getElapsedTimeSeconds() > 1.5 && pathTimer.getElapsedTimeSeconds() < 1.6){
                             actions.transferClawOpen();
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 2.2 && pathTimer.getElapsedTimeSeconds() < 2.3){
+                        if(pathTimer.getElapsedTimeSeconds() > 1.7){
                             actions.transferMid();
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 3 && pathTimer.getElapsedTimeSeconds() < 3.1){
+                        if(pathTimer.getElapsedTimeSeconds() > 2 && pathTimer.getElapsedTimeSeconds() < 2.1){
                             actions.slidesResting();
                             actions.extendClaw();
                             actions.clawHover();
@@ -244,7 +248,7 @@ public class samplemore extends OpMode {
             case 2:
                 if(pathTimer.getElapsedTimeSeconds() > 1 && pathTimer.getElapsedTimeSeconds() < 1.1){
                     actions.clawDown();
-                    actions.slides.resetEncoders();
+                    //actions.slides.resetEncoders();
                 }
                 if(!follower.isBusy()) {
                     /* Grab Sample */
@@ -258,22 +262,20 @@ public class samplemore extends OpMode {
                             actions.transferClawOpen();
                         }
                         //wait dylan i totally messed up this should be on the next case right?
-                        if(pathTimer.getElapsedTimeSeconds() > 2 && pathTimer.getElapsedTimeSeconds() < 2.1){
-                            actions.transferDown();
-                            actions.closeClaw();
+                    if (pathTimer.getElapsedTimeSeconds() > 2 && pathTimer.getElapsedTimeSeconds() < 2.1) {
+                        actions.transferDown();
+                        actions.closeClaw();
+                    }
+                    if(pathTimer.getElapsedTimeSeconds() > 2.4 && pathTimer.getElapsedTimeSeconds() < 2.5) {
+                        actions.transferClawClose();
+                        actions.openClaw();
 
-                        }
-                        if(pathTimer.getElapsedTimeSeconds() > 2.2 && pathTimer.getElapsedTimeSeconds() < 2.3) {
-                            actions.transferClawClose();
-                            actions.openClaw();
 
-
-                        }
-                        if(pathTimer.getElapsedTimeSeconds() > 2.4 && pathTimer.getElapsedTimeSeconds() < 2.5){
-                            actions.transferUpMore();
-                            actions.highBasket();
+                    }
+                    if(pathTimer.getElapsedTimeSeconds() > 2.7 && pathTimer.getElapsedTimeSeconds() < 2.8){
+                        actions.highBasket();
                             /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                            //follower.followPath(scorePickup1,true);
+                            //follower.followPath(scorePickup2,true);
                             setPathState(3);
                         }
 
@@ -285,19 +287,23 @@ public class samplemore extends OpMode {
 
                 break;
             case 3:
+                if(pathTimer.getElapsedTimeSeconds() > 1 && pathTimer.getElapsedTimeSeconds() < 1.5){
+                    //idk why it no work
+                    actions.transferUpMore();
+                }
                 if(!follower.isBusy()) {
                     /* Score Sample */
                     if(pathTimer.getElapsedTimeSeconds() > 1.5 && pathTimer.getElapsedTimeSeconds() < 1.6){
                         actions.transferClawOpen();
                     }
-                    if(pathTimer.getElapsedTimeSeconds() > 2.2 && pathTimer.getElapsedTimeSeconds() < 2.3){
+                    if(pathTimer.getElapsedTimeSeconds() > 1.7){
                         actions.transferMid();
                     }
-                    if(pathTimer.getElapsedTimeSeconds() > 3 && pathTimer.getElapsedTimeSeconds() < 3.1){
+                    if(pathTimer.getElapsedTimeSeconds() > 2 && pathTimer.getElapsedTimeSeconds() < 2.1){
                         actions.slidesResting();
                         actions.extendClaw();
                         actions.clawHover();
-                        actions.openClaw();
+                        actions.openClawLarge();
                             /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                             follower.followPath(grabPickup2, true);
                             setPathState(4);
@@ -308,7 +314,7 @@ public class samplemore extends OpMode {
             case 4:
                 if(pathTimer.getElapsedTimeSeconds() > 1 && pathTimer.getElapsedTimeSeconds() < 1.1){
                     actions.clawDown();
-                    actions.slides.resetEncoders();
+                    //actions.slides.resetEncoders();
                 }
                 if(!follower.isBusy()) {
                     /* Grab Sample */
@@ -321,21 +327,21 @@ public class samplemore extends OpMode {
                         actions.clawUp();
                         actions.transferClawOpen();
                     }
-                    //wait dylan i totally messed up this should be on the next case right?
                     if (pathTimer.getElapsedTimeSeconds() > 2 && pathTimer.getElapsedTimeSeconds() < 2.1) {
                         actions.transferDown();
                         actions.closeClaw();
                     }
-                    if (pathTimer.getElapsedTimeSeconds() > 2.2 && pathTimer.getElapsedTimeSeconds() < 2.3) {
+                    if(pathTimer.getElapsedTimeSeconds() > 2.4 && pathTimer.getElapsedTimeSeconds() < 2.5) {
                         actions.transferClawClose();
                         actions.openClaw();
+
+
                     }
-                    if (pathTimer.getElapsedTimeSeconds() > 2.4 && pathTimer.getElapsedTimeSeconds() < 2.5) {
-                        actions.transferUpMore();
+                    if(pathTimer.getElapsedTimeSeconds() > 2.7 && pathTimer.getElapsedTimeSeconds() < 2.8){
                         actions.highBasket();
 
                         /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                        //follower.followPath(scorePickup2,true);
+                        follower.followPath(scorePickup2,true);
                         setPathState(5);
                     }
                 }
@@ -344,19 +350,23 @@ public class samplemore extends OpMode {
 
                 break;
             case 5:
+                if(pathTimer.getElapsedTimeSeconds() > 1 && pathTimer.getElapsedTimeSeconds() < 1.5){
+                    //idk why it no work
+                    actions.transferUpMore();
+                }
                 if(!follower.isBusy()) {
                     /* Score Sample */
                     if(pathTimer.getElapsedTimeSeconds() > 1.5 && pathTimer.getElapsedTimeSeconds() < 1.6){
                         actions.transferClawOpen();
                     }
-                    if(pathTimer.getElapsedTimeSeconds() > 2.2 && pathTimer.getElapsedTimeSeconds() < 2.3){
+                    if(pathTimer.getElapsedTimeSeconds() > 1.7){
                         actions.transferMid();
                     }
-                    if(pathTimer.getElapsedTimeSeconds() > 3 && pathTimer.getElapsedTimeSeconds() < 3.1){
+                    if(pathTimer.getElapsedTimeSeconds() > 2 && pathTimer.getElapsedTimeSeconds() < 2.1){
                         actions.slidesResting();
                         actions.extendClaw();
                         actions.clawHover();
-                        actions.openClaw();
+                        actions.openClawLarge();
                             /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                             follower.followPath(grabPickup3, true);
                             actions.clawRotateServo.setPosition(0.4);
@@ -369,7 +379,7 @@ public class samplemore extends OpMode {
             case 6:
                 if(pathTimer.getElapsedTimeSeconds() > 1 && pathTimer.getElapsedTimeSeconds() < 1.1){
                     actions.clawDown();
-                    actions.slides.resetEncoders();
+                    //actions.slides.resetEncoders();
                 }
                 if(!follower.isBusy()) {
                     /* Grab Sample */
@@ -387,12 +397,13 @@ public class samplemore extends OpMode {
                         actions.transferDown();
                         actions.closeClaw();
                     }
-                    if (pathTimer.getElapsedTimeSeconds() > 2.2 && pathTimer.getElapsedTimeSeconds() < 2.3) {
+                    if(pathTimer.getElapsedTimeSeconds() > 2.4 && pathTimer.getElapsedTimeSeconds() < 2.5) {
                         actions.transferClawClose();
                         actions.openClaw();
+
+
                     }
-                    if (pathTimer.getElapsedTimeSeconds() > 2.4 && pathTimer.getElapsedTimeSeconds() < 2.5) {
-                        actions.transferUpMore();
+                    if(pathTimer.getElapsedTimeSeconds() > 2.7 && pathTimer.getElapsedTimeSeconds() < 2.8){
                         actions.highBasket();
 
                         /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
@@ -404,36 +415,40 @@ public class samplemore extends OpMode {
 
                 break;
             case 7:
+                if(pathTimer.getElapsedTimeSeconds() > 1 && pathTimer.getElapsedTimeSeconds() < 1.5){
+                    //idk why it no work
+                    actions.transferUpMore();
+                }
                 if(!follower.isBusy()) {
                     /* Score Sample */
                     if(pathTimer.getElapsedTimeSeconds() > 1.5 && pathTimer.getElapsedTimeSeconds() < 1.6){
                         actions.transferClawOpen();
                     }
-                    if(pathTimer.getElapsedTimeSeconds() > 2.2 && pathTimer.getElapsedTimeSeconds() < 2.3){
+                    if(pathTimer.getElapsedTimeSeconds() > 1.7){
                         actions.transferMid();
                     }
-                    if(pathTimer.getElapsedTimeSeconds() > 2.4 && pathTimer.getElapsedTimeSeconds() < 2.5) {
+                    if(pathTimer.getElapsedTimeSeconds() > 2 && pathTimer.getElapsedTimeSeconds() < 2.1){
                         actions.slidesResting();
-                        actions.extendClaw();
-                        actions.clawHover();
-                        actions.openClaw();
+//                        actions.extendClaw();
+//                        actions.clawHover();
+//                        actions.openClawLarge();
                     }
-//                        if(pathTimer.getElapsedTimeSeconds() > 3){
-//                            /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-//                            if(sampleCounter == 0){
-//                                follower.followPath(grabPickup4, true);
-//                                actions.slidesResting();
-//                                setPathState(8);
-//                            }else if(sampleCounter == 1){
-//                                follower.setMaxPower(0.4);
-//                                follower.followPath(grabSubmersible, true);
-//                                actions.slidesResting();
-//                                //SKIPS TO 11
-//                                setPathState(11);
-//                            }
+                        if(pathTimer.getElapsedTimeSeconds() > 3){
+                            /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
+                            if(sampleCounter == 0){
+                                follower.followPath(grabPickup4, true);
+                                actions.slidesResting();
+                                setPathState(8);
+                            }else if(sampleCounter == 1){
+                                //follower.setMaxPower(0.4);
+                                follower.followPath(grabSubmersible, true);
+                                actions.slidesResting();
+                                //SKIPS TO 11
+                                setPathState(11);
+                            }
 
 
-                       // }
+                        }
                     }
 
                 break;
@@ -487,14 +502,33 @@ public class samplemore extends OpMode {
                 break;
                 //first sample sub
             case 11:
+                if(pathTimer.getElapsedTimeSeconds() > 2 && pathTimer.getElapsedTimeSeconds() < 2.2){
+
+                    ///SCAN CAMERA HERE
+                    int displacementX = 0;
+                    int displacementY = 0;
+                    rotationAngle = rotationAngle;
+                    ///JOE REPLACE THESE WITH THE CAMERA STUFF
+
+                    Pose adjust = new Pose(follower.getPose().getX()+displacementX, follower.getPose().getY()+displacementY);
+                    adjustSubmersible = follower.pathBuilder()
+                            .addPath(new BezierLine(new Point(follower.getPose()), new Point(adjust)))
+                            .setConstantHeadingInterpolation(Math.toRadians(-90))
+                            .build();
+
+                    follower.followPath(adjustSubmersible);
+            }
+
+
+
+
+
                 follower.setMaxPower(0.5);
-                if(pathTimer.getElapsedTimeSeconds() > .5 && pathTimer.getElapsedTimeSeconds() < 1){
+                if(pathTimer.getElapsedTimeSeconds() > 2.5 && pathTimer.getElapsedTimeSeconds() < 2.7){
+                    actions.extendClaw();
                     actions.clawHover();
                     //0.0039 is one degree per tick of rotation servo
                     actions.rotateClaw(0.5-(0.0039*(int)rotationAngle));
-                }
-                if (pathTimer.getElapsedTimeSeconds() > 1.8) {
-                    actions.extendClaw();
                 }
                 if(!follower.isBusy() || pathTimer.getElapsedTimeSeconds() > 2.7) {
                     if(pathTimer.getElapsedTimeSeconds() > 3){
@@ -615,6 +649,7 @@ public class samplemore extends OpMode {
         telemetry.addData("x", follower.getPose().getX());
         telemetry.addData("y", follower.getPose().getY());
         telemetry.addData("slides amp", actions.slides.getAmpsLeft());
+        telemetry.addData("slides amp right", actions.slides.getAmpsRight());
         telemetry.update();
 
         actions.slides.craneMaintenance();

@@ -33,8 +33,8 @@ public class values {
 
 
     ///PEDRO PATHS
-    public static Pose teleopStart = new Pose(9, 110, Math.toRadians(90));
+    public static Pose teleopStart = new Pose(9, 110, Math.toRadians(-90));
     //starts at start of sample auto unless auto is ran beforehand
-    public static Pose basketPose = new Pose(18, 123, Math.toRadians(135));
+    public static Pose basketPose = new Pose(15, 129, Math.toRadians(-45));
 
 }

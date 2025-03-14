@@ -52,7 +52,7 @@ public class crane {
     }
 
     public void setTargetPosition(int target, double power){
-        setPower(1);
+        setPower(power);
         leftDrawerSlide.setTargetPosition(target);
         rightDrawerSlide.setTargetPosition(target);
         targetPosition = target;
