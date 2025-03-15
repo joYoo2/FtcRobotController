@@ -114,7 +114,7 @@ public class LETDRIVE extends yooniversalOpMode {
 
             //JOYSTICK OVERRIDE
             if ((gamepad1.left_stick_y != 0 || gamepad1.left_stick_x != 0 || gamepad1.right_stick_x != 0 || gamepad1.right_stick_y != 0) && follower.isBusy()) {
-                follower.breakFollowing();
+                //follower.breakFollowing();
                 follower.setTeleOpMovementVectors(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x, true);
                 telemetry.addData("e", "a");
                 follower.startTeleopDrive();
@@ -123,6 +123,10 @@ public class LETDRIVE extends yooniversalOpMode {
             //pedro auto path to basket
             if(gamepad2.triangle){
                 follower.followPath(scoreSample);
+            }
+            if(gamepad2.x){
+                follower.breakFollowing();
+                follower.startTeleopDrive();
             }
 
 
@@ -191,10 +195,10 @@ public class LETDRIVE extends yooniversalOpMode {
                 retractClaw();
             }else if((timer.time() > .8 && timer.time() < 1) /*&& matchTime.time() > 1*/) {
                 clawUp();
-                transferUpMore();
+                //transferUpMore();
                 transferClawOpen();
                 clawRotateServo.setPosition(0.5);
-            }else if(timer.time() > .9 && timer.time() < 1 && matchTime.time() > 1.5){
+            }else if(timer.time() > .9 && timer.time() < 1.5 && matchTime.time() > 1.5){
                 closeClaw();
                 transferDown();
             }
@@ -215,6 +219,7 @@ public class LETDRIVE extends yooniversalOpMode {
                     retractClaw();
                     transferClawClose();
                     transferIn = true;
+                    follower.followPath(scoreSample);
                     transferTime.reset();
                 }else if((transferTime.time() > .3 && transferTime.time() < .5) && matchTime.time() > 1 && transferIn){
                     openClawLarge();
@@ -230,6 +235,8 @@ public class LETDRIVE extends yooniversalOpMode {
                 //BRING TRANSFER AND SLIDES DOWN
                 if(gamepad2.right_bumper){
                     transferClawOpen();
+                    follower.breakFollowing();
+                    follower.startTeleopDrive();
                     transferTime.reset();
                 }else if(transferTime.time() > .2 && transferTime.time() < .4 && matchTime.time() > 1 && !transferIn){
                     transferMid();

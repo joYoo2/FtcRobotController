@@ -229,7 +229,7 @@ public class samplemore extends OpMode {
                         if(pathTimer.getElapsedTimeSeconds() > 1.5 && pathTimer.getElapsedTimeSeconds() < 1.6){
                             actions.transferClawOpen();
                         }
-                        if(pathTimer.getElapsedTimeSeconds() > 1.7){
+                        if(pathTimer.getElapsedTimeSeconds() > 1.9){
                             actions.transferMid();
                         }
                         if(pathTimer.getElapsedTimeSeconds() > 2 && pathTimer.getElapsedTimeSeconds() < 2.1){
