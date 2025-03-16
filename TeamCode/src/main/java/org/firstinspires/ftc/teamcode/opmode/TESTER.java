@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.yooniverse.values;
 public class TESTER extends LinearOpMode {
 //    private DcMotor frontLeft, frontRight, backRight, backLeft;
 //    public DcMotorEx leftDrawerSlide, rightDrawerSlide;
-    public Servo axon, armRotateRight, clawRotate;
+    public Servo axon, armRotateRight,armRotateLeft, clawRotate,clawMountRotate;
     public Servo clawServo;
     public Servo transferLeft, transferClaw;
     public DcMotorEx leftDrawerSlide, rightDrawerSlide;
@@ -26,12 +26,16 @@ public class TESTER extends LinearOpMode {
 //
 //        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         boolean clawDown = false;
-        axon = hardwareMap.get(Servo.class, "test");
+        armRotateLeft = hardwareMap.get(Servo.class, "test");
         armRotateRight = hardwareMap.get(Servo.class, "armRotateRight");
-        clawRotate = hardwareMap.get(Servo.class, "clawRotate");
+        clawMountRotate = hardwareMap.get(Servo.class, "clawRotate");
+
         clawServo = hardwareMap.get(Servo.class, "clawServo");
+
         transferLeft = hardwareMap.get(Servo.class, "transferLeft");
         transferClaw = hardwareMap.get(Servo.class, "transferClaw");
+
+
 //
 //        backRight = hardwareMap.get(DcMotor.class, "backRight");
 //
@@ -46,13 +50,13 @@ public class TESTER extends LinearOpMode {
         leftDrawerSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDrawerSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        axon.setPosition(0.5);
-        armRotateRight.setPosition(0.5);
+        //axon.setPosition(0.5);
+        //armRotateRight.setPosition(0.5);
         //base servo
-        clawRotate.setPosition(0.5);
+        //clawRotate.setPosition(0.5);
         transferLeft.setPosition(0.5);
         transferClaw.setPosition(0.5);
-        clawServo.setPosition(values.clawOpen);
+        //clawServo.setPosition(values.clawOpen);
 
         waitForStart();
         while(opModeIsActive()){
@@ -79,17 +83,31 @@ public class TESTER extends LinearOpMode {
             }
 
             if(gamepad1.left_bumper){
-                transferLeft.setPosition(0.42);
-
+                clawMountRotate.setPosition(clawMountRotate.getPosition()+0.0005);
             }
             if(gamepad1.right_bumper){
-                transferClaw.setPosition(values.clawClsoed);
-                clawServo.setPosition(values.clawOpen);
-                transferLeft.setPosition(0.83);
+                clawMountRotate.setPosition(clawMountRotate.getPosition()-0.0005);
             }
-            telemetry.addData("test", transferClaw.getPosition());
-            telemetry.addData("left", leftDrawerSlide.getCurrentPosition());
-            telemetry.addData("right", rightDrawerSlide.getCurrentPosition());
+            if(gamepad1.right_bumper){
+
+            }
+            if(gamepad1.dpad_up){
+                armRotateLeft.setPosition(armRotateLeft.getPosition()+0.0005);
+                armRotateRight.setPosition(armRotateRight.getPosition()+0.0005);
+            }
+            if(gamepad1.dpad_down){
+                armRotateLeft.setPosition(armRotateLeft.getPosition()-0.0005);
+                armRotateRight.setPosition(armRotateRight.getPosition()-0.0005);
+            }
+            if(gamepad1.dpad_left){
+                transferLeft.setPosition(transferLeft.getPosition()+0.0005);
+            }
+            if(gamepad1.dpad_right){
+                transferLeft.setPosition(transferLeft.getPosition()-0.0005);
+            }
+            telemetry.addData("armrotate", armRotateLeft.getPosition());
+            telemetry.addData("transfer", transferLeft.getPosition());
+            telemetry.addData("clawmount", clawMountRotate.getPosition());
 //            if(gamepad1.left_bumper){
 //                leftDrawerSlide.setPower(1);
 //            }

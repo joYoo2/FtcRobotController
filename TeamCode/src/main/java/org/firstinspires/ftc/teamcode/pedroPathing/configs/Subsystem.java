@@ -43,7 +43,7 @@ public class Subsystem {
     public void openClaw(){
         clawServo.setPosition(values.clawLessOpen);
     }
-    public void openClawLarge(){clawServo.setPosition(values.clawOpen);}
+    public void openClawLarge(){clawServo.setPosition(values.clawOpenLarge);}
     public void closeClaw(){
         clawServo.setPosition(values.clawClsoed);
     }
@@ -74,8 +74,8 @@ public class Subsystem {
     }
 
     public void clawSpecimenUp(){
-        armRotateLeft.setPosition(0.25);
-        armRotateRight.setPosition(0.25);
+        armRotateLeft.setPosition(0.27);
+        armRotateRight.setPosition(0.27);
         clawMountRotate.setPosition(0.25);
     }
 
@@ -86,9 +86,9 @@ public class Subsystem {
         //idk real values tbh
     }
     public void clawDown(){
-        armRotateLeft.setPosition(0.9);
-        armRotateRight.setPosition(0.9);
-        clawMountRotate.setPosition(0.13);
+        armRotateLeft.setPosition(0.91);
+        armRotateRight.setPosition(0.91);
+        clawMountRotate.setPosition(0.15);
     }
     public void transferDown(){
         transferLeft.setPosition(0.45);
@@ -97,7 +97,7 @@ public class Subsystem {
         transferLeft.setPosition(0.70);
     }
     public void transferUp(){
-        transferLeft.setPosition(0.83);
+        transferLeft.setPosition(0.85);
     }
     public void transferUpMore(){transferLeft.setPosition(0.9);}
 
@@ -105,14 +105,17 @@ public class Subsystem {
         armRotateLeft.setPosition(0.5);
         armRotateRight.setPosition(0.5);
         clawMountRotate.setPosition(.74);
+//        armRotateLeft.setPosition(0.475);
+//        armRotateRight.setPosition(0.475);
+//        clawMountRotate.setPosition(.7);
     }
 
     public void transferClawClose(){
-        transferClaw.setPosition(.4);
+        transferClaw.setPosition(.30);
     }
 
     public void transferClawOpen(){
-        transferClaw.setPosition(.65);
+        transferClaw.setPosition(.55);
     }
 
 

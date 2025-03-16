@@ -21,8 +21,11 @@ import org.firstinspires.ftc.teamcode.yooniverse.values;
 @TeleOp(name="LETDRIVE", group="yooniverse")
 
 public class LETDRIVE extends yooniversalOpMode {
+    private LimelightConfig limelightConfig;
+
     @Override
     public void runOpMode() {
+        //limelightConfig = new LimelightConfig(hardwareMap);
         setup();
 
         //pedro stuff
@@ -40,7 +43,6 @@ public class LETDRIVE extends yooniversalOpMode {
                 .addPath(new BezierLine(new Point(follower.getPose()), new Point(values.basketPose)))
                 .setLinearHeadingInterpolation(follower.getPose().getHeading(), values.basketPose.getHeading())
                 .build();
-
 
 
         telemetry.addData("Status", "Initialized");
@@ -73,20 +75,36 @@ public class LETDRIVE extends yooniversalOpMode {
 
 
         clawRotateServo.setPosition(0.5);
-        //transferUp();
+        transferUp();
 
         while (opModeIsActive()) {
+            //double angle = limelightConfig.getDetectedAngle();
+
+            //telemetry.addData("Detected Angle", angle);
+
 
             telemetry.addData("Status", "Running");
             matchTime.startTime();
 
             //move horz slides a custom amount
-            if (gamepad2.right_trigger > 0.1) {
-                if(extenderLeft.getPosition() <= values.clawExtend){
-                    clawMove(extenderLeft.getPosition() + 0.03);
-                }
-            } else if (gamepad2.left_trigger > 0.1) {
-                clawMove(extenderLeft.getPosition() - 0.03);
+//            if (gamepad2.right_trigger > 0.1) {
+//                if(extenderLeft.getPosition() <= values.clawExtend){
+//                    clawMove(extenderLeft.getPosition() + 0.03);
+//                }
+//            } else if (gamepad2.left_trigger > 0.1) {
+//                clawMove(extenderLeft.getPosition() - 0.03);
+//            }
+
+            if (gamepad2.options) {
+                slides.resetEncoders();
+            } else if (gamepad2.share) {
+                //EMERGENCY SLIDES DOWN
+                emergencySlides = true;
+                slides.setTargetPosition(-2000);
+            } else if (!gamepad2.share && emergencySlides) {
+                //resets encoders after emergency slides
+                slides.resetEncoders();
+                emergencySlides = false;
             }
 
 
@@ -121,10 +139,10 @@ public class LETDRIVE extends yooniversalOpMode {
             }
 
             //pedro auto path to basket
-            if(gamepad2.triangle){
-                follower.followPath(scoreSample);
-            }
-            if(gamepad2.x){
+//            if(gamepad2.triangle){
+//                follower.followPath(scoreSample);
+//            }
+            if (gamepad2.x) {
                 follower.breakFollowing();
                 follower.startTeleopDrive();
             }
@@ -148,6 +166,9 @@ public class LETDRIVE extends yooniversalOpMode {
 //
 //                follower.followPath(adjustSubmersible);
 //            }
+//            if(gamepad2.triangle){
+//                clawRotateServo.setPosition(0.5-(0.0039*(int)limelightConfig.getDetectedAngle()));
+//            }
 
 
             //just in case claw up w/ nothing else
@@ -169,7 +190,7 @@ public class LETDRIVE extends yooniversalOpMode {
                 transferDown();
             } else if (gamepad2.dpad_up) {
                 transferUpMore();
-            }else if(gamepad2.dpad_left){
+            } else if (gamepad2.dpad_left) {
                 transferClawClose();
             } else if (gamepad2.dpad_right) {
                 transferClawOpen();
@@ -178,76 +199,84 @@ public class LETDRIVE extends yooniversalOpMode {
 
             //CLAW OUT
             if (gamepad1.left_bumper) {
-                transferUpMore();
+                slidesTarget = values.craneResting + 1000;
+                movingSlides = true;
+                transferClawClose();
                 extendClaw();
+                transferUpMore();
                 openClaw();
                 clawHover();
+                follower.setMaxPower(.35);
             }
 
             //CLAW IN
             if (gamepad1.right_bumper) {
                 clawDown();
+                follower.setMaxPower(1);
                 timer.reset();
             } else if ((timer.time() > .2 && timer.time() < .4) && matchTime.time() > 1) {
                 closeClawTighet();
-            }else if(timer.time() > .4 && timer.time() < .6 && matchTime.time() > 1){
+            } else if (timer.time() > .4 && timer.time() < .6 && matchTime.time() > 1) {
                 clawHover();
-                retractClaw();
-            }else if((timer.time() > .8 && timer.time() < 1) /*&& matchTime.time() > 1*/) {
+                //retractClaw();
+            } else if ((timer.time() > .8 && timer.time() < 1) /*&& matchTime.time() > 1*/) {
                 clawUp();
                 //transferUpMore();
                 transferClawOpen();
                 clawRotateServo.setPosition(0.5);
-            }else if(timer.time() > .9 && timer.time() < 1.5 && matchTime.time() > 1.5){
+                retractClaw();
+            } else if (timer.time() > 1.5 && timer.time() < 2 && matchTime.time() > 2) {
                 closeClaw();
+                slidesTarget = values.craneResting;
+                movingSlides = true;
                 transferDown();
             }
 
 
-            if(gamepad2.touchpad && buttonTime.time() > .5){
-                if(!specimenIntake){
-                    specimenIntake = true;
-                }else{
-                    specimenIntake = false;
-                }
-                buttonTime.reset();
-            }
+            //if(gamepad2.touchpad && buttonTime.time() > .5){
+//                if(!specimenIntake){
+//                    specimenIntake = true;
+//                }else{
+//                    specimenIntake = false;
+//                }
+            //buttonTime.reset();
+            //}
 
-            if(!specimenIntake){
+            if (!specimenIntake) {
                 //TRANSFER
-                if(gamepad2.left_bumper){
+                if (gamepad2.left_bumper) {
                     retractClaw();
                     transferClawClose();
                     transferIn = true;
-                    follower.followPath(scoreSample);
+                    //follower.followPath(scoreSample);
                     transferTime.reset();
-                }else if((transferTime.time() > .3 && transferTime.time() < .5) && matchTime.time() > 1 && transferIn){
+                } else if ((transferTime.time() > .3 && transferTime.time() < .5) && matchTime.time() > 1 && transferIn) {
                     openClawLarge();
-                    if(transferTime.time() > .4){
+                    if (transferTime.time() > .4) {
                         slidesTarget = values.craneHighBasket;
                         movingSlides = true;
                     }
-                }else if(transferTime.time() > 1 && transferTime.time() < 1.2 && matchTime.time() > 1 && transferIn){
+                } else if (transferTime.time() > 1 && transferTime.time() < 1.2 && matchTime.time() > 1 && transferIn) {
                     transferUpMore();
                     transferIn = false;
                 }
 
                 //BRING TRANSFER AND SLIDES DOWN
-                if(gamepad2.right_bumper){
+                if (gamepad2.right_bumper) {
                     transferClawOpen();
                     follower.breakFollowing();
                     follower.startTeleopDrive();
                     transferTime.reset();
-                }else if(transferTime.time() > .2 && transferTime.time() < .4 && matchTime.time() > 1 && !transferIn){
+                } else if (transferTime.time() > .2 && transferTime.time() < .4 && matchTime.time() > 1 && !transferIn) {
                     transferMid();
-                }
-                else if(transferTime.time() > .5 && transferTime.time() < .7 && matchTime.time() > 1 && !transferIn){
-                    slidesTarget = values.craneResting;
+                } else if (transferTime.time() > .5 && transferTime.time() < .7 && matchTime.time() > 1 && !transferIn) {
+                    slidesTarget = values.craneResting + 1000;
                     movingSlides = true;
                     transferClawClose();
 
                 }
-            }else{
+            }
+            /*else{
                 ///REALLLYYY WIP LIKE NONE OF THIS WILL PROBABLY WORK JUST WRITTEN AS LIKE PLACEHOLDER AND STUFF
                 //TRANSFER specimen edition
                 if(matchTime.time() > 1){
@@ -289,37 +318,32 @@ public class LETDRIVE extends yooniversalOpMode {
                         movingSlides = true;
                     }
                 }
-
-
-
-            }
-
-
+*/
 
 
             //scuffed slide code
-            if(movingSlides){
+            if (movingSlides) {
                 slides.setTargetPosition(slidesTarget);
-                if(slides.getCurrentLeftPosition() < slidesTarget || slides.getCurrentLeftPosition() < slidesTarget){
-                    if(slides.getCurrentRightPosition() >= slidesTarget - 15 || slides.getCurrentLeftPosition() >= slidesTarget - 15){
+                if (slides.getCurrentLeftPosition() < slidesTarget || slides.getCurrentLeftPosition() < slidesTarget) {
+                    if (slides.getCurrentRightPosition() >= slidesTarget - 15 || slides.getCurrentLeftPosition() >= slidesTarget - 15) {
                         movingSlides = false;
                     }
                 }
-                if(slides.getCurrentLeftPosition() > slidesTarget || slides.getCurrentLeftPosition() > slidesTarget){
-                    if(slides.getCurrentRightPosition() <= slidesTarget + 15 || slides.getCurrentLeftPosition() <= slidesTarget + 15){
+                if (slides.getCurrentLeftPosition() > slidesTarget || slides.getCurrentLeftPosition() > slidesTarget) {
+                    if (slides.getCurrentRightPosition() <= slidesTarget + 15 || slides.getCurrentLeftPosition() <= slidesTarget + 15) {
                         movingSlides = false;
                     }
                 }
-            }else{
+            } else {
                 slides.move(slides.getCurrentRightPosition(), false);
             }
 
 
             ///old slide code
-//            if(gamepad2.right_trigger > 0.05 || gamepad2.left_trigger > 0.05) {
-//                byPower = true;
-//                slides.move(gamepad2.right_trigger - gamepad2.left_trigger, true);
-//
+            if (gamepad2.right_trigger > 0.05 || gamepad2.left_trigger > 0.05) {
+                //byPower = true;
+                slides.move(gamepad2.right_trigger - gamepad2.left_trigger, true);
+
 //            }else if(gamepad2.right_bumper){
 //                highChamberSpecimenClaw();
 //
@@ -355,18 +379,8 @@ public class LETDRIVE extends yooniversalOpMode {
 
             telemetry.addData("Detected Angle", detectedAngle);
 */
-
-            if (gamepad2.options) {
-                slides.resetEncoders();
-            } else if (gamepad2.share) {
-                //EMERGENCY SLIDES DOWN
-                emergencySlides = true;
-                slides.setTargetPosition(-2000);
-            } else if (!gamepad2.share && emergencySlides) {
-                //resets encoders after emergency slides
-                slides.resetEncoders();
-                emergencySlides = false;
             }
+
 
             //rumble code
             //1 minute left

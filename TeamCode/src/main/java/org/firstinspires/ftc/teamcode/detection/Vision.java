@@ -21,10 +21,10 @@ import org.firstinspires.ftc.teamcode.detection.ManualInput;
 @Config
 public class Vision {
     // Limelight and claw configuration
-    public static double limelightHeight = 9.5; // Camera height in inches
+    public static double limelightHeight = 14; // Camera height in inches
     public static double limelightAngle = 60; // Camera angle (0° = down, 90° = forward)
-    public static double clawForwardOffset = 19; // Claw's forward offset from the camera
-    public static double clawLateralOffset = 5; // Claw's lateral (right is +) offset from the camera
+    public static double clawForwardOffset = 20; // Claw's forward offset from the camera
+    public static double clawLateralOffset = 0; // Claw's lateral (right is +) offset from the camera
 
     private Pose sample = new Pose(), difference = new Pose(), target = new Pose(); // The best sample's position
     private Pose cachedTarget = new Pose(); // Cached best sample
@@ -37,7 +37,7 @@ public class Vision {
     private Follower f;
     private ManualInput manualInput;
 
-    public Vision(HardwareMap hardwareMap, Telemetry telemetry, int[] unwanted, Follower f, ManualInput manualInput) {
+    public Vision(HardwareMap hardwareMap, Telemetry telemetry, int[] unwanted) {
         this.unwanted = unwanted;
         this.telemetry = telemetry;
         this.f = f;
@@ -47,9 +47,6 @@ public class Vision {
         limelight.setPollRateHz(100);
         limelight.pipelineSwitch(2);
         limelight.start();
-        f.update();
-        cachedTarget = f.getPose();
-        f.update();
     }
 
     public void find() {
